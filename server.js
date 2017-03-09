@@ -3,12 +3,8 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-const https = require('https');
-
+const samarthyaPlatform = require('samarthyaPlatform');
 // Get our API routes
-const api = require('./server/routes/api');
-const emailVerify = require('./server/routes/emailverify');
-
 const app = express();
 
 // Parsers for POST data
@@ -19,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
-app.use('/emailverify',emailVerify);
-app.use('/api', api);
+app.use('/emailverify',samarthyaPlatform.emailVerifyRoutes);
+app.use('/api', samarthyaPlatform.authenticationRoutes);
 
 
 // Catch all other routes and return the index file
@@ -29,10 +25,10 @@ app.get('*', (req, res) => {
 });
 
 /**
- * Get port from environment and store in Express.
+  Get port from environment and store in Express.
  */
 
-const port = process.env.PORT || '3002';
+const port = process.env.PORT || '3001';
 
 app.set('port', port);
 
