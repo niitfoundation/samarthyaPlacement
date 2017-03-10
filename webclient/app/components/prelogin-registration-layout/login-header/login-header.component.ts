@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonDataService } from 'app/services/json-data.service';
+import { Router} from '@angular/router'
 
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginHeaderComponent implements OnInit {
 
   public languages = [];
 
-  constructor(private JsonDataService: JsonDataService) { }
+  constructor(private JsonDataService: JsonDataService,private router:Router) { }
 
   ngOnInit() {
     // getting languages form json file
@@ -21,4 +22,14 @@ export class LoginHeaderComponent implements OnInit {
   getdata(jsonData) {
     this.languages = jsonData;
   }
+  login() {
+   this.router.navigate(['/login']);
+  }
+  verifyEmail(){
+    this.router.navigate(['/verifyEmail']);
+  }
+  samarthya(){
+    this.router.navigate(['/samarthya']);
+  }
+
 }

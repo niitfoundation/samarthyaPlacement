@@ -4,6 +4,7 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const samarthyaPlatform = require('samarthyaPlatform');
+
 // Get our API routes
 const app = express();
 
@@ -28,7 +29,7 @@ app.get('*', (req, res) => {
   Get port from environment and store in Express.
  */
 
-const port = process.env.PORT || '3001';
+const port = process.env.PORT || '3003';
 
 app.set('port', port);
 

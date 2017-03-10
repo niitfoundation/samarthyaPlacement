@@ -2,20 +2,26 @@
     line-height: unset;
 }
 
+* {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.fill-remaining-space {
+    flex: 1 1 auto;
+}
+
 .mainHeader {
     top: 0px;
-    left: 0px;
-    right: 0px;
     position: fixed;
     z-index: 1000;
 }
 
 .langBar {
-    background-color: #EEEEEE;
-    position: relative;
-    top: 60px;
-    left: 0px;
-    right: 0px;
+    margin-top: 64px;
+    /*background-color: #EEEEEE;*/
+    background-color: white;
+    padding-left: 50px;
+    padding-right: 50px;
     text-align: center;
 }
 
@@ -26,9 +32,9 @@
 }
 
 .logo {
-    text-align: center;
-    margin: auto;
-    font-size: 30px;
+    /*text-align: center;*/
+    /*margin: auto;*/
+    font-size: 20px;
     font-weight: bold;
     color: whitesmoke;
     text-decoration-line: none
@@ -45,6 +51,47 @@ md-select {
 
 .logo:hover {
     color: white;
+}
+
+.footer {
+    opacity: .9;
+    display: block;
+    max-height: unset;
+    height: 150px;
+    /*display: block;*/
+    /*position: relative;*/
+}
+
+.footerHead {
+    margin: auto;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+}
+
+.footerLinks {
+    /*padding-left: 30%;*/
+    color: white;
+}
+
+.footerLinks ul li a {
+    color: white;
+    font-size: 15px;
+    text-decoration: unset;
+}
+
+.footerLinks ul li {
+    list-style: none;
+}
+
+.copyright {
+    display: block;
+}
+
+.copyright p {
+    font-size: 15px;
+    padding: 0px;
+    margin: auto;
 }
 
 
@@ -73,7 +120,6 @@ margin: 0px;
 text-align: center;
 }
 }
-
 @media (min-height: 1000px) {
 .page-footer {
 margin: 0px;

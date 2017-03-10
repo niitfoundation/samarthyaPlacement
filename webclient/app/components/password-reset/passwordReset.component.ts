@@ -1,8 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { JsonDataService } from 'app/services/json-data.service';
-import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { EmailService } from 'app/services/email.service';
+import { Headers } from '@angular/http';
+import { Data } from 'app/services/data.service';
+import { AuthenticationService } from 'app/services/authentication.service'
+
+
 // declare var $: any;
 
 @Component({
@@ -22,8 +27,9 @@ export class PasswordResetComponent implements OnInit {
 
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, private JsonDataService: JsonDataService, private route: ActivatedRoute,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
     private router: Router, private emailService: EmailService) {
+
     // register candidate form
     this.userForm = fb.group({
       email: [{ value: '', disabled: true }],
@@ -33,11 +39,21 @@ export class PasswordResetComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.emailService.getRegister()
-    //   .subscribe(resEmployeeData => {
-    //     this.emailId = resEmployeeData.usermail2;
-    //     console.log(this.emailId);
-    //   });
+    this.AuthenticationService.getPasswordResetToken(this.route.snapshot.queryParams['token'], this.route.snapshot.queryParams['email']).
+      subscribe(
+      res => {
+        if (!res.authToken) {
+          this.Data.openSnackBar("Token expired Do Password reset again", "ok");
+          this.router.navigate(['/login']);
+        }
+      },
+      error => {
+        this.Data.openSnackBar("Error...Please Do Password reset again", "ok");
+        this.router.navigate(['/login']);
+      });
+    this.userForm.patchValue({
+      'email': this.route.snapshot.queryParams['email']
+    })
   }
 
   getdata(jsonData) {
@@ -53,16 +69,17 @@ export class PasswordResetComponent implements OnInit {
     if (pass !== conPass) {
       this.passwordMatchWarning = 'Password Not Match';
       (<HTMLInputElement>document.getElementById('resetBtn')).disabled = true;
-    }    else {
+    } else {
       this.passwordMatchWarning = '';
-      // (<HTMLInputElement> document.getElementById("resetBtn")).disabled = false;
     }
   }
 
   // on form submit
   onSubmit() {
-    this.userForm.value.email = this.emailId;
-    // console.log(this.userForm.value);
+    alert('Password changed');
+    this.router.navigate(['/login']);
+    this.Data.openSnackBar('Password updated', 'OK');
+
   }
 
   // on back button

@@ -9,7 +9,7 @@ export class EmailService {
   //   public data2 :LoginComponent  ;
   constructor(private http: Http) { }
   getEmail(email: any) {
-    this.url = '/emailverify/candidates?email=' + email;
+    this.url = '/emailverify/candidates?Email=' + email;
     return this.http.get(this.url).map((response: Response) => response.json());
   };
   postdata(mailObj: LoginComponent) {

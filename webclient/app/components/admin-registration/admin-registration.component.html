@@ -6,7 +6,7 @@
   <h2 class="text-center title">{{title}} Registration</h2>
  </span>
 
-  <form class="registrationForm" [formGroup]="userForm" (ngSubmit)="save(userForm)">
+  <form class="registrationForm" [formGroup]="userForm" >
     <table>
       <tr>
         <!-- Name icon-->
@@ -295,7 +295,7 @@
         <!-- Register button-->
         <td colspan="3" class="text-center">
           <span mdTooltip="All fields are required" mdTooltipPosition="above">
-          <button  md-fab [disabled]="!userForm.valid" type="submit" ><md-icon>check</md-icon></button>
+          <button  md-fab  type="button" [disabled]="!userForm.valid" (click)="save(userForm)"><md-icon>check</md-icon></button>
           </span>
         </td>
       </tr>

@@ -37,7 +37,6 @@
     "nodemailer": "^3.1.4",
     "nodemailer-smtp-transport": "^2.7.2",
     "rxjs": "^5.0.1",
-    "samarthyaPlatform": "git+https://github.com/stackroute/samarthyaPlatform.git",
     "smtp-server": "^2.0.2",
     "systemjs": "^0.20.9",
     "ts-helpers": "^1.1.1",

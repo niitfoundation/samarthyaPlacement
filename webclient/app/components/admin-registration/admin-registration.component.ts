@@ -155,16 +155,29 @@ export class AdminRegistrationComponent implements OnInit {
     dialog.close();
   }
   //after submitting the form,it should executed and call service to add the data to json
-  save(userData): boolean {
-    if (this.PlacementRegisterService.add(userData) == true) {
+  save(userdata): boolean {
+  let data={"first Name": userdata.get('firstNameControl').value,"Last Name": userdata.get('lastNameControl').value,"Gender":userdata.get('genderControl').value,
+    "Email":userdata.get('emailControl').value,"Password":userdata.get('passwordControl').value,
+    "MobileNo":userdata.get('mobileControl').value,"Role":userdata.get('roleControl').value,
+    "Profession":userdata.get('professionControl').value,
+    "Location": userdata.get('locationControl').value,
+    "PlacementCenter":userdata.get('placementControl').value,"Status":userdata.get('statusControl').value,
+    "Language":userdata.get('languageControl').value};
+    this.PlacementRegisterService.add(data).subscribe(resJsonData => [
+    ],
+      error => {
+        this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
+      }) 
       this.userForm.reset();
       window.alert("registered successfully");
       return true;
-    }
-    else {
-      window.alert("Sorry.....try some other time");
-      return false;
-    }
+
+      
+    // }
+    // else {
+    //   window.alert("Sorry.....try some other time");
+    //   return false;
+    // }
 
   }
 

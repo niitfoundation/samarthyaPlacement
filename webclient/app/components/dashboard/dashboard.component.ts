@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
           .subscribe(
           role => {
             if (role["success"]) {
-              this.title = role["object"].role;
+              this.title = role["object"].Role;
         
             }
             else {

@@ -44,4 +44,23 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.router.navigate(['/'])
     }
+
+    getPasswordResetToken(token,username){
+        console.log(token);
+                return this.http.post('/emailverify/passwordResetToken',{ username: username, token: token })
+                 .map((response: Response) => {
+                // login successful if there's a jwt token in the response
+                let token = response.json().authToken;
+                if (token) {
+                    // set token property
+                    this.token = token;
+                    // return true to indicate successful login
+                    return response.json();
+                } else {
+                    // return false to indicate failed login
+                    return response.json();
+                }
+            });
+
+    }
 }

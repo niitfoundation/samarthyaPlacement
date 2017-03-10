@@ -15,10 +15,12 @@ import { AfterLoginHeaderComponent } from './components/postlogin-registration-l
 import { VerifyEmailComponent } from 'app/components/verify-email/verifyEmail.component';
 import { ForgotPasswordComponent } from 'app/components/forget-password/forgetPassword.component'
 import { PasswordResetComponent } from 'app/components/password-reset/passwordReset.component'
+import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
 // routes
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'samarthya', component: LandingPageComponent },
   { path: 'login-layout', component: LoginLayoutComponent, canActivate: [AuthGuard] },
   { path: 'verifyEmail', component: VerifyEmailComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },

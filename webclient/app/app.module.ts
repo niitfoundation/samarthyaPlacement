@@ -34,6 +34,7 @@ import {FooterComponent} from './components/postlogin-registration-layout/footer
 import {VerifyEmailComponent} from 'app/components/verify-email/verifyEmail.component'
 import {ForgotPasswordComponent} from 'app/components/forget-password/forgetPassword.component'
 import {PasswordResetComponent} from 'app/components/password-reset/passwordReset.component'
+import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import {PasswordResetComponent} from 'app/components/password-reset/passwordRese
     AdminRegistrationComponent,
     VerifyEmailComponent,
     ForgotPasswordComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    LandingPageComponent
 ]
 })
 export class AppModule { }
