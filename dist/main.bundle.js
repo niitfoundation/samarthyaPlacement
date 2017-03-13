@@ -28,7 +28,7 @@ var EmailService = (function () {
         this.url = "";
     }
     EmailService.prototype.getEmail = function (email) {
-        this.url = '/emailverify/candidates?Email=' + email;
+        this.url = '/emailverify/checkEmail?Email=' + email;
         return this.http.get(this.url).map(function (response) { return response.json(); });
     };
     ;
@@ -89,6 +89,7 @@ var UiDetails = (function () {
     }
     ;
     UiDetails.prototype.getMenuDetails = function (token) {
+        console.log("menu");
         return this.http.get(this.url, this.authoriZation(token))
             .map(function (response) {
             var body = response.json();
@@ -199,7 +200,7 @@ var AdminRegistrationComponent = (function () {
         //building the form using FormBuilder and FormGroup
         this.userForm = fb.group({
             firstNameControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[A-Za-z]{2,}')]],
-            lastNameControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[A-Za-z]{2,}')]],
+            lastNameControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[A-Za-z ]{1,}')]],
             genderControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
             emailControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
             passwordControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required]],
@@ -207,8 +208,8 @@ var AdminRegistrationComponent = (function () {
             mobileControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[0-9]{10}')]],
             roleControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
             professionControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
-            pincodeControl: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[0-9]{6}')]],
-            locationControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
+            pincodeControl: ['636006', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[0-9]{6}')]],
+            locationControl: ['Salem', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
             placementControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
             statusControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
             languageControl: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required],
@@ -302,24 +303,28 @@ var AdminRegistrationComponent = (function () {
     //after submitting the form,it should executed and call service to add the data to json
     AdminRegistrationComponent.prototype.save = function (userdata) {
         var _this = this;
-        var data = { "first Name": userdata.get('firstNameControl').value, "Last Name": userdata.get('lastNameControl').value, "Gender": userdata.get('genderControl').value,
-            "Email": userdata.get('emailControl').value, "Password": userdata.get('passwordControl').value,
-            "MobileNo": userdata.get('mobileControl').value, "Role": userdata.get('roleControl').value,
-            "Profession": userdata.get('professionControl').value,
-            "Location": userdata.get('locationControl').value,
-            "PlacementCenter": userdata.get('placementControl').value, "Status": userdata.get('statusControl').value,
-            "Language": userdata.get('languageControl').value };
-        this.PlacementRegisterService.add(data).subscribe(function (resJsonData) { return []; }, function (error) {
+        var data = { FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value, Gender: userdata.get('genderControl').value,
+            Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+            MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
+            Profession: userdata.get('professionControl').value,
+            Location: userdata.get('locationControl').value,
+            PlacementCenter: userdata.get('placementControl').value, Status: userdata.get('statusControl').value,
+            Language: userdata.get('languageControl').value };
+        this.PlacementRegisterService.add(data).subscribe(function (resJsonData) {
+            console.log(resJsonData);
+            if (resJsonData['success'] == true) {
+                _this.userForm.reset();
+                _this.router.navigate(['/login']);
+                _this.data.openSnackBar("Registered successfully", "You can login");
+                return true;
+            }
+            else {
+                _this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
+            }
+        }, function (error) {
             _this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
         });
-        this.userForm.reset();
-        window.alert("registered successfully");
         return true;
-        // }
-        // else {
-        //   window.alert("Sorry.....try some other time");
-        //   return false;
-        // }
     };
     AdminRegistrationComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -569,7 +574,6 @@ var ForgotPasswordComponent = (function () {
             this.infoobj = {
                 'to': this.userForm.value.email,
                 'subject': 'Password Reset',
-                'redirect': 'http://localhost:3002/passwordReset'
             };
             this.emailservice.postdata(this.infoobj).subscribe(function (data) { return _this.postobject = data; }, function (error) { return [_this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
                 _this.timer = setTimeout(function () { return _this.router.navigate(['/login']); }, 500)
@@ -582,9 +586,8 @@ var ForgotPasswordComponent = (function () {
     // on password reset submit
     ForgotPasswordComponent.prototype.onResetLink = function () {
         var _this = this;
-        // console.log(this.userForm.value.email);
         this.emailService.getEmail(this.userForm.value.email).subscribe(function (resEmailData) {
-            _this.candidates = resEmailData, _this.verifyUserReset(),
+            _this.candidates = resEmailData.data, _this.verifyUserReset(),
                 function (error) {
                     _this.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
                 };
@@ -650,8 +653,7 @@ var JobPostComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__ = __webpack_require__(68);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginLayoutComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LandingPageComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -662,33 +664,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
-var LoginLayoutComponent = (function () {
-    function LoginLayoutComponent(JsonDataService) {
-        this.JsonDataService = JsonDataService;
-        this.languages = [];
+var LandingPageComponent = (function () {
+    function LandingPageComponent() {
+        this.headingTitle = "Samarthya";
+        this.subtitleDetails = "Reach out directly to most relevant job consultants and recruiters across India.";
+        this.aboutus = ["Sam", "John", "Karol"];
     }
-    LoginLayoutComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        // getting languages form json file
-        this.JsonDataService.getJsonData().subscribe(function (resJsonData) { return _this.getdata(resJsonData); });
-    };
-    LoginLayoutComponent.prototype.getdata = function (jsonData) {
-        this.languages = jsonData;
-    };
-    LoginLayoutComponent = __decorate([
+    LandingPageComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-login-layout',
+            selector: 'landing-page',
             template: __webpack_require__(860),
             styles: [__webpack_require__(842)],
-            providers: [__WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__["a" /* JsonDataService */]]
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__["a" /* JsonDataService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__["a" /* JsonDataService */]) === 'function' && _a) || Object])
-    ], LoginLayoutComponent);
-    return LoginLayoutComponent;
-    var _a;
+        __metadata('design:paramtypes', [])
+    ], LandingPageComponent);
+    return LandingPageComponent;
 }());
-//# sourceMappingURL=/home/gowtham/Desktop/Projectgit_final/samarthyaPlacement/webclient/login-layout.component.js.map
+//# sourceMappingURL=/home/gowtham/Desktop/Projectgit_final/samarthyaPlacement/webclient/landing-page.component.js.map
 
 /***/ }),
 
@@ -839,8 +831,8 @@ var PasswordResetComponent = (function () {
         // register candidate form
         this.userForm = fb.group({
             email: [{ value: '', disabled: true }],
-            password: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
-            conPassword: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
+            password: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[A-Za-z0-9.@!$*&]{6,24}')]],
+            conPassword: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[A-Za-z0-9.@!$*&]{6,24}')]],
         });
     }
     PasswordResetComponent.prototype.ngOnInit = function () {
@@ -874,13 +866,22 @@ var PasswordResetComponent = (function () {
         }
         else {
             this.passwordMatchWarning = '';
+            document.getElementById('resetBtn').disabled = false;
         }
     };
     // on form submit
     PasswordResetComponent.prototype.onSubmit = function () {
-        alert('Password changed');
-        this.router.navigate(['/login']);
-        this.Data.openSnackBar('Password updated', 'OK');
+        var _this = this;
+        this.AuthenticationService.passwordChange(this.userForm.get('email').value, this.userForm.get('password').value).subscribe(function (res) {
+            if (res.success == true) {
+                _this.router.navigate(['/login']);
+                _this.Data.openSnackBar(res.message, 'OK');
+            }
+            else {
+                _this.Data.openSnackBar(res.message, 'OK');
+                _this.router.navigate(['/login']);
+            }
+        });
     };
     // on back button
     PasswordResetComponent.prototype.onBack = function () {
@@ -1029,8 +1030,7 @@ var VerifyEmailComponent = (function () {
     // verify user if already exist or not for registration
     VerifyEmailComponent.prototype.verifyUserRegistration = function () {
         var _this = this;
-        console.log(this.candidates);
-        if (this.candidates.length === 0) {
+        if (this.candidates.length == 0) {
             this.infoobj = {
                 'title': this.userForm.value.role,
                 'to': this.userForm.value.email,
@@ -1337,19 +1337,19 @@ var JsonDataService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login_login_component__ = __webpack_require__(478);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_login_layout_login_layout_component__ = __webpack_require__(477);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_about_us_about_us_component__ = __webpack_require__(469);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_dashboard_dashboard_component__ = __webpack_require__(473);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_candidate_search_candidate_search_component__ = __webpack_require__(472);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_candidate_register_candidate_register_component__ = __webpack_require__(471);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_event_post_event_post_component__ = __webpack_require__(474);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_job_post_job_post_component__ = __webpack_require__(476);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_admin_registration_admin_registration_component__ = __webpack_require__(470);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_auth_guard__ = __webpack_require__(482);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_postlogin_registration_layout_header_layout_headerLayout_component__ = __webpack_require__(480);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_components_verify_email_verifyEmail_component__ = __webpack_require__(481);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_components_forget_password_forgetPassword_component__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_components_password_reset_passwordReset_component__ = __webpack_require__(479);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_about_us_about_us_component__ = __webpack_require__(469);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_dashboard_dashboard_component__ = __webpack_require__(473);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_candidate_search_candidate_search_component__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_candidate_register_candidate_register_component__ = __webpack_require__(471);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_event_post_event_post_component__ = __webpack_require__(474);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_job_post_job_post_component__ = __webpack_require__(476);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_admin_registration_admin_registration_component__ = __webpack_require__(470);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_auth_guard__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_postlogin_registration_layout_header_layout_headerLayout_component__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_components_verify_email_verifyEmail_component__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_components_forget_password_forgetPassword_component__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_components_password_reset_passwordReset_component__ = __webpack_require__(479);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_components_landing_page_landing_page_component__ = __webpack_require__(477);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1376,28 +1376,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
 // routes
 var routes = [
     { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_2__components_login_login_component__["a" /* LoginComponent */] },
-    // { path: 'samarthya', component: LandingPageComponent },
-    { path: 'login-layout', component: __WEBPACK_IMPORTED_MODULE_3__components_login_layout_login_layout_component__["a" /* LoginLayoutComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-    { path: 'verifyEmail', component: __WEBPACK_IMPORTED_MODULE_13_app_components_verify_email_verifyEmail_component__["a" /* VerifyEmailComponent */] },
-    { path: 'forgotPassword', component: __WEBPACK_IMPORTED_MODULE_14_app_components_forget_password_forgetPassword_component__["a" /* ForgotPasswordComponent */] },
-    { path: 'passwordReset', component: __WEBPACK_IMPORTED_MODULE_15_app_components_password_reset_passwordReset_component__["a" /* PasswordResetComponent */] },
-    { path: 'register/:title', component: __WEBPACK_IMPORTED_MODULE_10__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */] },
+    { path: 'samarthya', component: __WEBPACK_IMPORTED_MODULE_15_app_components_landing_page_landing_page_component__["a" /* LandingPageComponent */] },
+    { path: 'verifyEmail', component: __WEBPACK_IMPORTED_MODULE_12_app_components_verify_email_verifyEmail_component__["a" /* VerifyEmailComponent */] },
+    { path: 'forgotPassword', component: __WEBPACK_IMPORTED_MODULE_13_app_components_forget_password_forgetPassword_component__["a" /* ForgotPasswordComponent */] },
+    { path: 'passwordReset', component: __WEBPACK_IMPORTED_MODULE_14_app_components_password_reset_passwordReset_component__["a" /* PasswordResetComponent */] },
+    { path: 'register/:title', component: __WEBPACK_IMPORTED_MODULE_9__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */] },
     {
-        path: 'home', component: __WEBPACK_IMPORTED_MODULE_12__components_postlogin_registration_layout_header_layout_headerLayout_component__["a" /* AfterLoginHeaderComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]],
+        path: 'home', component: __WEBPACK_IMPORTED_MODULE_11__components_postlogin_registration_layout_header_layout_headerLayout_component__["a" /* AfterLoginHeaderComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]],
         children: [
-            { path: 'aboutUs', component: __WEBPACK_IMPORTED_MODULE_4__components_about_us_about_us_component__["a" /* AboutUsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-            { path: 'candidateRegister', component: __WEBPACK_IMPORTED_MODULE_7__components_candidate_register_candidate_register_component__["a" /* CandidateRegisterComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-            { path: 'candidateSearch', component: __WEBPACK_IMPORTED_MODULE_6__components_candidate_search_candidate_search_component__["a" /* CandidateSearchComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-            { path: 'eventPost', component: __WEBPACK_IMPORTED_MODULE_8__components_event_post_event_post_component__["a" /* EventPostComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-            { path: 'jobPost', component: __WEBPACK_IMPORTED_MODULE_9__components_job_post_job_post_component__["a" /* JobPostComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__services_auth_guard__["a" /* AuthGuard */]] },
-            { path: 'register', component: __WEBPACK_IMPORTED_MODULE_10__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */] },
-            { path: '**', component: __WEBPACK_IMPORTED_MODULE_5__components_dashboard_dashboard_component__["a" /* DashboardComponent */] },
-            { path: 'verifyEmail', component: __WEBPACK_IMPORTED_MODULE_13_app_components_verify_email_verifyEmail_component__["a" /* VerifyEmailComponent */] }
+            { path: 'aboutUs', component: __WEBPACK_IMPORTED_MODULE_3__components_about_us_about_us_component__["a" /* AboutUsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: 'candidateRegister', component: __WEBPACK_IMPORTED_MODULE_6__components_candidate_register_candidate_register_component__["a" /* CandidateRegisterComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: 'candidateSearch', component: __WEBPACK_IMPORTED_MODULE_5__components_candidate_search_candidate_search_component__["a" /* CandidateSearchComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: 'eventPost', component: __WEBPACK_IMPORTED_MODULE_7__components_event_post_event_post_component__["a" /* EventPostComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: 'jobPost', component: __WEBPACK_IMPORTED_MODULE_8__components_job_post_job_post_component__["a" /* JobPostComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: 'register', component: __WEBPACK_IMPORTED_MODULE_9__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
+            { path: '**', component: __WEBPACK_IMPORTED_MODULE_4__components_dashboard_dashboard_component__["a" /* DashboardComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__services_auth_guard__["a" /* AuthGuard */]] },
         ]
     },
 ];
@@ -1486,24 +1483,24 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_event_post_event_post_component__ = __webpack_require__(474);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_job_post_job_post_component__ = __webpack_require__(476);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_dashboard_dashboard_component__ = __webpack_require__(473);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_login_layout_login_layout_component__ = __webpack_require__(477);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_admin_registration_admin_registration_component__ = __webpack_require__(470);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_authentication_service__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_placement_register_service__ = __webpack_require__(483);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_auth_guard__ = __webpack_require__(482);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_services_email_service__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_app_services_json_data_service__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_services_uidetails_service__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_app_services_data_service__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_angular2_google_maps_core__ = __webpack_require__(737);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_angular2_google_maps_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27_angular2_google_maps_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_prelogin_registration_layout_login_header_login_header_component__ = __webpack_require__(733);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_prelogin_registration_layout_login_footer_login_footer_component__ = __webpack_require__(732);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_postlogin_registration_layout_header_layout_headerLayout_component__ = __webpack_require__(480);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_postlogin_registration_layout_footer_layout_footer_component__ = __webpack_require__(731);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_components_verify_email_verifyEmail_component__ = __webpack_require__(481);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_app_components_forget_password_forgetPassword_component__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_app_components_password_reset_passwordReset_component__ = __webpack_require__(479);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_admin_registration_admin_registration_component__ = __webpack_require__(470);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_authentication_service__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_placement_register_service__ = __webpack_require__(483);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_auth_guard__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_app_services_email_service__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_services_json_data_service__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_app_services_uidetails_service__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_services_data_service__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_angular2_google_maps_core__ = __webpack_require__(737);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_angular2_google_maps_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26_angular2_google_maps_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_prelogin_registration_layout_login_header_login_header_component__ = __webpack_require__(733);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_prelogin_registration_layout_login_footer_login_footer_component__ = __webpack_require__(732);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_postlogin_registration_layout_header_layout_headerLayout_component__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_postlogin_registration_layout_footer_layout_footer_component__ = __webpack_require__(731);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_app_components_verify_email_verifyEmail_component__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_components_forget_password_forgetPassword_component__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_app_components_password_reset_passwordReset_component__ = __webpack_require__(479);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_app_components_landing_page_landing_page_component__ = __webpack_require__(477);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1549,7 +1546,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -1564,32 +1560,32 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_4__angular_material__["a" /* MaterialModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_6_md2__["a" /* Md2Module */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_27_angular2_google_maps_core__["AgmCoreModule"].forRoot({
+                __WEBPACK_IMPORTED_MODULE_26_angular2_google_maps_core__["AgmCoreModule"].forRoot({
                     apiKey: 'AIzaSyAFrDXmfEyDR7DPrwGJYtmK4fAyXGgRic4'
                 })
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_21__services_placement_register_service__["a" /* PlacementRegisterService */], __WEBPACK_IMPORTED_MODULE_20__services_authentication_service__["a" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_22__services_auth_guard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_24_app_services_json_data_service__["a" /* JsonDataService */], __WEBPACK_IMPORTED_MODULE_23_app_services_email_service__["a" /* EmailService */], __WEBPACK_IMPORTED_MODULE_25_app_services_uidetails_service__["a" /* UiDetails */], __WEBPACK_IMPORTED_MODULE_26_app_services_data_service__["a" /* Data */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_20__services_placement_register_service__["a" /* PlacementRegisterService */], __WEBPACK_IMPORTED_MODULE_19__services_authentication_service__["a" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_21__services_auth_guard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_23_app_services_json_data_service__["a" /* JsonDataService */], __WEBPACK_IMPORTED_MODULE_22_app_services_email_service__["a" /* EmailService */], __WEBPACK_IMPORTED_MODULE_24_app_services_uidetails_service__["a" /* UiDetails */], __WEBPACK_IMPORTED_MODULE_25_app_services_data_service__["a" /* Data */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_11__components_login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__components_login_layout_login_layout_component__["a" /* LoginLayoutComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__components_dashboard_dashboard_component__["a" /* DashboardComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_candidate_register_candidate_register_component__["a" /* CandidateRegisterComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__components_candidate_search_candidate_search_component__["a" /* CandidateSearchComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_employers_employers_component__["a" /* EmployersComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_event_post_event_post_component__["a" /* EventPostComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__components_job_post_job_post_component__["a" /* JobPostComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_prelogin_registration_layout_login_header_login_header_component__["a" /* LoginHeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_prelogin_registration_layout_login_footer_login_footer_component__["a" /* LoginFooterComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_postlogin_registration_layout_header_layout_headerLayout_component__["a" /* AfterLoginHeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__components_postlogin_registration_layout_footer_layout_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__components_prelogin_registration_layout_login_header_login_header_component__["a" /* LoginHeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__components_prelogin_registration_layout_login_footer_login_footer_component__["a" /* LoginFooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_postlogin_registration_layout_header_layout_headerLayout_component__["a" /* AfterLoginHeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_postlogin_registration_layout_footer_layout_footer_component__["a" /* FooterComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_about_us_about_us_component__["a" /* AboutUsComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_32_app_components_verify_email_verifyEmail_component__["a" /* VerifyEmailComponent */],
-                __WEBPACK_IMPORTED_MODULE_33_app_components_forget_password_forgetPassword_component__["a" /* ForgotPasswordComponent */],
-                __WEBPACK_IMPORTED_MODULE_34_app_components_password_reset_passwordReset_component__["a" /* PasswordResetComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__components_admin_registration_admin_registration_component__["a" /* AdminRegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_31_app_components_verify_email_verifyEmail_component__["a" /* VerifyEmailComponent */],
+                __WEBPACK_IMPORTED_MODULE_32_app_components_forget_password_forgetPassword_component__["a" /* ForgotPasswordComponent */],
+                __WEBPACK_IMPORTED_MODULE_33_app_components_password_reset_passwordReset_component__["a" /* PasswordResetComponent */],
+                __WEBPACK_IMPORTED_MODULE_34_app_components_landing_page_landing_page_component__["a" /* LandingPageComponent */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -1675,6 +1671,7 @@ var FooterComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__ = __webpack_require__(68);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginFooterComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1686,10 +1683,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var LoginFooterComponent = (function () {
-    function LoginFooterComponent() {
+    function LoginFooterComponent(JsonDataService) {
+        this.JsonDataService = JsonDataService;
+        this.languages = [];
     }
     LoginFooterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.JsonDataService.getJsonData().subscribe(function (resJsonData) { return _this.getdata(resJsonData); });
+    };
+    LoginFooterComponent.prototype.getdata = function (jsonData) {
+        this.languages = jsonData;
     };
     LoginFooterComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1697,9 +1702,10 @@ var LoginFooterComponent = (function () {
             template: __webpack_require__(865),
             styles: [__webpack_require__(847)]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__["a" /* JsonDataService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_app_services_json_data_service__["a" /* JsonDataService */]) === 'function' && _a) || Object])
     ], LoginFooterComponent);
     return LoginFooterComponent;
+    var _a;
 }());
 //# sourceMappingURL=/home/gowtham/Desktop/Projectgit_final/samarthyaPlacement/webclient/login-footer.component.js.map
 
@@ -1853,14 +1859,14 @@ module.exports = ""
 /***/ 842:
 /***/ (function(module, exports) {
 
-module.exports = ".formIcons {\n    line-height: unset;\n}\n\n.mainHeader {\n    top: 0px;\n    position: fixed;\n    z-index: 1000;\n}\n\n.langBar {\n    margin-top: 64px;\n    background-color: #EEEEEE;\n    padding-left: 50px;\n    padding-right: 50px;\n    text-align: center;\n}\n\n.langBtn {\n    color: white;\n    color: #616161;\n    margin: 1px;\n}\n\n.logo {\n    text-align: center;\n    margin: auto;\n    font-size: 30px;\n    font-weight: bold;\n    color: whitesmoke;\n    -webkit-text-decoration-line: none;\n            text-decoration-line: none\n}\n\n.center {\n    margin: auto;\n    text-align: center;\n}\n\nmd-select {\n    color: red;\n}\n\n.logo:hover {\n    color: white;\n}\n\n.footer {\n    opacity: .9;\n    display: block;\n    max-height: unset;\n    height: 150px;\n    /*display: block;*/\n    /*position: relative;*/\n}\n\n.footerHead {\n    margin: auto;\n    font-size: 20px;\n    text-align: center;\n    color: white;\n}\n\n.footerLinks {\n    /*padding-left: 30%;*/\n    color: white;\n}\n\n.footerLinks ul li a {\n    color: white;\n    font-size: 15px;\n    text-decoration: unset;\n}\n\n.footerLinks ul li {\n    list-style: none;\n}\n\n.copyright {\n    display: block;\n}\n\n.copyright p {\n    font-size: 15px;\n    padding: 0px;\n    margin: auto;\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {}\n\n\n/*\nfor large screens*/\n\n@media (min-width: 768px) {}\n\n\n/*\n@media (min-height: 10px) {\n.page-footer {\nmargin: 0px;\ntext-align: center;\n}\n}\n\n@media (min-height: 1000px) {\n.page-footer {\nmargin: 0px;\nposition: absolute;\nbottom: 0px;\ntext-align: center;\nwidth: 100%;\n}\n}*/"
+module.exports = ".item\n{\npadding: 10px;\nmargin: 5px;\nword-wrap: break-word;\nbox-shadow: -2px -1px 29px 2px rgba(135,118,135,0.95);\n}\n.item1\n{\n    background: url('https://tctechcrunch2011.files.wordpress.com/2013/04/job_search.jpg');\n    background-repeat: no-repeat;\n    background-size: 100% 100%;\n    -webkit-animation: changebackground 5s infinite;\n            animation: changebackground 5s infinite;\n    \n}\n\n@-webkit-keyframes changebackground {\n  0% {\n    background:url('http://www.arnoldgroup.com.au/blog/wp-content/uploads/2015/09/job-search-1030x496.jpg');\n     background-repeat: no-repeat;\n    background-size: 100% 100%;\n  }\n  80% {\n    background: url('http://paazy.in/wp-content/uploads/2016/03/job-search.jpg');\n     background-repeat: no-repeat;\n     background-size: 100% 100%;\n  }\n}\n\n@keyframes changebackground {\n  0% {\n    background:url('http://www.arnoldgroup.com.au/blog/wp-content/uploads/2015/09/job-search-1030x496.jpg');\n     background-repeat: no-repeat;\n    background-size: 100% 100%;\n  }\n  80% {\n    background: url('http://paazy.in/wp-content/uploads/2016/03/job-search.jpg');\n     background-repeat: no-repeat;\n     background-size: 100% 100%;\n  }\n}\n\n\n.herosection\n{\npadding:20px;\nmargin:10px;\nmargin-top: 20px;\nword-wrap: break-word;\nbox-shadow: -2px -1px 29px 2px rgba(135,118,135,0.95);\n}\n.pull-right\n{\nfloat: right;\n}\n.pull-left\n{\n    float: left;\n}\n.pull-top\n{\nfloat:top;\n}\n.pull-bottom\n{\n    float:bottom;\n}\n.blink\n{\n/*-webkit-box-shadow: 0px 31px 32px 8px rgba(0,0,0,0.88);\n-moz-box-shadow: 0px 31px 32px 8px rgba(0,0,0,0.88);\nbox-shadow: 0px 31px 32px 8px rgba(0,0,0,0.88);*/\nbox-shadow: -2px -1px 29px 4px rgba(0,0,0,0.88);\n-webkit-animation: blinker 1s linear infinite;\n        animation: blinker 1s linear infinite;\n}\n@-webkit-keyframes blinker {  \n  50% {\nbox-shadow: -2px -1px 29px 0px rgba(135,118,135,0.95);\n   }\n}\n@keyframes blinker {  \n  50% {\nbox-shadow: -2px -1px 29px 0px rgba(135,118,135,0.95);\n   }\n}\n\n.footer-section\n{  \npadding:20px;\nmargin:10px;\nmargin-top: 20px;\nword-wrap: break-word;\nbox-shadow: -2px -1px 29px 1px  rgba(0,0,0,0.55);\n\n}\n\n\n.colorWhite\n{\n    color:white;\n}\n.img-circle\n{\n    border-radius: 75%;\n   width:120px;\n   height:120px;\n    \n    \n}\n.center\n{\ntext-align:center;   \n}\n\n.item-back\n{\n    background:url(\"./../..//images/mentor.jpg\");\n    background-repeat: no-repeat;\n    background-size:100% 100%; \n}\n.blinkimg\n{\n    -webkit-animation: blinkerimg 5s linear infinite;\n            animation: blinkerimg 5s linear infinite;\n}\n@-webkit-keyframes blinkerimg {  \n  50% { \n      opacity: 0;\n   }\n}\n@keyframes blinkerimg {  \n  50% { \n      opacity: 0;\n   }\n}\n.textalign-left\n{\n    text-align: left;\n}\n.item-padding\n{\n    padding:10px 15px;\n}\n.card-item\n{\n    padding: 20px;\n    border-radius: 15px;\n    background: url(\"./../..//images/cardback.jpg\");\n    \n\n}\n.container-padding\n{\n    padding: 20px;\n    \n}\n\n.rotate-translate\n{\n    -webkit-animation: infinite-spinning 5s linear infinite;\n            animation: infinite-spinning 5s linear infinite;\n}\n\n@-webkit-keyframes infinite-spinning {\n \n  50% {\n    -webkit-transform: translate(50px) rotate(360deg);\n            transform: translate(50px) rotate(360deg);\n  }\n  \n}\n\n@keyframes infinite-spinning {\n \n  50% {\n    -webkit-transform: translate(50px) rotate(360deg);\n            transform: translate(50px) rotate(360deg);\n  }\n  \n}\n\n.rotate\n{\n    -webkit-animation: infinite-spinning1 5s linear infinite;\n            animation: infinite-spinning1 5s linear infinite;\n}\n\n@-webkit-keyframes infinite-spinning1 {\n \n  50% {\n    -webkit-transform:  rotate(360deg);\n            transform:  rotate(360deg);\n  }\n  \n}\n\n@keyframes infinite-spinning1 {\n \n  50% {\n    -webkit-transform:  rotate(360deg);\n            transform:  rotate(360deg);\n  }\n  \n}\n\n.translate\n{\n    -webkit-animation: infinite-spinning2 5s linear infinite;\n            animation: infinite-spinning2 5s linear infinite;\n}\n\n@-webkit-keyframes infinite-spinning2 {\n \n  50% {\n    -webkit-transform: translate(40px) ;\n            transform: translate(40px) ;\n  }\n  \n}\n\n@keyframes infinite-spinning2 {\n \n  50% {\n    -webkit-transform: translate(40px) ;\n            transform: translate(40px) ;\n  }\n  \n}\n.about-item\n{\nbackground:#666;\nbackground-repeat: no-repeat;\nbackground-size: 100% 100%;\n}\n\n\n.btn-lg\n{\n    width:25%;\n}\n\n\n\n\n\n\nsvg {\n    \n    font: 10.5em 'Noto Serif';\n    width: 100%;\n    text-align: center;\n    \n}\n\n.text-copy {\n    fill: none;\n    stroke: white;\n    stroke-dasharray: 6% 29%;\n    stroke-width: 5px;\n    stroke-dashoffset: 0%;\n    -webkit-animation: stroke-offset 5.5s infinite linear;\n            animation: stroke-offset 5.5s infinite linear;\n}\n\n.text-copy:nth-child(1){\n    stroke: #4D163D;\n\t-webkit-animation-delay: -1;\n\t        animation-delay: -1;\n}\n\n.text-copy:nth-child(2){\n\tstroke: #840037;\n\t-webkit-animation-delay: -2s;\n\t        animation-delay: -2s;\n}\n\n.text-copy:nth-child(3){\n\tstroke: #BD0034;\n\t-webkit-animation-delay: -3s;\n\t        animation-delay: -3s;\n}\n\n.text-copy:nth-child(4){\n\tstroke: #BD0034;\n\t-webkit-animation-delay: -4s;\n\t        animation-delay: -4s;\n}\n\n.text-copy:nth-child(5){\n\tstroke: #FDB731;\n\t-webkit-animation-delay: -5s;\n\t        animation-delay: -5s;\n}\n\n@-webkit-keyframes stroke-offset{\n\t100% {stroke-dashoffset: -35%;}\n}\n\n@keyframes stroke-offset{\n\t100% {stroke-dashoffset: -35%;}\n}\n\n\n\nh1{\n    font-size:65px;\n}\n\n\n.btn-lg\n{\n    width:150px;\n    height:50px;\n}\n\n\n.max-height\n{\n height:700px;\n}\n\n.responsive-text\n{\n    font-size:30px;\n}\n@media (max-width: 599px){\n.img-circle\n{\n    border-radius: 50%;\n    width:100px;\n    height:100px;\n    padding: 10px;\n    \n}\n\n\n.max-height\n{\n height:100%;\n}\n\n\n.btn-lg\n{\n    width:100px;\n    height:50px;\n}\n\n\nsvg\n{\n      display: block;\n      font-size: 60px;\n}\n\n.text-copy\n{\n      stroke-width: 2px;\n\n}\nh1\n{\n    font-size:35px;\n}\n\n.responsive-text\n{\n    font-size:18px;\n}\n\n}\n@media (max-width: 800px) and (min-width:600px){\n\n.img-circle\n{\n    border-radius: 50%;\n    width:100px;\n    height:100px;\n    \n    \n}\n.btn-lg\n{\n    width:150px;\n    height:50px;\n}\n\n.max-height\n{\n height:500px;\n}\n\nsvg\n{\n      display: block;\n      font-size:80px;\n}\n\n.text-copy\n{\n    stroke-width: 2px;\n}\nh1\n{\n    font-size:50px;\n}\n\n\n.responsive-text\n{\n    font-size:20px;\n}\n}\n\n.color-violet\n{\n    color:#BD0034;\n}\n\n.subtitleDetails{\n        color: white;\n        text-shadow: 5px 5px 3px black;\n}\n\n\n\n\n\n\n"
 
 /***/ }),
 
 /***/ 843:
 /***/ (function(module, exports) {
 
-module.exports = "md-card {\n    width: 500px;\n}\n.errorStyle {\n    position: absolute;\n    font-size: 12px;\n    -webkit-transition: all .7s;\n    transition: all .7s;\n    color: #F44336;\n}\n.errorStyle :before\n{\n     content:'\\21EA';\n     -webkit-animation: blinker 1s linear infinite;\n             animation: blinker 1s linear infinite;\n}\n\n.formIcons {\n    padding-bottom: 30px;\n    color: gray;\n}\n\nform {\n    font-size: 17px;\n}\n\nbutton {\n    font-size: 15px;\n}\n\nmd-card-title {\n    text-align: center;\n    margin-bottom: 30px;\n    font-size: 25px;\n}\n\n.full-width {\n    width: 100%;\n    margin-top: 10px;\n    margin-bottom: 10px;\n}\n\n.errorStyle {\n    position: absolute;\n    font-size: 12px;\n    -webkit-transition: all .7s;\n    transition: all .7s;\n    color: #F44336;\n}\n\n.googleBtn {\n    background-color: #F44336;\n    color: white;\n}\n\n.fbBtn {\n    background-color: #3f51b5;\n    color: white;\n}"
+module.exports = "md-card {\n    width: 500px;\n}\n\n.formIcons {\n    padding-bottom: 30px;\n    color: gray;\n}\n\nform {\n    font-size: 17px;\n}\n\nbutton {\n    font-size: 15px;\n}\n\nmd-card-title {\n    text-align: center;\n    margin-bottom: 30px;\n    font-size: 25px;\n}\n\n.full-width {\n    width: 100%;\n    margin-top: 10px;\n    margin-bottom: 10px;\n}\n\n.errorStyle {\n    position: absolute;\n    font-size: 12px;\n    -webkit-transition: all .7s;\n    transition: all .7s;\n    color: #F44336;\n}\n\n.googleBtn {\n    background-color: #F44336;\n    color: white;\n    /*background-color: white;\n    color: #F44336;*/\n}\n\n.fbBtn {\n    background-color: #3f51b5;\n    color: white;\n    /*color: #3f51b5;\n    background-color: white;*/\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {\n    md-card {\n        top: 56px;\n    }\n}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {\n    md-card {\n        top: 0px;\n    }\n}\n\n\n/*for large screens*/\n\n@media (min-width: 768px) {\n    md-card {\n        top: 0px;\n    }\n}"
 
 /***/ }),
 
@@ -1888,7 +1894,7 @@ module.exports = ".fill-remaining-space {\n    -webkit-box-flex: 1;\n        -ms
 /***/ 847:
 /***/ (function(module, exports) {
 
-module.exports = ".formIcons {\n    line-height: unset;\n}\n\n\n.center {\n    margin: auto;\n    text-align: center;\n}\n\nmd-select {\n    color: red;\n}\n\n.footer {\n    margin-top: 0px;\n    bottom:0;\n    left: 0;\n    \n    opacity: .9;\n    display: block;\n    max-height: unset;\n    height: 150px;\n    /*display: block;*/\n    /*position: relative;*/\n}\n\n.footerHead {\n    margin: auto;\n    font-size: 20px;\n    text-align: center;\n    color: white;\n}\n\n.footerLinks {\n    color: white;\n}\n\n.footerLinks ul li a {\n    color: white;\n    font-size: 15px;\n    text-decoration: unset;\n}\n\n.footerLinks ul li {\n    list-style: none;\n}\n\n.copyright {\n    display: block;\n}\n\n.copyright p {\n    font-size: 15px;\n    padding: 0px;\n    margin: auto;\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {}\n\n\n/*\nfor large screens*/\n\n@media (min-width: 768px) {}\n\n\n/*\n@media (min-height: 10px) {\n.page-footer {\nmargin: 0px;\ntext-align: center;\n}\n}\n\n@media (min-height: 1000px) {\n.page-footer {\nmargin: 0px;\nposition: absolute;\nbottom: 0px;\ntext-align: center;\nwidth: 100%;\n}\n}*/"
+module.exports = ".formIcons {\n    line-height: unset;\n}\n\n.fill-remaining-space {\n    -webkit-box-flex: 1;\n        -ms-flex: 1 1 auto;\n            flex: 1 1 auto;\n}\n\n.mainHeader {\n    top: 0px;\n    position: fixed;\n    z-index: 1000;\n}\n\n.langBar {\n    margin-top: 64px;\n    background-color: white;\n    padding-left: 20px;\n    padding-right: 20px;\n    text-align: center;\n    overflow: scroll;\n    height: 90px;\n}\n\n.langBtn {\n    color: white;\n    color: #616161;\n    margin: 5px;\n}\n\n.logo {\n    text-align: center;\n    margin: auto;\n    font-size: 30px;\n    font-weight: bold;\n    color: whitesmoke;\n    -webkit-text-decoration-line: none;\n            text-decoration-line: none\n}\n\n.center {\n    margin: auto;\n    text-align: center;\n}\n\nmd-select {\n    color: red;\n}\n\n.logo:hover {\n    color: white;\n}\n\n.footer {\n    opacity: .9;\n    display: block;\n    max-height: unset;\n    height: 150px;\n    width: 100%;\n    /*margin-top: 80px;*/\n    /*display: block;*/\n    /*position: relative;*/\n}\n\n.footerHead {\n    /*margin: auto;*/\n    font-size: 20px;\n    text-align: center;\n    color: white;\n    /*margin: auto;*/\n    margin-top: 80px;\n    margin-left: 10%;\n}\n\n.footerLinks {\n    margin-top: 80px;\n    color: white;\n    margin-right: 10%;\n}\n\n.footerLinks ul li a {\n    color: white;\n    font-size: 15px;\n    text-decoration: unset;\n}\n\n.footerLinks ul li {\n    list-style: none;\n}\n\n.copyright {\n    display: block;\n}\n\n.copyright p {\n    font-size: 15px;\n    padding: 0px;\n    margin: auto;\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {\n    .footer {\n        margin-top: 0;\n    }\n}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {\n    .footer {\n        margin-top: 0;\n    }\n}\n\n\n/*\nfor large screens*/\n\n@media (min-width: 768px) {\n    .footer {\n        margin-top: 0px;\n    }\n}\n\n\n/*\n@media (min-height: 10px) {\n.page-footer {\nmargin: 0px;\ntext-align: center;\n}\n}\n\n@media (min-height: 1000px) {\n.page-footer {\nmargin: 0px;\nposition: absolute;\nbottom: 0px;\ntext-align: center;\nwidth: 100%;\n}\n}*/"
 
 /***/ }),
 
@@ -1902,7 +1908,7 @@ module.exports = ".formIcons {\n    line-height: unset;\n}\n\n* {\n    font-fami
 /***/ 849:
 /***/ (function(module, exports) {
 
-module.exports = "md-card {\n    width: 500px;\n}\n\n.formIcons {\n    padding-bottom: 30px;\n    color: gray;\n}\n\nform {\n    font-size: 17px;\n}\n\nbutton {\n    font-size: 15px;\n}\n\nmd-card-title {\n    text-align: center;\n    margin-bottom: 30px;\n    font-size: 25px;\n}\n\n.full-width {\n    width: 100%;\n    margin-top: 10px;\n    margin-bottom: 10px;\n}\n\n.errorStyle {\n    position: absolute;\n    font-size: 12px;\n    -webkit-transition: all .7s;\n    transition: all .7s;\n    color: #F44336;\n}\n\n.googleBtn {\n    background-color: #F44336;\n    color: white;\n}\n\n.fbBtn {\n    background-color: #3f51b5;\n    color: white;\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {\n    md-card {\n        top: 56px;\n    }\n}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {\n    md-card {\n        top: 0px;\n    }\n}\n\n\n/*for large screens*/\n\n@media (min-width: 768px) {\n    md-card {\n        top: 0px;\n    }\n}\n"
+module.exports = "md-card {\n    width: 500px;\n}\nbody{\n    -webkit-box-align: none;\n        -ms-flex-align: none;\n            align-items: none;\n}\n\n\n.formIcons {\n    padding-bottom: 30px;\n    color: gray;\n}\n\nform {\n    font-size: 17px;\n}\n\nbutton {\n    font-size: 15px;\n}\n\nmd-card-title {\n    text-align: center;\n    margin-bottom: 30px;\n    font-size: 25px;\n}\n\n.full-width {\n    width: 100%;\n    margin-top: 10px;\n    margin-bottom: 10px;\n}\n\n.errorStyle {\n    position: absolute;\n    font-size: 12px;\n    -webkit-transition: all .7s;\n    transition: all .7s;\n    color: #F44336;\n}\n\n.googleBtn {\n    background-color: #F44336;\n    color: white;\n}\n\n.fbBtn {\n    background-color: #3f51b5;\n    color: white;\n}\n\n\n/*for smaller screens*/\n\n@media (min-width: 10px) {\n    md-card {\n        top: 56px;\n    }\n}\n\n@media (min-width: 370px) {}\n\n\n/*for Medium screens*/\n\n@media (min-width: 480px) {\n    md-card {\n        top: 0px;\n    }\n}\n\n\n/*for large screens*/\n\n@media (min-width: 768px) {\n    md-card {\n        top: 0px;\n    }\n}"
 
 /***/ }),
 
@@ -1979,14 +1985,14 @@ module.exports = "<p>\n  job-post works!\n</p>\n<app-footer></app-footer>\n"
 /***/ 860:
 /***/ (function(module, exports) {
 
-module.exports = "<!--Header start-->\n<md-toolbar color=\"primary\" class=\"mainHeader\">\n    <!--<a href=\"/\">-->\n    <p class=\"logo\">Samarthya</p>\n    <!--</a>-->\n\n</md-toolbar>\n<div class=\"langBar\" fxFlex fxHide.xs>\n    <button *ngFor=\"let lang of languages\" title={{lang.name}} class=\"langBtn\" md-button>\n   <div> {{lang.nativeName}}</div>\n    </button>\n</div>\n\n<!--RouterLinks for login password reset and candidate register-->\n<!--<a routerLink=\"/login\" routerLinkactive=\"active\">LOGIN</a>\n    <a routerLink=\"/candidateRegister\" routerLinkactive=\"active\">REG</a>-->\n<!--<a routerLink=\"/passwordReset\" routerLinkactive=\"active\">RESET</a>-->\n<router-outlet></router-outlet>\n\n<!--footer starts-->\n<md-toolbar color=\"primary\" class=\"footer\" fxLayout=\"column\">\n    <div fxFlex=\"50\" class=\"footerHead\">\n        <h5>Samarthya</h5>\n    </div>\n    <div fxFlex></div>\n    <div fxFlex=\"50\" class=\"footerLinks\">\n        <ul>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Candidate</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Placement</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">FAQ</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">About Us</a></li>\n        </ul>\n    </div>\n</md-toolbar>\n<md-toolbar color=\"primary\" class=\"copyright\">\n    <p> © Copyright Samarthya 2017</p>\n</md-toolbar>"
+module.exports = "<app-login-header></app-login-header>\n<!-- container for herosection -->\n<div class=\"container\" fxLayout fxLayout.xs=\"column\" fxLayoutGap=\"30px\" fxLayoutGap.xs=\"10px\">\n  <div class=\"item item1  max-height change-hero-background\" fxFlex=\"100%\">\n    <!-- logo -->\n    <img src=\" \" width=\"10%\">\n    <!-- login and register button-->\n     <button md-raised-button color=\"secondary\" class=\"btn-lg pull-right\" >Take A Tour</button>\n    <!-- headings -->\n      <svg >\n    <symbol id=\"s-text\">\n\t\t<text  y=\"80%\"> {{headingTitle}} </text>\n\t</symbol>\n\t<g class = \"g-ants\">\n\t\t<use xlink:href=\"#s-text\" class=\"text-copy\"></use>\n\t\t<use xlink:href=\"#s-text\" class=\"text-copy\"></use>\n\t\t<use xlink:href=\"#s-text\" class=\"text-copy\"></use>\n\t\t<use xlink:href=\"#s-text\" class=\"text-copy\"></use>\n\t\t<use xlink:href=\"#s-text\" class=\"text-copy\"></use>\n\t</g>\n</svg>\n     \n  <!-- sub headings-->\n    <h1 class=\"color-violet subtitleDetails\">\n      {{subtitleDetails}}\n    </h1>\n    <!--take a tour button -->\n  </div>\n</div>\n<!-- end container for herosection -->\n\n<!-- containter for about items -->\n<div class=\"container container-padding about-item\" fxLayout fxLayout.xs=\"column\" fxLayoutGap=\"30px\" fxLayoutGap.xs=\"10px\">\n  <div fxFlex=\"33%\" class=\"item card-item center\" *ngFor=\"let about of aboutus\">\n    <div class=\"item-back\">\n      <img src=\"http://gulfinity.com/wp-content/themes/jobboard/images/default.jpg\" class=\"img-circle item-back blinkimg\" align=\"middle\">\n    </div>\n    <div>\n      <h2>{{about}}\n      </h2>\n      <hr>\n    </div>\n    <div class=\"item-padding\">\n      <p class=\"textalign-left\">\n        Nassau saw service in the North Sea at the beginning of World War I, in the II Division of the I Battle Squadron of the German\n        High Seas Fleet.permitted to remain in German ports.\n      </p>\n    </div>\n    <div>\n      <button md-button class=\"translate\">Know More>>></button>\n    </div>\n\n  </div>\n</div>\n<!-- end conatiner for about items-->\n<app-login-footer></app-login-footer>\n"
 
 /***/ }),
 
 /***/ 861:
 /***/ (function(module, exports) {
 
-module.exports = "<app-login-header></app-login-header>\n<smy-candidate-avatar></smy-candidate-avatar>\n<!--login card-->\n<md-grid-list cols=\"1\" rowHeight=\"600px\">\n    <md-grid-tile>\n        <md-card class=\"loginCard\">\n            <md-card-title>LOGIN</md-card-title>\n            <md-card-content>\n\n                <form [formGroup]=\"userForm\" (ngSubmit)=\"login()\">\n\n                    <!--Email input-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">mail</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"email\" type=\"text\" class=\"validate\" placeholder=\"Email\" />\n\n                            </md-input-container>\n                            <div  *ngIf=\"userForm.get('email').hasError('pattern')\" align=\"start\" class=\"full-width errorStyle\">\n                                    Invalid email\n                                </div>\n                        </div>\n                    </div>\n\n                    <!--passowrd input-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">lock</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput id=\"password\" type=\"password\" class=\"validate\" formControlName=\"password\" placeholder=\"Password\">\n                            </md-input-container>\n                            <div *ngIf=\"userForm.get('password').hasError('pattern')\" align=\"start\" class=\"full-width errorStyle\">\n                                    Password should contain uppercase and lowercase alphabets,minimum one digit/special characters\n                                </div>\n                        </div>\n                    </div>\n\n                    <!--sign in button-->\n                    <div fxLayout=\"row\">\n                        <div fxFlex=\"100\">\n                            <button md-raised-button color=\"accent\" type=\"submit\" class=\"full-width largeBtn\" [disabled]=\"!userForm.valid\">Sign in</button>\n                        </div>\n                    </div>\n\n                </form>\n\n                <!--forgot Password button-->\n                <div fxLayout=\"row\">\n                    <div fxFlex=\"100\" fxLayoutAlign=\"center center\">\n                        <button md-button color=\"primary\" (click)=\"forgotPassword()\" class=\"\">Forgot Password ?</button>\n                    </div>\n                </div>\n\n                <!--create account button-->\n                <div fxLayout=\"row\">\n                    <div fxFlex=\"100\">\n                        <button md-raised-button color=\"primary\" (click)=\"verifyEmail()\" class=\"full-width largeBtn\">Create Account</button>\n                    </div>\n                </div>\n\n                <!--social media button-->\n                <!--<div fxLayout.gt-sm=\"row\" fxLayout.sm=\"column\" fxHide.sm>-->\n                <div fxLayout=\"row\" fxLayout.xs=\"column\">\n                    <div fxFlex=\"48\">\n                        <button md-raised-button class=\"full-width largeBtn googleBtn\">\n                                <i class=\"zmdi zmdi-google zmdi-hc-lg\"></i>\n                                Login with Google</button>\n                    </div>\n                    <div fxFlex></div>\n                    <div fxFlex=\"48\">\n                        <button md-raised-button class=\"full-width largeBtn fbBtn\">\n                                <i class=\"zmdi zmdi-facebook-box zmdi-hc-lg\"></i>    \n                                Login with Facebook\n                            </button>\n                    </div>\n                </div>\n            </md-card-content>\n        </md-card>\n        <!--card-ends-->\n    </md-grid-tile>\n</md-grid-list>\n<app-login-footer></app-login-footer>"
+module.exports = "<!--login Header-->\n<app-login-header></app-login-header>\n\n<!--login card-->\n<div *ngIf=\"showProgress\" class=\"progressBar\">\n  <md-progress-bar mode=\"indeterminate\"></md-progress-bar>\n</div>\n<md-grid-list cols=\"1\" rowHeight=\"600px\">\n  <md-grid-tile>\n    <md-card class=\"loginCard\">\n      <md-card-title>LOGIN</md-card-title>\n      <md-card-content>\n\n        <form [formGroup]=\"userForm\" (ngSubmit)=\"login()\">\n          <!--Email input-->\n          <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n            <div fxFlex>\n              <i class=\"material-icons formIcons\">mail</i>\n            </div>\n            <div fxFlex=\"93\">\n              <md-input-container class=\"full-width\">\n                <input mdInput formControlName=\"email\" type=\"text\" class=\"validate\" placeholder=\"Email\" />\n                <md-hint align=\"start\" class=\"full-width\">\n                  <div *ngIf=\"userForm.get('email').hasError('required') && userForm.get('email').touched\" class=\"errorStyle\">\n                    Email is required\n                  </div>\n                  <div *ngIf=\"userForm.get('email').hasError('pattern') && userForm.get('email')\" class=\"errorStyle\">\n                    Invalid email\n                  </div>\n                  <!--<app-control-messages [control]=\"userForm.controls.email\" class=\"errorStyle\"></app-control-messages>-->\n                </md-hint>\n              </md-input-container>\n            </div>\n          </div>\n\n          <!--passowrd input-->\n          <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n            <div fxFlex>\n              <i class=\"material-icons formIcons\">lock</i>\n            </div>\n            <div fxFlex=\"93\">\n              <md-input-container class=\"full-width\">\n                <input mdInput id=\"password\" type=\"password\" class=\"validate\" formControlName=\"password\" placeholder=\"Password\">\n                <md-hint align=\"start\" class=\"full-width\">\n                  <div *ngIf=\"userForm.get('password').hasError('required') && userForm.get('password').touched\" class=\"errorStyle\">\n                    Password is required\n                  </div>\n                  <div *ngIf=\"userForm.get('password').hasError('pattern')\" class=\"errorStyle\">\n                    Invalid password. Password must be at least 6 characters long, and contain a number\n                  </div>\n                  <!--<app-control-messages [control]=\"userForm.controls.password\" class=\"errorStyle\"></app-control-messages>-->\n                </md-hint>\n              </md-input-container>\n            </div>\n          </div>\n\n          <!--sign in button-->\n          <div fxLayout=\"row\">\n            <div fxFlex=\"100\">\n              <button md-raised-button color=\"primary\" type=\"submit\" class=\"full-width largeBtn\" [disabled]=\"!userForm.valid\">Sign in</button>\n            </div>\n          </div>\n        </form>\n\n        <!--forgot Password button-->\n        <div fxLayout=\"row\">\n          <div fxFlex=\"100\" fxLayoutAlign=\"center center\">\n            <button md-button color=\"primary\" (click)=\"forgotPassword()\" class=\"\">Forgot Password ?</button>\n          </div>\n        </div>\n\n        <!--social media button-->\n        <!--<div fxLayout.gt-sm=\"row\" fxLayout.sm=\"column\" fxHide.sm>-->\n        <div fxLayout=\"row\" fxLayout.xs=\"column\">\n          <div fxFlex=\"48\">\n            <a href=\"http://localhost:8080/auth/google/\" md-raised-button class=\"full-width largeBtn googleBtn\">\n              <i class=\"zmdi zmdi-google zmdi-hc-lg\"></i> Login with Google\n            </a>\n          </div>\n          <div fxFlex></div>\n          <div fxFlex=\"48\">\n            <a href=\"http://localhost:8080/auth/facebook\" md-raised-button class=\"full-width largeBtn fbBtn\">\n              <i class=\"zmdi zmdi-facebook-box zmdi-hc-lg\"></i> Login with Facebook\n            </a>\n          </div>\n        </div>\n      </md-card-content>\n    </md-card>\n    <!--card-ends-->\n  </md-grid-tile>\n</md-grid-list>\n\n<!--footer-->\n<app-login-footer></app-login-footer>"
 
 /***/ }),
 
@@ -2014,7 +2020,7 @@ module.exports = "<!--sidenav and toolbar with content-->\n<md-sidenav-container
 /***/ 865:
 /***/ (function(module, exports) {
 
-module.exports = "<!--footer starts-->\n<md-toolbar color=\"primary\" class=\"footer\" fxLayout=\"column\">\n    <div fxFlex=\"50\" class=\"footerHead\">\n        <h5>Samarthya</h5>\n    </div>\n    <div fxFlex></div>\n    <div fxFlex=\"50\" class=\"footerLinks\">\n        <ul>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Candidate</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Placement</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">FAQ</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">About Us</a></li>\n        </ul>\n    </div>\n</md-toolbar>\n<md-toolbar color=\"primary\" class=\"copyright\">\n    <p> © Copyright Samarthya 2017</p>\n</md-toolbar>"
+module.exports = "<!--footer starts-->\n<div class=\"langBar\" fxFlex fxHide.gt-xs>\n  <button *ngFor=\"let lang of languages\" title={{lang.name}} class=\"langBtn\" md-button>\n   <div> {{lang.nativeName}}</div>\n    </button>\n</div>\n<md-toolbar color=\"primary\" class=\"footer\" fxLayout=\"column\">\n    <div fxFlex=\"50\" class=\"footerHead\">\n        <h5>Samarthya</h5>\n    </div>\n    <div fxFlex></div>\n    <div fxFlex=\"50\" class=\"footerLinks\">\n        <ul>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Candidate</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">Samarthya Placement</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">FAQ</a></li>\n            <li><a class=\"grey-text text-lighten-3\" href=\"#\">About Us</a></li>\n        </ul>\n    </div>\n</md-toolbar>\n<md-toolbar color=\"primary\" class=\"copyright\">\n    <p> © Copyright Samarthya 2017</p>\n</md-toolbar>"
 
 /***/ }),
 
@@ -2028,7 +2034,7 @@ module.exports = "<!--Header start-->\n<md-toolbar color=\"primary\" class=\"mai
 /***/ 867:
 /***/ (function(module, exports) {
 
-module.exports = "<!--login Header-->\n<app-login-header></app-login-header>\n\n<!--login card-->\n<md-grid-list cols=\"1\" rowHeight=\"350px\">\n    <md-grid-tile>\n        <md-card class=\"loginCard\">\n            <md-card-title>Verify Email</md-card-title>\n            <md-card-content>\n                <form class=\"col s12\" [formGroup]=\"userForm\" (ngSubmit)=\"onVerifyLink()\">\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex=\"10\">\n                            <i class=\"material-icons formIcons\">supervisor_account</i>\n                        </div>\n                        <div fxFlex=\"80\">\n                            <md-radio-group formControlName=\"role\" class=\"full-width\">\n                                <md-radio-button value=\"Coordinator\">Coordinator</md-radio-button>\n                                <md-radio-button value=\"Supervisor\">Supervisor</md-radio-button>\n                            </md-radio-group> </div>\n                        \n                             <div *ngIf=\"userForm.get('role').hasError('required') && userForm.get('role').touched\" class=\"errorStyle\">\n                                        Email is required\n                             </div>\n                                    \n                    </div>\n                    <!--Email input-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">email</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"email\" id=\"email\" type=\"text\" class=\"validate\" placeholder=\"Email\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('email').hasError('required') && userForm.get('email').touched\" class=\"errorStyle\">\n                                        Email is required\n                                    </div>\n                                    <div *ngIf=\"userForm.get('email').hasError('pattern') && userForm.get('email')\" class=\"errorStyle\">\n                                        Invalid email\n                                    </div>\n                                    <!--<app-control-messages [control]=\"userForm.controls.email\" class=\"errorStyle\"></app-control-messages>-->\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--Reset in button-->\n                    <div fxLayout=\"row\" fxLayout.xs=\"column\">\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"accent\" class=\"full-width\" type=\"submit\" [disabled]=\"!userForm.valid\">Verify</button>\n                        </div>\n                        <div fxFlex></div>\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"warn\" class=\"full-width\" (click)=onBack()>Back</button>\n                        </div>\n                    </div>\n                </form>\n            </md-card-content>\n        </md-card>\n        <!--card-ends-->\n    </md-grid-tile>\n</md-grid-list>\n\n<!--footer-->\n<app-login-footer></app-login-footer>"
+module.exports = "<!--login Header-->\n<app-login-header></app-login-header>\n\n<!--login card-->\n<md-grid-list cols=\"1\" rowHeight=\"600px\">\n    <md-grid-tile>\n        <md-card class=\"loginCard\">\n            <md-card-title>Verify Email</md-card-title>\n            <md-card-content>\n                <form class=\"col s12\" [formGroup]=\"userForm\" (ngSubmit)=\"onVerifyLink()\">\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start none\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">supervisor_account</i>\n                        </div>\n                        <div fxFlex=\"93\" >\n                            <md-radio-group formControlName=\"role\" class=\"full-width\">\n                                <md-radio-button value=\"Coordinator\">Coordinator</md-radio-button>\n                                <md-radio-button value=\"Supervisor\">Supervisor</md-radio-button>\n                            </md-radio-group>\n                        <div *ngIf=\"userForm.get('role').hasError('required') && userForm.get('role').touched\" class=\"errorStyle full-width\">\n                            Email is required\n                        </div>\n                          </div>\n                    </div>\n                    <!--Email input-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">email</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"email\" id=\"email\" type=\"text\" class=\"validate\" placeholder=\"Email\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('email').hasError('required') && userForm.get('email').touched\" class=\"errorStyle\">\n                                        Email is required\n                                    </div>\n                                    <div *ngIf=\"userForm.get('email').hasError('pattern') && userForm.get('email')\" class=\"errorStyle\">\n                                        Invalid email\n                                    </div>\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--Reset in button-->\n                    <div fxLayout=\"row\" fxLayout.xs=\"column\">\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"primary\" class=\"full-width\" type=\"submit\" [disabled]=\"!userForm.valid\">Verify</button>\n                        </div>\n                        <div fxFlex></div>\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"warn\" class=\"full-width\" (click)=onBack()>Back</button>\n                        </div>\n                    </div>\n                </form>\n            </md-card-content>\n        </md-card>\n        <!--card-ends-->\n    </md-grid-tile>\n</md-grid-list>\n\n<!--footer-->\n<app-login-footer></app-login-footer>"
 
 /***/ }),
 
@@ -2072,6 +2078,7 @@ var AuthenticationService = (function () {
             // login successful if there's a jwt token in the response
             var token = response.json().auth_token;
             if (token) {
+                console.log(response.json().message);
                 var usertype = response.json().role;
                 // set token property
                 _this.token = token;
@@ -2094,7 +2101,6 @@ var AuthenticationService = (function () {
     };
     AuthenticationService.prototype.getPasswordResetToken = function (token, username) {
         var _this = this;
-        console.log(token);
         return this.http.post('/emailverify/passwordResetToken', { username: username, token: token })
             .map(function (response) {
             // login successful if there's a jwt token in the response
@@ -2109,6 +2115,14 @@ var AuthenticationService = (function () {
                 // return false to indicate failed login
                 return response.json();
             }
+        });
+    };
+    //change password for existing placement role user
+    AuthenticationService.prototype.passwordChange = function (email, password) {
+        return this.http.post('/api/passwordReset', { Email: email, Password: password })
+            .map(function (response) {
+            // login successful if there's a jwt token in the response
+            return response.json();
         });
     };
     AuthenticationService = __decorate([

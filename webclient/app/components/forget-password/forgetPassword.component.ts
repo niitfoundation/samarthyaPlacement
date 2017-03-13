@@ -47,12 +47,12 @@ export class ForgotPasswordComponent implements OnInit {
 
   // verify user if already exist or not for password Reset
   verifyUserReset() {
+
     if (this.candidates.length!=0) {
       let link="";
       this.infoobj = {
         'to': this.userForm.value.email,
         'subject': 'Password Reset',
-        'redirect': 'http://localhost:3002/passwordReset'
       };
       this.emailservice.postdata(this.infoobj).subscribe(data => this.postobject = data,
         error => [this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
@@ -65,9 +65,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   // on password reset submit
   onResetLink() {
-    // console.log(this.userForm.value.email);
     this.emailService.getEmail(this.userForm.value.email).subscribe(resEmailData =>{ 
-        this.candidates = resEmailData, this.verifyUserReset(),
+        this.candidates = resEmailData.data, this.verifyUserReset(),
       error => {
         this.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       }});

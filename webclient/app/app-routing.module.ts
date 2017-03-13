@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { LoginLayoutComponent } from './components/login-layout/login-layout.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
@@ -21,7 +20,6 @@ const routes: Routes = [
   { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'samarthya', component: LandingPageComponent },
-  { path: 'login-layout', component: LoginLayoutComponent, canActivate: [AuthGuard] },
   { path: 'verifyEmail', component: VerifyEmailComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'passwordReset', component: PasswordResetComponent },
@@ -35,9 +33,8 @@ const routes: Routes = [
       { path: 'candidateSearch', component: CandidateSearchComponent, canActivate: [AuthGuard] },
       { path: 'eventPost', component: EventPostComponent, canActivate: [AuthGuard] },
       { path: 'jobPost', component: JobPostComponent, canActivate: [AuthGuard] },
-      { path: 'register', component: AdminRegistrationComponent },
-      { path: '**', component: DashboardComponent },
-      { path: 'verifyEmail', component: VerifyEmailComponent }
+      { path: 'register', component: AdminRegistrationComponent ,canActivate: [AuthGuard]},
+      { path: '**', component: DashboardComponent,canActivate: [AuthGuard] },
     ]
   },
 ]

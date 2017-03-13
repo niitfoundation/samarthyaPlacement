@@ -23,6 +23,7 @@ export class AuthenticationService {
                 // login successful if there's a jwt token in the response
                 let token = response.json().auth_token;
                 if (token) {
+                    console.log(response.json().message);
                     let usertype = response.json().role;
                     // set token property
                     this.token = token;
@@ -46,7 +47,6 @@ export class AuthenticationService {
     }
 
     getPasswordResetToken(token,username){
-        console.log(token);
                 return this.http.post('/emailverify/passwordResetToken',{ username: username, token: token })
                  .map((response: Response) => {
                 // login successful if there's a jwt token in the response
@@ -61,6 +61,13 @@ export class AuthenticationService {
                     return response.json();
                 }
             });
-
+    }
+//change password for existing placement role user
+    passwordChange(email,password){
+            return this.http.post('/api/passwordReset',{ Email: email, Password: password })
+                 .map((response: Response) => {
+                // login successful if there's a jwt token in the response
+               return response.json();
+            });
     }
 }

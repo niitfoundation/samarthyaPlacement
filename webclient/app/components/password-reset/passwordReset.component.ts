@@ -33,8 +33,8 @@ export class PasswordResetComponent implements OnInit {
     // register candidate form
     this.userForm = fb.group({
       email: [{ value: '', disabled: true }],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
-      conPassword: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
+      password: ['', [Validators.required, Validators.pattern('[A-Za-z0-9.@!$*&]{6,24}')]],
+      conPassword: ['', [Validators.required, Validators.pattern('[A-Za-z0-9.@!$*&]{6,24}')]],
     });
   }
 
@@ -53,7 +53,7 @@ export class PasswordResetComponent implements OnInit {
       });
     this.userForm.patchValue({
       'email': this.route.snapshot.queryParams['email']
-    })
+    });
   }
 
   getdata(jsonData) {
@@ -71,15 +71,25 @@ export class PasswordResetComponent implements OnInit {
       (<HTMLInputElement>document.getElementById('resetBtn')).disabled = true;
     } else {
       this.passwordMatchWarning = '';
+            (<HTMLInputElement>document.getElementById('resetBtn')).disabled = false;
+
     }
   }
 
   // on form submit
   onSubmit() {
-    alert('Password changed');
-    this.router.navigate(['/login']);
-    this.Data.openSnackBar('Password updated', 'OK');
-
+    this.AuthenticationService.passwordChange(this.userForm.get('email').value,this.userForm.get('password').value).subscribe(
+      res=>{
+        if(res.success==true){
+          this.router.navigate(['/login']);
+              this.Data.openSnackBar(res.message, 'OK');
+        }
+        else{
+          this.Data.openSnackBar(res.message, 'OK');
+          this.router.navigate(['/login']);
+        }
+      }
+    );
   }
 
   // on back button

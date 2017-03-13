@@ -5,7 +5,7 @@ import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
-import {Data} from 'app/services/data.service'
+import { Data } from 'app/services/data.service'
 
 @Component({
   selector: 'app-verify-email',
@@ -21,26 +21,23 @@ export class VerifyEmailComponent implements OnInit {
   public candidates = [];
   public timer;
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder,private data:Data, private emailservice: EmailService,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router) {
     // getting login form data
     this.userForm = fb.group({
       email: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
-      role:['',[Validators.required]]
+      role: ['', [Validators.required]]
     });
   }
 
   ngOnInit() { }
 
- 
-
   // verify user if already exist or not for registration
   verifyUserRegistration() {
-      console.log(this.candidates)
-    if (this.candidates.length === 0) {
-        
+    if (this.candidates.length == 0) {
+
       this.infoobj = {
-        'title':this.userForm.value.role,
+        'title': this.userForm.value.role,
         'to': this.userForm.value.email,
         'subject': 'Email verification',
         'redirect': 'http://localhost:3002/register/Coordinator',

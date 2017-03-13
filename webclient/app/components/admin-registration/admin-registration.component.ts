@@ -78,7 +78,7 @@ export class AdminRegistrationComponent implements OnInit {
     //building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
-      lastNameControl: ['', [Validators.pattern('[A-Za-z]{2,}')]],
+      lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       passwordControl: ['', [Validators.required]],
@@ -86,8 +86,8 @@ export class AdminRegistrationComponent implements OnInit {
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       roleControl: ['', Validators.required],
       professionControl: ['', Validators.required],
-      pincodeControl: ['', [Validators.pattern('[0-9]{6}')]],
-      locationControl: ['', Validators.required],
+      pincodeControl: ['636006', [Validators.pattern('[0-9]{6}')]],
+      locationControl: ['Salem', Validators.required],
       placementControl: ['', Validators.required],
       statusControl: ['', Validators.required],
       languageControl: ['', Validators.required],
@@ -156,29 +156,30 @@ export class AdminRegistrationComponent implements OnInit {
   }
   //after submitting the form,it should executed and call service to add the data to json
   save(userdata): boolean {
-  let data={"first Name": userdata.get('firstNameControl').value,"Last Name": userdata.get('lastNameControl').value,"Gender":userdata.get('genderControl').value,
-    "Email":userdata.get('emailControl').value,"Password":userdata.get('passwordControl').value,
-    "MobileNo":userdata.get('mobileControl').value,"Role":userdata.get('roleControl').value,
-    "Profession":userdata.get('professionControl').value,
-    "Location": userdata.get('locationControl').value,
-    "PlacementCenter":userdata.get('placementControl').value,"Status":userdata.get('statusControl').value,
-    "Language":userdata.get('languageControl').value};
-    this.PlacementRegisterService.add(data).subscribe(resJsonData => [
-    ],
+  let data={FirstName: userdata.get('firstNameControl').value,LastName: userdata.get('lastNameControl').value,Gender:userdata.get('genderControl').value,
+    Email:userdata.get('emailControl').value,Password:userdata.get('passwordControl').value,
+    MobileNumber:userdata.get('mobileControl').value,Role:userdata.get('roleControl').value,
+    Profession:userdata.get('professionControl').value,
+    Location: userdata.get('locationControl').value,
+    PlacementCenter:userdata.get('placementControl').value,Status:userdata.get('statusControl').value,
+    Language:userdata.get('languageControl').value};
+    this.PlacementRegisterService.add(data).subscribe(resJsonData =>{
+      console.log(resJsonData);
+      if(resJsonData['success']==true){
+           this.userForm.reset();
+     this.router.navigate(['/login']);
+     this.data.openSnackBar("Registered successfully","You can login");
+      return true;
+    }
+    else{
+              this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
+    }
+    },
       error => {
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       }) 
-      this.userForm.reset();
-      window.alert("registered successfully");
-      return true;
-
-      
-    // }
-    // else {
-    //   window.alert("Sorry.....try some other time");
-    //   return false;
-    // }
-
+     
+return true;
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JsonDataService } from 'app/services/json-data.service';
 
 @Component({
   selector: 'app-login-footer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginFooterComponent implements OnInit {
 
-  constructor() { }
+  public languages = [];
+
+  constructor(private JsonDataService: JsonDataService) { }
 
   ngOnInit() {
+        this.JsonDataService.getJsonData().subscribe(resJsonData => this.getdata(resJsonData));
+  }
+  getdata(jsonData) {
+    this.languages = jsonData;
   }
 
 }

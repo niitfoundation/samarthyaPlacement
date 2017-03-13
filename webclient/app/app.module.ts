@@ -17,7 +17,6 @@ import { EmployersComponent } from './components/employers/employers.component';
 import { EventPostComponent } from './components/event-post/event-post.component';
 import { JobPostComponent } from './components/job-post/job-post.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LoginLayoutComponent } from './components/login-layout/login-layout.component';
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
 import { AuthenticationService } from './services/authentication.service';
 import { PlacementRegisterService } from './services/placement-register.service';
@@ -54,7 +53,6 @@ import {LandingPageComponent} from 'app/components/landing-page/landing-page.com
   bootstrap: [AppComponent],
   declarations: [
     LoginComponent,
-    LoginLayoutComponent,
     DashboardComponent,
     CandidateRegisterComponent,
     CandidateSearchComponent,

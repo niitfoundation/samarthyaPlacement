@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 //import {CandidateRegister} from '../modal/candidate-register.modal';
-
 @Injectable()
 export class PlacementRegisterService {
   private headers = new Headers({ 'Content-Type': 'application/json' });

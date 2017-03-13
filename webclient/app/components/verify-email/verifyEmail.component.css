@@ -1,6 +1,10 @@
 md-card {
     width: 500px;
 }
+body{
+    align-items: none;
+}
+
 
 .formIcons {
     padding-bottom: 30px;
