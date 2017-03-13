@@ -7,8 +7,8 @@ export class PlacementRegisterService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = '/api/addCandidate';
   constructor(private http: Http) { }
-  add(userdata): any {
-    return this.http.post(this.url, {userData:userdata}).map((response: Response) => response.json());
+  add(userdata,userCredentialsData): any {
+    return this.http.post(this.url, {userData:userdata,userCredentialsData:userCredentialsData}).map((response: Response) => response.json());
 
   }
 

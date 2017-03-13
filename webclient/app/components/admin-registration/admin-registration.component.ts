@@ -26,7 +26,7 @@ export class AdminRegistrationComponent implements OnInit {
 
 
   ngOnInit() {
-
+    
     if (this.route.snapshot.queryParams['email']) {
       this.userForm.patchValue({
         'emailControl': this.route.snapshot.queryParams['email']
@@ -165,16 +165,19 @@ export class AdminRegistrationComponent implements OnInit {
   }
   //after submitting the form,it should executed and call service to add the data to json
   save(userdata): boolean {
-    let data = {
-      FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value, Gender: userdata.get('genderControl').value,
-      Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+    let userData = {
+      FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value,
+      Gender: userdata.get('genderControl').value, Email: userdata.get('emailControl').value,
       MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
       Profession: userdata.get('professionControl').value,
       Location: userdata.get('locationControl').value,
       PlacementCenter: userdata.get('placementControl').value, Status: userdata.get('statusControl').value,
       Language: userdata.get('languageControl').value
     };
-    this.PlacementRegisterService.add(data).subscribe(resJsonData => {
+        let userCredentialsData = {
+      Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+    };
+    this.PlacementRegisterService.add(userData,userCredentialsData).subscribe(resJsonData => {
       console.log(resJsonData);
       if (resJsonData['success'] == true) {
         this.userForm.reset();

@@ -311,16 +311,19 @@ var AdminRegistrationComponent = (function () {
     //after submitting the form,it should executed and call service to add the data to json
     AdminRegistrationComponent.prototype.save = function (userdata) {
         var _this = this;
-        var data = {
-            FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value, Gender: userdata.get('genderControl').value,
-            Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+        var userData = {
+            FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value,
+            Gender: userdata.get('genderControl').value, Email: userdata.get('emailControl').value,
             MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
             Profession: userdata.get('professionControl').value,
             Location: userdata.get('locationControl').value,
             PlacementCenter: userdata.get('placementControl').value, Status: userdata.get('statusControl').value,
             Language: userdata.get('languageControl').value
         };
-        this.PlacementRegisterService.add(data).subscribe(function (resJsonData) {
+        var userCredentialsData = {
+            Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+        };
+        this.PlacementRegisterService.add(userData, userCredentialsData).subscribe(function (resJsonData) {
             console.log(resJsonData);
             if (resJsonData['success'] == true) {
                 _this.userForm.reset();
@@ -838,7 +841,6 @@ var PasswordResetComponent = (function () {
         this.emailId = '';
         this.password = '';
         this.passwordMatchWarning = '';
-        console.log("comming2");
         // register candidate form
         this.userForm = fb.group({
             email: [{ value: '', disabled: true }],
@@ -848,18 +850,14 @@ var PasswordResetComponent = (function () {
     }
     PasswordResetComponent.prototype.ngOnInit = function () {
         var _this = this;
-        debugger;
-        console.log("comming1");
         this.route.params.subscribe(function (params) { return _this.reset = params['reset']; });
         if (this.reset == 'reset') {
-            console.log("comming");
             var currentUser = JSON.parse(localStorage.getItem('currentUser'));
             this.userForm.patchValue({
                 'email': currentUser.username
             });
         }
         else {
-            console.log('coming66');
             this.AuthenticationService.getPasswordResetToken(this.route.snapshot.queryParams['token'], this.route.snapshot.queryParams['email']).
                 subscribe(function (res) {
                 if (!res.authToken) {
@@ -1191,8 +1189,8 @@ var PlacementRegisterService = (function () {
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
         this.url = '/api/addCandidate';
     }
-    PlacementRegisterService.prototype.add = function (userdata) {
-        return this.http.post(this.url, { userData: userdata }).map(function (response) { return response.json(); });
+    PlacementRegisterService.prototype.add = function (userdata, userCredentialsData) {
+        return this.http.post(this.url, { userData: userdata, userCredentialsData: userCredentialsData }).map(function (response) { return response.json(); });
     };
     PlacementRegisterService.prototype.handleError = function (error) {
         return false;
@@ -2041,7 +2039,7 @@ module.exports = "<!--login Header-->\n<app-login-header></app-login-header>\n\n
 /***/ 862:
 /***/ (function(module, exports) {
 
-module.exports = "<!--login Header-->\n<app-login-header *ngIf=\"reset!='reset'\"></app-login-header>\n\n<!--Reset Password card-->\n<md-grid-list cols=\"1\" rowHeight=\"600\">\n    <md-grid-tile>\n        <!--card Start-->\n        <md-card class=\"loginCard blue-grey-text\">\n            <md-card-title>Password Reset</md-card-title>\n            <md-card-content>\n                <form class=\"col s12\" [formGroup]=\"userForm\" (ngSubmit)=\"onSubmit()\">\n\n                    <!--Email-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">email</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"email\" id=\"email\" type=\"text\" class=\"validate\"  placeholder=\"Email\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <!--<app-control-messages [control]=\"userForm.controls.email\" class=\"errorStyle\"></app-control-messages>-->\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--passowrd-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">lock</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"password\" id=\"password\" type=\"password\" class=\"validate\" #password (blur)=\"passwordValue(password.value)\" placeholder=\"Password\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('password').hasError('required') && userForm.get('password').touched\" class=\"errorStyle\">\n                                        Password is required\n                                    </div>\n                                    <div *ngIf=\"userForm.get('password').hasError('pattern')\" class=\"errorStyle\">\n                                        Invalid password. Password must be at least 6 characters long, and contain a number\n                                    </div>\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--confirm password-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">lock</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"conPassword\" id=\"conPassword\" type=\"password\" class=\"validate\" #conPassword (keyup)=\"conPasswordValue(conPassword.value,password.value)\" placeholder=\"Confirm Password\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('conPassword').hasError('required') && userForm.get('conPassword').touched\" class=\"errorStyle\">\n                                        Confirm Password is required\n                                    </div>\n                                    <div *ngIf=\"passwordMatchWarning\" class=\"errorStyle\">{{passwordMatchWarning}}</div>\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--Reset Button-->\n                    <div fxLayout=\"row\" fxLayout.xs=\"column\">\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"accent\" class=\"full-width\" type=\"submit\" id=\"resetBtn\" [disabled]=\"!userForm.valid\">Reset</button>\n                        </div>\n                        <div fxFlex></div>\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"warn\" (click)=onBack() class=\"full-width\">Back</button>\n                        </div>\n                    </div>\n                </form>\n            </md-card-content>\n        </md-card>\n    </md-grid-tile>\n</md-grid-list>\n\n<!--footer-->\n<app-login-footer></app-login-footer>\n"
+module.exports = "<!--login Header-->\n<app-login-header *ngIf=\"reset!='reset'\"></app-login-header>\n\n<!--Reset Password card-->\n<md-grid-list cols=\"1\" rowHeight=\"600\">\n    <md-grid-tile>\n        <!--card Start-->\n        <md-card class=\"loginCard blue-grey-text\">\n            <md-card-title>Password Reset</md-card-title>\n            <md-card-content>\n                <form class=\"col s12\" [formGroup]=\"userForm\" (ngSubmit)=\"onSubmit()\">\n\n                    <!--Email-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">email</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"email\" id=\"email\" type=\"text\" class=\"validate\"  placeholder=\"Email\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <!--<app-control-messages [control]=\"userForm.controls.email\" class=\"errorStyle\"></app-control-messages>-->\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--passowrd-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">lock</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"password\" id=\"password\" type=\"password\" class=\"validate\" #password (blur)=\"passwordValue(password.value)\" placeholder=\"Password\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('password').hasError('required') && userForm.get('password').touched\" class=\"errorStyle\">\n                                        Password is required\n                                    </div>\n                                    <div *ngIf=\"userForm.get('password').hasError('pattern')\" class=\"errorStyle\">\n                                        Invalid password. Password must be at least 6 characters long, and contain a number\n                                    </div>\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--confirm password-->\n                    <div fxLayout=\"row\" fxLayoutAlign=\"start end\">\n                        <div fxFlex>\n                            <i class=\"material-icons formIcons\">lock</i>\n                        </div>\n                        <div fxFlex=\"93\">\n                            <md-input-container class=\"full-width\">\n                                <input mdInput formControlName=\"conPassword\" id=\"conPassword\" type=\"password\" class=\"validate\" #conPassword (keyup)=\"conPasswordValue(conPassword.value,password.value)\" placeholder=\"Confirm Password\" />\n                                <md-hint align=\"start\" class=\"full-width\">\n                                    <div *ngIf=\"userForm.get('conPassword').hasError('required') && userForm.get('conPassword').touched\" class=\"errorStyle\">\n                                        Confirm Password is required\n                                    </div>\n                                    <div *ngIf=\"passwordMatchWarning\" class=\"errorStyle\">{{passwordMatchWarning}}</div>\n                                </md-hint>\n                            </md-input-container>\n                        </div>\n                    </div>\n\n                    <!--Reset Button-->\n                    <div fxLayout=\"row\" fxLayout.xs=\"column\">\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"accent\" class=\"full-width\" type=\"submit\" id=\"resetBtn\" [disabled]=\"!userForm.valid\">Reset</button>\n                        </div>\n                        <div fxFlex></div>\n                        <div fxFlex=\"48\">\n                            <button md-raised-button color=\"warn\" (click)=onBack() class=\"full-width\">Back</button>\n                        </div>\n                    </div>\n                </form>\n            </md-card-content>\n        </md-card>\n    </md-grid-tile>\n</md-grid-list>\n\n<!--footer-->\n<app-login-footer *ngIf=\"reset!='reset'\"></app-login-footer>\n"
 
 /***/ }),
 
