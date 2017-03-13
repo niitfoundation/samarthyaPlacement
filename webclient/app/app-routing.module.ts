@@ -33,7 +33,8 @@ const routes: Routes = [
       { path: 'candidateSearch', component: CandidateSearchComponent, canActivate: [AuthGuard] },
       { path: 'eventPost', component: EventPostComponent, canActivate: [AuthGuard] },
       { path: 'jobPost', component: JobPostComponent, canActivate: [AuthGuard] },
-      { path: 'register', component: AdminRegistrationComponent ,canActivate: [AuthGuard]},
+        { path: 'passwordReset/:reset', component: PasswordResetComponent , canActivate: [AuthGuard] },
+      { path: 'register/:title', component: AdminRegistrationComponent ,canActivate: [AuthGuard]},
       { path: '**', component: DashboardComponent,canActivate: [AuthGuard] },
     ]
   },

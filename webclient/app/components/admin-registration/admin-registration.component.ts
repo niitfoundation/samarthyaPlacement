@@ -20,17 +20,18 @@ export class AdminRegistrationComponent implements OnInit {
   disabled: string = "false";
   hiddenParticularRole: any;
   hiddenRole: any;
-  public pincodeLocation;
+  public pincodeLocation: any;
   public areaList = [];
-  disabledEmail:string="false";
+  disabledEmail: string = "false";
 
 
   ngOnInit() {
-    if(this.route.snapshot.queryParams['email']){
+
+    if (this.route.snapshot.queryParams['email']) {
       this.userForm.patchValue({
-          'emailControl':this.route.snapshot.queryParams['email']
+        'emailControl': this.route.snapshot.queryParams['email']
       })
-      this.disabledEmail="true";
+      this.disabledEmail = "true";
     }
 
     this.route.params.subscribe(params => this.title = params['title']);
@@ -86,8 +87,8 @@ export class AdminRegistrationComponent implements OnInit {
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       roleControl: ['', Validators.required],
       professionControl: ['', Validators.required],
-      pincodeControl: ['636006', [Validators.pattern('[0-9]{6}')]],
-      locationControl: ['Salem', Validators.required],
+      pincodeControl: ['', [Validators.required, Validators.pattern('[0-9]{6}')]],
+      locationControl: ['', Validators.required],
       placementControl: ['', Validators.required],
       statusControl: ['', Validators.required],
       languageControl: ['', Validators.required],
@@ -130,8 +131,16 @@ export class AdminRegistrationComponent implements OnInit {
 
   //user choose the location by pincode which is calling from close dialog and it should set location to the entered pincode
   getPincode() {
-    this.JsonDataService.getPincode(this.userForm.get('pincodeControl').value).subscribe(
-      resPincodeData => [this.pincodeLocation = resPincodeData, this.getPincodeLocation()]);
+    if (this.userForm.get('pincodeControl').value.length == 6 && this.userForm.get('pincodeControl').valid) {
+      this.JsonDataService.getPincode(this.userForm.get('pincodeControl').value).subscribe(
+        resPincodeData => [this.pincodeLocation = resPincodeData, this.getPincodeLocation()]);
+    }
+    else {
+      this.areaList = [];
+      this.userForm.patchValue({
+        'locationControl': ''
+      })
+    }
   }
 
   // get pincode locations after checking pincode
@@ -156,30 +165,32 @@ export class AdminRegistrationComponent implements OnInit {
   }
   //after submitting the form,it should executed and call service to add the data to json
   save(userdata): boolean {
-  let data={FirstName: userdata.get('firstNameControl').value,LastName: userdata.get('lastNameControl').value,Gender:userdata.get('genderControl').value,
-    Email:userdata.get('emailControl').value,Password:userdata.get('passwordControl').value,
-    MobileNumber:userdata.get('mobileControl').value,Role:userdata.get('roleControl').value,
-    Profession:userdata.get('professionControl').value,
-    Location: userdata.get('locationControl').value,
-    PlacementCenter:userdata.get('placementControl').value,Status:userdata.get('statusControl').value,
-    Language:userdata.get('languageControl').value};
-    this.PlacementRegisterService.add(data).subscribe(resJsonData =>{
+    let data = {
+      FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value, Gender: userdata.get('genderControl').value,
+      Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
+      MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
+      Profession: userdata.get('professionControl').value,
+      Location: userdata.get('locationControl').value,
+      PlacementCenter: userdata.get('placementControl').value, Status: userdata.get('statusControl').value,
+      Language: userdata.get('languageControl').value
+    };
+    this.PlacementRegisterService.add(data).subscribe(resJsonData => {
       console.log(resJsonData);
-      if(resJsonData['success']==true){
-           this.userForm.reset();
-     this.router.navigate(['/login']);
-     this.data.openSnackBar("Registered successfully","You can login");
-      return true;
-    }
-    else{
-              this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
-    }
+      if (resJsonData['success'] == true) {
+        this.userForm.reset();
+        this.router.navigate(['/login']);
+        this.data.openSnackBar("Registered successfully", "You can login");
+        return true;
+      }
+      else {
+        this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
+      }
     },
       error => {
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
-      }) 
-     
-return true;
+      })
+
+    return true;
   }
 
 }

@@ -60,9 +60,9 @@
                          <i class="material-icons">face</i> 
                         <p>Profile</p>
                     </md-list-item>
-                    <md-list-item>
+                    <md-list-item (click)="changePassword()" routerLinkActive="active">
                         <i class="material-icons">lock</i> 
-                        <p >Change Password</p>
+                        <p>Change Password</p>
                     </md-list-item>
                     <md-list-item (click)="logoutUser()" routerLinkActive="active">
                         <i class="material-icons">power_settings_new</i> 

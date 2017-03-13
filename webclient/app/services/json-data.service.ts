@@ -16,7 +16,7 @@ export class JsonDataService {
   private url: string = "";
   public timer;
 
-  private urlPincode = 'http://172.23.238.175:3002/pincodeDetails';
+  private urlPincode = 'api/pincodeDetails';
 
 
 private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -66,8 +66,8 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
 
 
   getPincode(pincode) {
-    return this.http.get(this.urlPincode + '?pincode=' + pincode)
-      .map((response: Response) => response.json());
+    return this.http.post(this.urlPincode,{pincode:pincode})
+      .map((response: Response) => {return response.json().pincodeData;});
 
   };
 

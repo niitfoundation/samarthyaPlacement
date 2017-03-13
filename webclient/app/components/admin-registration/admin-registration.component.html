@@ -204,28 +204,16 @@
         </td>
 
       </tr>
-      <tr>
-        <!-- PIN code icon-->
-        <td>
+     
+        <tr>
+            <td>
           <i class="material-icons">my_location</i>
         </td>
-        <!-- PIN code-->
-        <td colspan="2">
-          <md-select formControlName="locationControl" placeholder="Select Area*" class="location">
-            <md-option *ngFor="let area of areaList" [value]="area">
-              {{ area }}
-            </md-option>
-          </md-select>
-          <button type="button"  (click)="locationDialog.open()" md-button color="accent">Pick by Pincode</button>
-
-
-          <md2-dialog #locationDialog title="Give your Location">
-            <md-input-container>
-              <input formControlName="pincodeControl" mdInput placeholder="Pincode*">
+            <td>
+               <md-input-container class="full-width">
+              <input formControlName="pincodeControl" mdInput placeholder="Pincode*" (keyup)="getPincode()">
             </md-input-container>
-            <button type="button" class="pincodeButton" md-button [disabled]="!userForm.get('pincodeControl').valid " (click)="close(locationDialog)">Get Location</button>
-
-            <!-- PIN code required validation-->
+              <!-- PIN code required validation-->
             <div class="errorStyle" *ngIf="userForm.get('pincodeControl').hasError('required') && userForm.get('pincodeControl').touched">
               PIN Code is required
             </div>
@@ -233,11 +221,25 @@
             <div class="errorStyle" *ngIf="userForm.get('pincodeControl').hasError('pattern') && userForm.get('pincodeControl').touched">
               PIN Code should be 6 digit
             </div>
-          </md2-dialog>
+            </td>
 
-
+        </tr>
+        <tr>
+           <td>
+          <i class="material-icons">my_location</i>
         </td>
-      </tr>
+        <td colspan="2">
+          <md-select formControlName="locationControl" placeholder="Select Area*" class="full-width">
+            <md-option *ngFor="let area of areaList" [value]="area">
+              {{ area }}
+            </md-option>
+          </md-select>
+           <!-- Location required validation-->
+            <div class="errorStyle" *ngIf="userForm.get('locationControl').hasError('required') && userForm.get('locationControl').touched">
+              Location is required
+            </div>
+        </td>
+          </tr>
       <tr>
         <!-- Placement center icon-->
         <td>

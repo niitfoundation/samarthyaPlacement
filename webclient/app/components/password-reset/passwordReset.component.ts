@@ -24,12 +24,11 @@ export class PasswordResetComponent implements OnInit {
   public emailId = '';
   public password = '';
   public passwordMatchWarning = '';
-
+  public reset:any;
 
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
     private router: Router, private emailService: EmailService) {
-
     // register candidate form
     this.userForm = fb.group({
       email: [{ value: '', disabled: true }],
@@ -39,6 +38,14 @@ export class PasswordResetComponent implements OnInit {
   }
 
   ngOnInit() {
+     this.route.params.subscribe(params => this.reset = params['reset']);
+    if(this.reset=='reset'){
+              var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+               this.userForm.patchValue({
+      'email': currentUser.username
+       });
+    }
+    else{
     this.AuthenticationService.getPasswordResetToken(this.route.snapshot.queryParams['token'], this.route.snapshot.queryParams['email']).
       subscribe(
       res => {
@@ -54,6 +61,7 @@ export class PasswordResetComponent implements OnInit {
     this.userForm.patchValue({
       'email': this.route.snapshot.queryParams['email']
     });
+    }
   }
 
   getdata(jsonData) {
@@ -78,6 +86,21 @@ export class PasswordResetComponent implements OnInit {
 
   // on form submit
   onSubmit() {
+    if(this.reset=='reset'){
+         this.AuthenticationService.passwordChange(this.userForm.get('email').value,this.userForm.get('password').value).subscribe(
+      res=>{
+        if(res.success==true){
+          this.router.navigate(['/home']);
+              this.Data.openSnackBar(res.message, 'OK');
+        }
+        else{
+          this.Data.openSnackBar(res.message, 'OK');
+          this.router.navigate(['/home']);
+        }
+      }
+    );
+    }
+    else{
     this.AuthenticationService.passwordChange(this.userForm.get('email').value,this.userForm.get('password').value).subscribe(
       res=>{
         if(res.success==true){
@@ -90,6 +113,7 @@ export class PasswordResetComponent implements OnInit {
         }
       }
     );
+    }
   }
 
   // on back button

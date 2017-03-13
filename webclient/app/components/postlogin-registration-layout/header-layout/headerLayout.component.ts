@@ -52,4 +52,7 @@ export class AfterLoginHeaderComponent implements OnInit {
     this.AuthenticationService.logout();
     this.data.openSnackBar("logged out successfully", "OK");
   }
+  changePassword(){
+    this.router.navigate(['/home/passwordReset/reset']);
+  }
 }
