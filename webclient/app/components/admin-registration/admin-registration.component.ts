@@ -16,24 +16,24 @@ import { Data } from 'app/services/data.service';
 export class AdminRegistrationComponent implements OnInit {
 
   //Title of the form which maybe coordinato or supervisor.it should be dynamic
+  
   private title: string;
   disabled: string = "false";
   hiddenParticularRole: any;
   hiddenRole: any;
   public pincodeLocation: any;
   public areaList = [];
-  disabledEmail: string = "false";
+  emailDisable: any = false;
 
 
   ngOnInit() {
-    
     if (this.route.snapshot.queryParams['email']) {
       this.userForm.patchValue({
         'emailControl': this.route.snapshot.queryParams['email']
       })
-      this.disabledEmail = "true";
+      this.emailDisable = true;
     }
-
+    
     this.route.params.subscribe(params => this.title = params['title']);
     if (this.title == 'Coordinator') {
       this.userForm.patchValue({
@@ -67,7 +67,6 @@ export class AdminRegistrationComponent implements OnInit {
   professions = ['FullStackDeveloper', 'BPO'];
   placementCenters = ['Pune', 'Bangalore', 'Chennai'];
   languages = ['English', 'Hindi', 'Tamizh'];
-  status = ['Active', 'Inactive'];
 
   //form name
   public userForm: FormGroup;
@@ -75,13 +74,14 @@ export class AdminRegistrationComponent implements OnInit {
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private JsonDataService: JsonDataService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
     private router: Router, ) {
-
     //building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
+      registrationControl: [''],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
+      aadharControl: ['', [Validators.required, Validators.pattern(/^\d{12}$/)]],
       passwordControl: ['', [Validators.required]],
       confirmPasswordControl: ['', [Validators.required, this.matchPassword()]],
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
@@ -90,7 +90,6 @@ export class AdminRegistrationComponent implements OnInit {
       pincodeControl: ['', [Validators.required, Validators.pattern('[0-9]{6}')]],
       locationControl: ['', Validators.required],
       placementControl: ['', Validators.required],
-      statusControl: ['', Validators.required],
       languageControl: ['', Validators.required],
     });
   }
@@ -171,9 +170,15 @@ export class AdminRegistrationComponent implements OnInit {
       MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
       Profession: userdata.get('professionControl').value,
       Location: userdata.get('locationControl').value,
-      PlacementCenter: userdata.get('placementControl').value, Status: userdata.get('statusControl').value,
+      PlacementCenter: userdata.get('placementControl').value,
       Language: userdata.get('languageControl').value
     };
+    if(this.userForm.value.aadharControl){
+      userData['AadharNumber']=this.userForm.value.aadharControl;
+    }
+    if(this.userForm.value.registrationControl){
+      userData['RegistrationID']=this.userForm.value.registrationControl;
+    }
         let userCredentialsData = {
       Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
     };
