@@ -8,27 +8,8 @@ export class EmailService {
   private url: string = "";
   //   public data2 :LoginComponent  ;
   constructor(private http: Http) { }
-  getEmail(email: any) {
-    this.url = '/emailverify/checkEmail?Email=' + email;
-    return this.http.get(this.url).map((response: Response) => response.json());
+  sendEmail(mailObj: any) {
+    this.url = '/auth/registerEmail';
+    return this.http.post(this.url,mailObj).map((response: Response) => response.json());
   };
-  postdata(mailObj: LoginComponent) {
-    this.url = '/emailverify/sendmail'
-    var mailObjString = JSON.stringify(mailObj);
-    var params = { json: mailObjString };
-    var res;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(this.url, params, {
-      headers: headers
-    }).map(res => res.json());
-  }
-
-  // getRegister() {
-  //   // console.log(this.linksend.link+"link aa gya");
-  //   return <any>this.http.get('http://localhost:3004/verifiedmail')
-  //     .map((response: Response) => {
-  //       return response.json();
-  //     });
-  // }
 }

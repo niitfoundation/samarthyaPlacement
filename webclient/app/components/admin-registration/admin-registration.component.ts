@@ -27,15 +27,17 @@ export class AdminRegistrationComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.route.snapshot.queryParams['email']) {
+    this.PlacementRegisterService.verifyToken(this.route.snapshot.queryParams['confirm']).subscribe(res=>{
+      if(res.msg!='Session Expired'){
+         if (res.data.username) {
       this.userForm.patchValue({
-        'emailControl': this.route.snapshot.queryParams['email']
+        'emailControl': res.data.username
       })
       this.emailDisable = true;
     }
     
-    this.route.params.subscribe(params => this.title = params['title']);
-    if (this.title == 'Coordinator') {
+    this.title=res.data.title;
+    if (this.title.toLowerCase() == 'coordinator') {
       this.userForm.patchValue({
         roleControl: "Coordinator"
       })
@@ -43,7 +45,7 @@ export class AdminRegistrationComponent implements OnInit {
       this.hiddenParticularRole = false;
       this.disabled = "true";
     }
-    else if (this.title == 'Supervisor') {
+    else if (this.title.toLowerCase() == 'supervisor') {
       this.userForm.patchValue({
         roleControl: "Supervisor"
       })
@@ -52,13 +54,27 @@ export class AdminRegistrationComponent implements OnInit {
 
       this.disabled = "true";
     }
-    else if (this.title == 'Admin') {
+    else if (this.title.toLowerCase() == 'admin') {
       this.title = "Admin";
       this.disabled = "false";
       this.hiddenRole = false;
       this.hiddenParticularRole = true;
 
     }
+     }
+    else{
+      
+      this.router.navigate(['/login']);
+              this.data.openSnackBar(res.msg['msg'],"OK");
+
+    }
+  },
+  (err)=>{
+     this.router.navigate(['/login']);
+              this.data.openSnackBar("Session Expired","OK");
+  })
+   
+   
   }
 
 
@@ -132,7 +148,7 @@ export class AdminRegistrationComponent implements OnInit {
   getPincode() {
     if (this.userForm.get('pincodeControl').value.length == 6 && this.userForm.get('pincodeControl').valid) {
       this.JsonDataService.getPincode(this.userForm.get('pincodeControl').value).subscribe(
-        resPincodeData => [this.pincodeLocation = resPincodeData, this.getPincodeLocation()]);
+        resPincodeData => [this.pincodeLocation = resPincodeData.records, this.getPincodeLocation()]);
     }
     else {
       this.areaList = [];
@@ -164,34 +180,39 @@ export class AdminRegistrationComponent implements OnInit {
   }
   //after submitting the form,it should executed and call service to add the data to json
   save(userdata): boolean {
+    //  if(this.userForm.value.aadharControl){
+    //   userData.userCredentialsData=this.userForm.value.aadharControl;
+    // }
+    // if(this.userForm.value.registrationControl){
+    //   userData['RegistrationID']=this.userForm.value.registrationControl;
+    // }
     let userData = {
-      FirstName: userdata.get('firstNameControl').value, LastName: userdata.get('lastNameControl').value,
-      Gender: userdata.get('genderControl').value, Email: userdata.get('emailControl').value,
-      MobileNumber: userdata.get('mobileControl').value, Role: userdata.get('roleControl').value,
-      Profession: userdata.get('professionControl').value,
-      Location: userdata.get('locationControl').value,
-      PlacementCenter: userdata.get('placementControl').value,
-      Language: userdata.get('languageControl').value
+      profileData:{name: userdata.get('firstNameControl').value, lastName: userdata.get('lastNameControl').value,
+      gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
+      mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
+      profession: userdata.get('professionControl').value,
+      location: userdata.get('locationControl').value,
+      placementCenter: userdata.get('placementControl').value,
+      language: userdata.get('languageControl').value},
+      aadharNumber:userdata.get('aadharControl').value,
+      registerID:userdata.get('registrationControl').value,
+      userCredentialsData:{
+      username: userdata.get('emailControl').value, password: userdata.get('passwordControl').value,
+      role: userdata.get('roleControl').value,
+      }
     };
-    if(this.userForm.value.aadharControl){
-      userData['AadharNumber']=this.userForm.value.aadharControl;
-    }
-    if(this.userForm.value.registrationControl){
-      userData['RegistrationID']=this.userForm.value.registrationControl;
-    }
-        let userCredentialsData = {
-      Email: userdata.get('emailControl').value, Password: userdata.get('passwordControl').value,
-    };
-    this.PlacementRegisterService.add(userData,userCredentialsData).subscribe(resJsonData => {
-      console.log(resJsonData);
+   
+   
+  
+    this.PlacementRegisterService.add(userData).subscribe(resJsonData => {
       if (resJsonData['success'] == true) {
         this.userForm.reset();
         this.router.navigate(['/login']);
-        this.data.openSnackBar("Registered successfully", "You can login");
+        this.data.openSnackBar(resJsonData['message'],"OK");
         return true;
       }
       else {
-        this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
+        this.data.openSnackBar(resJsonData['message'],"OK");
       }
     },
       error => {

@@ -25,6 +25,7 @@ export class PasswordResetComponent implements OnInit {
   public password = '';
   public passwordMatchWarning = '';
   public reset:any;
+  private token:any;
 
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
@@ -46,20 +47,11 @@ export class PasswordResetComponent implements OnInit {
        });
     }
     else{
-    this.AuthenticationService.getPasswordResetToken(this.route.snapshot.queryParams['token'], this.route.snapshot.queryParams['email']).
-      subscribe(
-      res => {
-        if (!res.authToken) {
-          this.Data.openSnackBar("Token expired Do Password reset again", "ok");
-          this.router.navigate(['/login']);
-        }
-      },
-      error => {
-        this.Data.openSnackBar("Error...Please Do Password reset again", "ok");
-        this.router.navigate(['/login']);
-      });
+      this.route.params.subscribe(params => this.token = params['reset']);
+          let encoded=this.token.split('.')[1];
+    var email = window.atob(encoded);
     this.userForm.patchValue({
-      'email': this.route.snapshot.queryParams['email']
+      'email': email
     });
     }
   }

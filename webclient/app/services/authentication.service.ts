@@ -1,7 +1,7 @@
 import { not } from '@angular-cli/ast-tools/node_modules/rxjs/util/not';
 import { inject } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response,RequestOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable'; //http request using observable
 import 'rxjs/add/operator/map'  // map operatror for observable
@@ -10,7 +10,8 @@ import 'rxjs/add/operator/map'  // map operatror for observable
 @Injectable()
 export class AuthenticationService {
     public token: string;
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new Headers({ 'Content-Type': 'application/json'});
+    
     constructor(private http: Http, private router: Router) {
         // set token if saved in local storage
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -18,17 +19,16 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string): Observable<string> {
-        return this.http.post('/api/authenticate', { username: username, password: password })
+        return this.http.post('/auth', { username: username, password: password })
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
-                let token = response.json().auth_token;
+                let token = response.json().authToken;
                 if (token) {
-                    console.log(response.json().message);
-                    let usertype = response.json().role;
+                    console.log(token);
                     // set token property
                     this.token = token;
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token,role:response.json().role }));
                     // return true to indicate successful login
                     return response.json();
                 } else {
@@ -64,10 +64,28 @@ export class AuthenticationService {
     }
 //change password for existing placement role user
     passwordChange(email,password){
-            return this.http.post('/api/passwordReset',{ Email: email, Password: password })
+            return this.http.post('/auth/reset-password',{ username: email, password: password })
                  .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                return response.json();
             });
     }
+    socialAuthentication(socialSite)
+    {
+        
+       
+         return this.http.get('/auth/facebook',this.authoriZation())
+                 .map((response: Response) => {
+                // login successful if there's a jwt token in the response
+               return response.json();
+            });
+    
+}
+ private authoriZation() {
+ 
+      let headers = new Headers({'Access-Control-Allow-Origin': "*","Access-Control-Allow-Headers": "X-Requested-With" });
+      return new RequestOptions({ headers: headers });
+    
+
+  }
 }

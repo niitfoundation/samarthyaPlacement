@@ -15,9 +15,10 @@ export class JsonDataService {
   // url to retrive data from json file for languages
   private url: string = "";
   public timer;
+  public mygovKey = 'bb69790db92cb17b4b5c8b3bf4f9fc02';
 
-  private urlPincode = 'api/pincodeDetails';
-
+  private urlPincode = 'https://data.gov.in/api/datastore/resource.json?resource_id=6176ee09-3d56-4a3b-8115-21841576b2f6&api-key='
+  + this.mygovKey + '&filters[pincode]=';
 
 private headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -44,12 +45,12 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
 
   // get json data for langauges and dropdown
   getJsonData() {
-    this.url = "/api/languages";
-    return this.http.get(this.url).map((response: Response) => response.json().data);
+    this.url = "resources/languages";
+    return this.http.get(this.url).map((response: Response) => response.json());
   };
 
   getJsonNavList(tokenVerification) {
-    this.url = '/api/layout/navigationlinks';
+    this.url = '/auth/nav-menus';
     return this.http.get(this.url, this.authoriZation(tokenVerification))
       .map((response: Response) => {
         let body = response.json();
@@ -66,8 +67,9 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
 
 
   getPincode(pincode) {
-    return this.http.post(this.urlPincode,{pincode:pincode})
-      .map((response: Response) => {return response.json().pincodeData;});
+    console.log(pincode)
+    return this.http.get(this.urlPincode+pincode)
+      .map((response: Response) => {return response.json();});
 
   };
 

@@ -46,30 +46,34 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   // verify user if already exist or not for password Reset
-  verifyUserReset() {
+  // verifyUserReset() {
 
-    if (this.candidates.length!=0) {
-      let link="";
-      this.infoobj = {
-        'to': this.userForm.value.email,
-        'subject': 'Password Reset',
-      };
-      this.emailservice.postdata(this.infoobj).subscribe(data => this.postobject = data,
-        error => [this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
-        this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
-        ], () => console.log('finished'));
-    } else {
-      this.openSnackBar('User not Registered', 'Please Register');
-    }
-  }
+  //   if (this.candidates.length!=0) {
+  //     let link="";
+     
+  //     this.emailservice.postdata(this.infoobj).subscribe(data => this.postobject = data,
+  //       error => [this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
+  //       this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
+  //       ], () => console.log('finished'));
+  //   } else {
+  //     this.openSnackBar('User not Registered', 'Please Register');
+  //   }
+  // }
 
   // on password reset submit
   onResetLink() {
-    this.emailService.getEmail(this.userForm.value.email).subscribe(resEmailData =>{ 
-        this.candidates = resEmailData.data, this.verifyUserReset(),
-      error => {
+     this.infoobj = {
+       'title':'',
+        'username': this.userForm.value.email,
+        'subject': 'Password Reset',
+      };
+    this.emailService.sendEmail(this.infoobj).subscribe(resEmailData =>{ 
+this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
+        this.timer = setTimeout(() => this.router.navigate(['/login']), 500)  
+        },    error => {
         this.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
-      }});
+      });
+  
   }
   onBack() {
     this.router.navigate(['/login']);

@@ -5,10 +5,16 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class PlacementRegisterService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = '/api/addCandidate';
+  private url = '';
   constructor(private http: Http) { }
-  add(userdata,userCredentialsData): any {
-    return this.http.post(this.url, {userData:userdata,userCredentialsData:userCredentialsData}).map((response: Response) => response.json());
+  add(userdata): any {
+    this.url='/users'
+    return this.http.post(this.url,userdata).map((response: Response) => response.json());
+
+  }
+  verifyToken(token){
+    this.url="/auth/verify-email";
+        return this.http.post(this.url, {token:token}).map((response: Response) => response.json());
 
   }
 

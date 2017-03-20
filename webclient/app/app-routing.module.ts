@@ -15,16 +15,19 @@ import { VerifyEmailComponent } from 'app/components/verify-email/verifyEmail.co
 import { ForgotPasswordComponent } from 'app/components/forget-password/forgetPassword.component'
 import { PasswordResetComponent } from 'app/components/password-reset/passwordReset.component'
 import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
+import {ProfileCardComponent} from 'app/components/profile-card/profileCard.component';
 // routes
 const routes: Routes = [
+  {path:'profileCard',component:ProfileCardComponent},
   { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'samarthya', component: LandingPageComponent },
   { path: 'verifyEmail', component: VerifyEmailComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'passwordReset', component: PasswordResetComponent },
+      { path: 'candidateSearch', component: CandidateSearchComponent },
 
-  { path: 'register/:title', component: AdminRegistrationComponent },
+  { path: 'register', component: AdminRegistrationComponent },
   {
     path: 'home', component: AfterLoginHeaderComponent, canActivate: [AuthGuard],
     children: [

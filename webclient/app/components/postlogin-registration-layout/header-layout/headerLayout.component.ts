@@ -27,8 +27,8 @@ export class AfterLoginHeaderComponent implements OnInit {
     this.JsonDataService.getJsonNavList(tokenVerification)
       .subscribe(
       role => {
-        if (role["success"]) {
-          this.getNavList(role["jsondata"])
+        if (role.success) {
+          this.getNavList(role.data)
         }
         else {
           tokenVerification = null;
@@ -45,6 +45,7 @@ export class AfterLoginHeaderComponent implements OnInit {
     this.languages = jsonData;
   }
   getNavList(navListItem) {
+    console.log(navListItem);
     this.navList = navListItem;
   }
   logoutUser() {

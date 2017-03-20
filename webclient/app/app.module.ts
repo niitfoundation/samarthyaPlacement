@@ -34,6 +34,7 @@ import {VerifyEmailComponent} from 'app/components/verify-email/verifyEmail.comp
 import {ForgotPasswordComponent} from 'app/components/forget-password/forgetPassword.component'
 import {PasswordResetComponent} from 'app/components/password-reset/passwordReset.component'
 import {LandingPageComponent} from 'app/components/landing-page/landing-page.component';
+import {ProfileCardComponent} from 'app/components/profile-card/profileCard.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import {LandingPageComponent} from 'app/components/landing-page/landing-page.com
     VerifyEmailComponent,
     ForgotPasswordComponent,
     PasswordResetComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    ProfileCardComponent
 ]
 })
 export class AppModule { }

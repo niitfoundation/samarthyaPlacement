@@ -63,17 +63,28 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.login(value["email"], value["password"])
       .subscribe(
-      data => {
+      res => {
+        this.data.openSnackBar("", 'Ok');
+              this.router.navigate(['/home']);
+      },
+      error => {
+       this.data.openSnackBar(error.result, 'Try again');
+              this.router.navigate(['/home']);
+      });
+
+  }
+
+  socialAuthentication(socialSite)
+  {
+      this.authenticationService.socialAuthentication(socialSite) .subscribe(
+      data => { 
         this.data.openSnackBar(data["message"], 'Ok');
               this.router.navigate(['/home']);
       },
       error => {
         console.log(error);
       });
-
   }
-
-  
 
   redirect() {
     this.router.navigate(['/home']);
