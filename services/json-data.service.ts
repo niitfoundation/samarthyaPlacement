@@ -15,7 +15,7 @@ export class JsonDataService {
 
   // url to retrive data from json file for languages
   private url: string = "";
-  public timer;
+  public timer:any;
   public mygovKey = 'bb69790db92cb17b4b5c8b3bf4f9fc02';
 
   private urlPincode = 'https://data.gov.in/api/datastore/resource.json?resource_id=6176ee09-3d56-4a3b-8115-21841576b2f6&api-key='
@@ -25,6 +25,7 @@ export class JsonDataService {
 
   // url to get locations
   private urlLocations = 'resources/locations';
+  private urlRole = 'resources/roles';
 
   // url to get placementCenter
   private urlPlacementCenter = 'resources/placementCenter';
@@ -34,14 +35,14 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
   constructor(private http: Http, private snackBar: MdSnackBar, private router: Router) { }
 
   //snackBar for notification
-  openSnackBar(message, action) {
+  openSnackBar(message:any, action:any) {
     this.snackBar.open(message, action, {
       duration: 5000,
     });
   }
 
   // Store Registration details in json file
-  create(formData) {
+  create(formData:any) {
 
 
     this.http.post(this.urlRegister, formData).subscribe(data => {
@@ -58,15 +59,14 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
     return this.http.get(this.url).map((response: Response) => response.json());
   };
 
-  getJsonNavList(tokenVerification):any {
+  getJsonNavList(tokenVerification:any):any {
     console.log(tokenVerification)
     this.url = '/auth/nav-menus';
     return this.http.get(this.url, this.authoriZation(tokenVerification))
-      .map((response: Response) => {
-        response.json();
-      });
+      .map((response: Response) => 
+        response.json())
   }
- private authoriZation(userToken) {
+ private authoriZation(userToken:any) {
     if (userToken) {
       let headers = new Headers({ 'Authorization': userToken });
       return new RequestOptions({ headers: headers });
@@ -75,11 +75,15 @@ private headers = new Headers({ 'Content-Type': 'application/json' });
   }
 
 
-  getPincode(pincode) {
-    return this.http.get(this.urlPincode+pincode)
-      .map((response: Response) => {return response.json();});
+  getPincode(pincode:any) {
+  return this.http.get(this.urlPincode+pincode)
+      .map((response: Response) => response.json());
 
   };
+  getRoles(){
+        return this.http.get(this.urlRole).map((response: Response) => response.json());
+
+  }
 
   getProfession() {
     return this.http.get(this.urlProfession).map((response: Response) => response.json());

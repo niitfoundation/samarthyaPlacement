@@ -1,6 +1,8 @@
 import { Data } from './../../services/data.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { JsonDataService } from './../../services/json-data.service';
+import { EmailService } from './../../services/email.service';
+
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { PlacementRegisterService } from '../../services/placement-register.service';
@@ -16,6 +18,10 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AdminRegistrationComponent implements OnInit {
 
+
+  //form name
+  public userForm: FormGroup;
+
   //Title of the form which maybe coordinato or supervisor.it should be dynamic
   
   private title: string;
@@ -23,29 +29,37 @@ export class AdminRegistrationComponent implements OnInit {
   hiddenParticularRole: any;
   hiddenRole: any;
   public pincodeLocation: any;
-  public areaList = [];
+  public areaList:any = [];
   emailDisable: any = false;
   public createdBy:any;
   public district:any;
   public state:any;
   public landmark:any;
+  public createdUser:any;
 
 
   //Dropdown values.Should be data driven
-  roles: ['Admin','Coordinator','Supervisor'];
+  roles: any;
   professions :any;
   placementCenters :any;
   languages:any;
 
   ngOnInit() {
      this.JsonDataService.getPlacementCenter().subscribe(resJsonData => this.placementCenters=resJsonData);
+          this.JsonDataService.getRoles().subscribe(resJsonData => this.roles=resJsonData);
 
-    this.JsonDataService.getJsonData().subscribe(resJsonData => this.languages=resJsonData.name);
+    this.JsonDataService.getJsonData().subscribe(resJsonData => this.languages=resJsonData);
 
     this.JsonDataService.getProfession().subscribe(resJsonData => this.professions=resJsonData);
 
-
-   
+    this.createdUser=this.authenticationService.getCreatedBy()
+if(this.createdUser){
+  this.title = "Admin";
+      this.disabled = "false";
+      this.hiddenRole = false;
+      this.hiddenParticularRole = true;
+} 
+else{
     this.PlacementRegisterService.verifyToken(this.route.snapshot.queryParams['confirm']).subscribe(res=>{
       if(res.msg!='Session Expired'){
          if (res.data.username) {
@@ -53,10 +67,8 @@ export class AdminRegistrationComponent implements OnInit {
         'emailControl': res.data.username
       })
       this.emailDisable = true;
-    }
-    
     this.title=res.data.title;
-    if (this.title.toLowerCase() == 'coordinator') {
+     if (this.title.toLowerCase() == 'coordinator') {
       this.userForm.patchValue({
         roleControl: "Coordinator"
       })
@@ -79,8 +91,17 @@ export class AdminRegistrationComponent implements OnInit {
       this.hiddenRole = false;
       this.hiddenParticularRole = true;
 
+    }   
+     this.emailService.sendEmail({username:this.userForm.get('emailControl').value}).subscribe(resJsonData => {
+   
+    },
+      error => {
+        this.data.openSnackBar('Already Registered', 'Please Login');
+         this.router.navigate(['/login']);
+      })  ;
+         }
     }
-     }
+
     else{
       
       this.router.navigate(['/login']);
@@ -92,18 +113,15 @@ export class AdminRegistrationComponent implements OnInit {
      this.router.navigate(['/login']);
               this.data.openSnackBar("Session Expired","OK");
   })
-    let createdUser=this.authenticationService.getCreatedBy()
-       createdUser==null?this.createdBy=this.userForm.value.email:this.createdBy=createdUser;
-  
+
+}
    
   }
 
 
-  //form name
-  public userForm: FormGroup;
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder,private authenticationService:AuthenticationService, private data: Data, private JsonDataService: JsonDataService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
+  constructor( @Inject(FormBuilder) fb: FormBuilder,private authenticationService:AuthenticationService, private data: Data, private JsonDataService: JsonDataService,private emailService:EmailService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
     private router: Router, ) {
     //building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
@@ -177,7 +195,7 @@ export class AdminRegistrationComponent implements OnInit {
   getPincodeLocation() {
     this.userForm.value.locationControl = '';
     this.areaList = [];
-    this.pincodeLocation.forEach(element => {
+    this.pincodeLocation.forEach((element:any) => {
       this.areaList.push(element['officename'] + ', ' + element['Districtname'] + ', ' + element['statename']);
     });
     if (this.areaList.length === 0) {
@@ -188,12 +206,18 @@ export class AdminRegistrationComponent implements OnInit {
     }
   }
 
-  save(userdata): boolean {
+  save(userdata:any): boolean {
+    if(this.createdUser){
+      this.createdBy=this.createdUser;
+    }
+    else{
+      this.createdBy=userdata.get('emailControl').value;
+    }
     this.landmark=userdata.get('locationControl').value.split(',')[0];
         this.district=userdata.get('locationControl').value.split(',')[1];
     this.state=userdata.get('locationControl').value.split(',')[2];
     let userData = {
-      profileData:{fname: userdata.get('firstNameControl').value, lName: userdata.get('lastNameControl').value,
+      profileData:{fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
       gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
       mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
       profession: userdata.get('professionControl').value,
@@ -201,11 +225,11 @@ export class AdminRegistrationComponent implements OnInit {
       district:this.district,
       landmark:this.landmark,
       state:this.state,
+       identity:[{type:"Aadhar",value:userdata.get('aadharControl').value},
+       {type:"RegNum",value:userdata.get('registrationControl').value}],
       location: userdata.get('locationControl').value,
       placementCenter: userdata.get('placementControl').value,
       language: userdata.get('languageControl').value,
-      aadharNumber:userdata.get('aadharControl').value,
-      registerID:userdata.get('registrationControl').value,
       createdBy:this.createdBy
     },
       userCredentialsData:{
@@ -216,7 +240,7 @@ export class AdminRegistrationComponent implements OnInit {
    
    
   
-    this.PlacementRegisterService.add(userData).subscribe(resJsonData => {
+    this.PlacementRegisterService.add(userData).subscribe((resJsonData:any) => {
       if (resJsonData['success'] == true) {
         this.userForm.reset();
         this.router.navigate(['/login']);
@@ -227,7 +251,7 @@ export class AdminRegistrationComponent implements OnInit {
         this.data.openSnackBar(resJsonData['msg'],"OK");
       }
     },
-      error => {
+      (error:any) => {
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       })
 

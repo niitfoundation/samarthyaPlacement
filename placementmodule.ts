@@ -35,6 +35,7 @@ import { CandidateRegisterComponent } from './components/candidate-register/cand
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 
+import { ImportComponent } from './components/import-candidates/importCandidates.component';
 
 @NgModule({
 	imports: [
@@ -68,6 +69,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 		ProfileCardComponent,
 		VerifyEmailComponent,
         placementComponent,
+		ImportComponent
 		//routingComponents check working or not	
 	],
 	bootstrap: [placementComponent],
@@ -90,7 +92,8 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 		LoginHeaderComponent,
 		ProfileCardComponent,
 		VerifyEmailComponent,
-        placementComponent
+        placementComponent,
+		ImportComponent
 	]
 })
 

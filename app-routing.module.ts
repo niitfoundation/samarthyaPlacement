@@ -16,23 +16,22 @@ import { ForgotPasswordComponent } from './components/forget-password/forgetPass
 import { PasswordResetComponent } from './components/password-reset/passwordReset.component'
 import {LandingPageComponent} from './components/landing-page/landing-page.component';
 import {ProfileCardComponent} from './components/profile-card/profileCard.component';
+import {ImportComponent} from './components/import-candidates/importCandidates.component'
 // routes
 const routes: Routes = [
-  {path:'profileCard',component:ProfileCardComponent},
   { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'samarthya', component: LandingPageComponent },
   { path: 'verifyEmail', component: VerifyEmailComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
-  { path: 'passwordResetOut/:confirm', component: PasswordResetComponent },
-      { path: 'candidateSearch', component: CandidateSearchComponent },
-
+  { path: 'passwordReset', component: PasswordResetComponent },
   { path: 'register', component: AdminRegistrationComponent },
   {
     path: 'home', component: AfterLoginHeaderComponent, canActivate: [AuthGuard],
     children: [
+      {path:'import',component:ImportComponent,canActivate:[AuthGuard]},
       { path: 'aboutUs', component: AboutUsComponent, canActivate: [AuthGuard] },
-      { path: 'candidateRegister', component: CandidateRegisterComponent, canActivate: [AuthGuard] },
+      { path: 'candidateRegister/:location', component: CandidateRegisterComponent, canActivate: [AuthGuard] },
       { path: 'candidateSearch', component: CandidateSearchComponent, canActivate: [AuthGuard] },
       { path: 'eventPost', component: EventPostComponent, canActivate: [AuthGuard] },
       { path: 'jobPost', component: JobPostComponent, canActivate: [AuthGuard] },
@@ -45,7 +44,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,{useHash:true}),
 
   ],
   exports: [RouterModule]

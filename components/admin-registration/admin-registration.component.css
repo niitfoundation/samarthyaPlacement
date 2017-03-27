@@ -16,6 +16,9 @@ md-card {
     width: 100%;
     opacity: .5;
 }
+.adminFooter{
+    position: relative
+}
 .division{
     /*margin:10px;*/
     text-shadow: 2px 2px 5px gray;

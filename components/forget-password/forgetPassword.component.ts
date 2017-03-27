@@ -16,11 +16,11 @@ import { Router } from '@angular/router';
 export class ForgotPasswordComponent implements OnInit {
 
   public userForm: FormGroup;
-  public infoobj;
-  private postobject;
-  public candidates;
-  public timer;
-  public emailId = '';
+  public infoobj:any;
+  private postobject:any;
+  public candidates:any;
+  public timer:any;
+  public emailId:any = '';
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router, private emailService: EmailService) {
@@ -39,7 +39,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   // snackBar for notification
-  openSnackBar(message, action) {
+  openSnackBar(message:any, action:any) {
     this.snackBar.open(message, action, {
       duration: 5000,
     });

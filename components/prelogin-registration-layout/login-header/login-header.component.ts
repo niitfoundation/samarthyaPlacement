@@ -12,7 +12,7 @@ import { Router} from '@angular/router'
 })
 export class LoginHeaderComponent implements OnInit {
 
-  public languages = [];
+  public languages:any = [];
 
   constructor(private JsonDataService: JsonDataService,private router:Router) { }
 
@@ -20,7 +20,7 @@ export class LoginHeaderComponent implements OnInit {
     // getting languages form json file
     this.JsonDataService.getJsonData().subscribe(resJsonData => this.getdata(resJsonData));
   }
-  getdata(jsonData) {
+  getdata(jsonData:any) {
     this.languages = jsonData;
   }
   login() {

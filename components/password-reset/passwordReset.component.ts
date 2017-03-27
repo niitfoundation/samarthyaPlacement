@@ -6,6 +6,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Headers } from '@angular/http';
+import {Location} from '@angular/common';
+
 // declare var $: any;
 
 @Component({
@@ -17,7 +19,7 @@ import { Headers } from '@angular/http';
 export class PasswordResetComponent implements OnInit {
 
   public jsonObj = {};
-  public languages = [];
+  public languages:any = [];
   public userForm: FormGroup;
   public emailId = '';
   public password = '';
@@ -26,7 +28,7 @@ export class PasswordResetComponent implements OnInit {
   private token:any;
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
+  constructor( @Inject(FormBuilder) fb: FormBuilder,private backLocation: Location, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
     private router: Router, private emailService: EmailService) {
     // register candidate form
     this.userForm = fb.group({
@@ -45,7 +47,8 @@ export class PasswordResetComponent implements OnInit {
        });
     }
     else{
-      this.route.params.subscribe(params => this.token = params['confirm']);
+      this.token=this.route.snapshot.queryParams['confirm']
+      // this.route.params.subscribe(params => this.token = params['confirm']);
        let email;
       this.AuthenticationService.getEmail(this.token).subscribe((res)=>{
         email=res.data['username'];
@@ -56,16 +59,16 @@ export class PasswordResetComponent implements OnInit {
     }
   }
 
-  getdata(jsonData) {
+  getdata(jsonData:any) {
     this.jsonObj = jsonData;
     this.languages = this.jsonObj['languages'];
   }
 
   // password confirm Validators
-  passwordValue(pass) {
+  passwordValue(pass:any) {
     this.password = pass;
   }
-  conPasswordValue(conPass, pass) {
+  conPasswordValue(conPass:any, pass:any) {
     if (pass !== conPass) {
       this.passwordMatchWarning = 'Password Not Match';
       (<HTMLInputElement>document.getElementById('resetBtn')).disabled = true;
@@ -110,6 +113,6 @@ export class PasswordResetComponent implements OnInit {
 
   // on back button
   onBack() {
-    this.router.navigate(['/login']);
+    this.backLocation.back();
   }
 }

@@ -7,12 +7,12 @@ export class PlacementRegisterService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = '';
   constructor(private http: Http) { }
-  add(userdata): any {
+  add(userdata:any): any {
     this.url='/coordinates'
     return this.http.post(this.url,userdata).map((response: Response) => response.json());
 
   }
-  verifyToken(token){
+  verifyToken(token:any){
     this.url="/auth/verify-email";
         return this.http.post(this.url, {token:token}).map((response: Response) => response.json());
 

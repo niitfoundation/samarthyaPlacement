@@ -46,7 +46,7 @@ export class AuthenticationService {
         this.router.navigate(['/'])
     }
 
-    getPasswordResetToken(token,username){
+    getPasswordResetToken(token:any,username:any){
                 return this.http.post('/emailverify/passwordResetToken',{ username: username, token: token })
                  .map((response: Response) => {
                 // login successful if there's a jwt token in the response
@@ -63,14 +63,14 @@ export class AuthenticationService {
             });
     }
 //change password for existing placement role user
-    passwordChange(email,password){
+    passwordChange(email:any,password:any){
             return this.http.post('/auth/reset-password',{ username: email, password: password })
                  .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                return response.json();
             });
     }
-    socialAuthentication(socialSite)
+    socialAuthentication(socialSite:any)
     {
         
        
@@ -82,7 +82,7 @@ export class AuthenticationService {
     
 }
 
-getEmail(token){
+getEmail(token:any){
      return this.http.post('/auth/verify-email',{token:token})
                  .map((response: Response) => {
                 // login successful if there's a jwt token in the response

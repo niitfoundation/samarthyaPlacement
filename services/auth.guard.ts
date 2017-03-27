@@ -13,10 +13,11 @@ export class AuthGuard implements CanActivate{
             //logged in user return true
             return true; 
   }
+  else{
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
         //this.data.openSnackBar('Please Login!!',"OK");
         return false;
-
+  }
     }
 }

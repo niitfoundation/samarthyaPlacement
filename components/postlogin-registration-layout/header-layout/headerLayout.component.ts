@@ -13,9 +13,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class AfterLoginHeaderComponent implements OnInit {
 
-  public languages = [];
-  public navList = [];
-
+  public languages:any = [];
+  public navList:any = [];
+public isDarkTheme = false;
 
   constructor(private JsonDataService: JsonDataService, private AuthenticationService: AuthenticationService, private data: Data, private router: Router) { }
 
@@ -26,7 +26,7 @@ export class AfterLoginHeaderComponent implements OnInit {
     let tokenVerification = JSON.parse(localStorage.getItem('currentUser'))["token"];
     this.JsonDataService.getJsonNavList(tokenVerification)
       .subscribe(
-      role => {
+      (role:any) => {
         if (role.success) {
           this.getNavList(role.data)
         }
@@ -37,15 +37,22 @@ export class AfterLoginHeaderComponent implements OnInit {
           this.data.openSnackBar(role["message"], 'Ok');
 
         }
-      }, error => {
+      }, (error:any) => {
         console.log(error);
       })
   }
-  getdata(jsonData) {
+
+   toggleTheme() {
+    if (this.isDarkTheme === true) {
+      this.isDarkTheme = false;
+    } else {
+      this.isDarkTheme = true;
+    }
+  }
+  getdata(jsonData:any) {
     this.languages = jsonData;
   }
-  getNavList(navListItem) {
-    console.log(navListItem);
+  getNavList(navListItem:any) {
     this.navList = navListItem;
   }
   logoutUser() {

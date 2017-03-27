@@ -23,10 +23,10 @@ export class LoginComponent implements OnInit {
   public userForm: FormGroup;
   public modalVerify: FormGroup;
   public modalReset: FormGroup;
-  public infoobj;
-  private postobject;
-  public candidates = [];
-  public userRole;
+  public infoobj:any;
+  private postobject:any;
+  public candidates:any = [];
+  public userRole:any;
   user: any = {};
   returnUrl: String;
   menuLinks: Common[] = [];
@@ -70,12 +70,12 @@ export class LoginComponent implements OnInit {
       },
       error => {
        this.data.openSnackBar("Invalid username or password", 'Try again');
-              this.router.navigate(['/home']);
+              this.router.navigate(['/login']);
       });
 
   }
 
-  socialAuthentication(socialSite)
+  socialAuthentication(socialSite:any)
   {
       this.authenticationService.socialAuthentication(socialSite) .subscribe(
       data => { 

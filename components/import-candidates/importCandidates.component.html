@@ -1,0 +1,55 @@
+<!--<input type="file" (change)="openFile($event)" placeholder="Upload file..." />
+<button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
+<div *ngIf="error">{{error}}</div>-->
+
+
+<!--
+<form method="post"  enctype="multipart/form-data">
+    <input type="file" (change)="openFile($event)" placeholder="Upload file..." />
+<button type="button" [disabled]="importButton"  (click)="upload()">Import Candidates</button>
+<div *ngIf="error">{{error}}</div>
+  </form>-->
+<div class="container width-75 margin-auto paddings margin-top" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
+    <div fxFlex class="margin-auto import-file ">
+        <form method="post" enctype="multipart/form-data">
+            <input class="file-style" type="file" (change)="openFile($event)" placeholder="Choose file..." />
+        </form>
+    </div>
+</div>
+<!--import-button-->
+<div class="container width-75 margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
+    <div fxFlex class="margin-auto  text-center ">
+        <button md-button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
+    </div>
+</div>
+<!--error message-->
+<div class="container width-75  margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
+    <div fxFlex class="margin-auto  error-style"  *ngIf="error">{{error}}
+    
+</div>
+</div>
+
+<label class="uploader" ondragover="return false;"
+    [class.loaded]="loaded" 
+    [style.outlineColor]="dragging ? activeColor : baseColor"
+    (dragenter)="handleDragEnter()"
+    (dragleave)="handleDragLeave()"
+    (drop)="handleDrop($event)">
+    
+    <i class="icon icon-upload" 
+        [style.color]="dragging 
+            ? ((imageSrc.length > 0) ? overlayColor : activeColor)
+            : ((imageSrc.length > 0) ? overlayColor : baseColor)"></i>
+    
+    <img 
+        [src]="imageSrc" 
+        (load)="handleImageLoad()" 
+        [class.loaded]="imageLoaded"/>
+    
+    <input type="file" name="file" accept="image/*"
+        (change)="handleInputChange($event)">
+</label>
+
+
+
+<app-footer></app-footer>

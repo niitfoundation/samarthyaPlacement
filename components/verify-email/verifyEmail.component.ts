@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
 export class VerifyEmailComponent implements OnInit {
 
   public userForm: FormGroup;
-  public infoobj;
-  public timer;
+  public infoobj:any;
+  public timer:any;
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router) {

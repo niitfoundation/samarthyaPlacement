@@ -11,8 +11,8 @@ import { UiDetails } from './../../services/uidetails.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  title;
-  dataByRole;
+  title:any;
+  dataByRole:any;
   loginComponent:LoginComponent;
   constructor(private route: ActivatedRoute,private data:Data,private uiDetails:UiDetails,private router:Router) {
       // this.dataByRole=JSON.stringify(this.data.storage);
@@ -20,27 +20,27 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() 
     {
-      let tokenVerification=JSON.parse(localStorage.getItem('currentUser'))["token"];
-       this.uiDetails.getMenuDetails(tokenVerification)
-          .subscribe(
-          role => {
-            if (role["success"]) {
-              this.title = role["object"].Role;
+      // let tokenVerification=JSON.parse(localStorage.getItem('currentUser'))["token"];
+      //  this.uiDetails.getMenuDetails(tokenVerification)
+      //     .subscribe(
+      //     role => {
+      //       if (role["success"]) {
+      //         this.title = role["object"].Role;
         
-            }
-            else {
-              tokenVerification=null;
-               localStorage.removeItem('currentUser');
-                this.router.navigate(['/login']);
-             this.data.openSnackBar(role["message"], 'Ok');
+      //       }
+      //       else {
+      //         tokenVerification=null;
+      //          localStorage.removeItem('currentUser');
+      //           this.router.navigate(['/login']);
+      //        this.data.openSnackBar(role["message"], 'Ok');
         
-            }
+      //       }
 
 
-          }, error => {
-            console.log(error);
-          }
-          )
+      //     }, error => {
+      //       console.log(error);
+      //     }
+      //     )
     }
   
 
