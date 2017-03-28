@@ -40,6 +40,6 @@ export class CustomnodeService {
 
     readRoles(rolesObj: any) {
         this.url = '/roles';
-        return this.http.get(this.url, rolesObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+rolesObj.name+'&limit='+rolesObj.limit).map((response: Response) => response)
     }
 }

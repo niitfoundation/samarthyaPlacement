@@ -8,14 +8,23 @@ import { Component, OnInit } from '@angular/core';
   providers:[CustomnodeService]
 })
 export class RolesComponent implements OnInit {
-
+  data: any;
+  public showData: any = [];
   constructor(private customnodeService:CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getRoles(rolesObj:any){
-    return this.customnodeService.readRoles(rolesObj);
+    this.showData = [];
+    this.customnodeService.readRoles(rolesObj).subscribe(res => {
+      this.data = JSON.parse(res["_body"]);
+      this.data.forEach(element => {
+        this.showData.push(element.name);
+      });
+    }, err => {
+      console.log(err)
+    });
   }
 
 }
