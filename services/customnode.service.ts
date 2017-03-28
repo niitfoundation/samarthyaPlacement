@@ -30,7 +30,7 @@ export class CustomnodeService {
 
     readQualifications(qualificationsObj: any) {
         this.url = '/qualifications';
-        return this.http.get(this.url, qualificationsObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+qualificationsObj.name+'&limit='+qualificationsObj.limit).map((response: Response) => response)
     }
 
     readCentres(centresObj: any) {

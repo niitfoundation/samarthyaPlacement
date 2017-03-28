@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { CustomnodeService } from './../../services/customnode.service';
 import { Component, OnInit } from '@angular/core';
 

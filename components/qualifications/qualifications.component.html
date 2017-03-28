@@ -1,4 +1,18 @@
 <p>
     Qualifications
 </p>
+<div>
+    Search Qualifications: <input type="text" [(ngModel)]="qualificationName">
+</div>
+
+<div>
+    <button md-raised-button (click)="getQualifications({name:qualificationName,limit:5})">Qualifications</button>
+</div>
+
+<div>
+    <ul>
+    <li *ngFor="let item of showData">{{item}}</li>
+</ul>
+</div>
+
 <app-footer></app-footer>
