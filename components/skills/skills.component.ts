@@ -5,16 +5,25 @@ import { Component, OnInit } from '@angular/core';
   selector: 'skills',
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.css'],
-  providers:[CustomnodeService]
+  providers: [CustomnodeService]
 })
 export class SkillsComponent implements OnInit {
-
-  constructor(private customnodeService:CustomnodeService) { }
+  data: any;
+  public showData: any = [];
+  constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
-  getSkills(skillsObj:any){
-    return this.customnodeService.readSkills(skillsObj);
+  getSkills(skillsObj: any) {
+    this.showData = [];
+    this.customnodeService.readSkills(skillsObj).subscribe(res => {
+      this.data = JSON.parse(res["_body"]);
+      this.data.forEach(element => {
+        this.showData.push(element.name);
+      });
+    }, err => {
+      console.log(err)
+    });
   }
 }

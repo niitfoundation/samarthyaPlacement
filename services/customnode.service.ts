@@ -15,7 +15,7 @@ export class CustomnodeService {
 
     readSkills(skillsObj: any) {
         this.url = '/skills';
-        return this.http.get(this.url, skillsObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+skillsObj.name+'&limit='+skillsObj.limit).map((response: Response) => response)
     }
 
     readLanguages(languagesObj: any) {
