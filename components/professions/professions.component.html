@@ -1,0 +1,18 @@
+<p>
+    Professions
+</p>
+<div>
+    Search Professions: <input type="text" [(ngModel)]="professionName">
+</div>
+
+<div>
+    <button md-raised-button (click)="getProfessions({name:professionName,limit:5})">professions</button>
+</div>
+
+<div>
+    <ul>
+    <li *ngFor="let item of show">{{item}}</li>
+</ul>
+</div>
+
+<app-footer></app-footer>
