@@ -8,13 +8,22 @@ import { Component, OnInit } from '@angular/core';
   providers:[CustomnodeService]
 })
 export class LocationsComponent implements OnInit {
-
+  data: any;
+  public showData: any = [];
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getLocations(locationsObj:any){
-    return this.customnodeService.readLocations(locationsObj);
+    this.showData = [];
+    this.customnodeService.readLocations(locationsObj).subscribe(res => {
+      this.data = JSON.parse(res["_body"]);
+      this.data.forEach(element => {
+        this.showData.push(element.name);
+      });
+    }, err => {
+      console.log(err)
+    });
   }
 }

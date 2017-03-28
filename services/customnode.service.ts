@@ -25,7 +25,7 @@ export class CustomnodeService {
 
     readLocations(locationsObj: any) {
         this.url = '/locations';
-        return this.http.get(this.url, locationsObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+locationsObj.name+'&limit='+locationsObj.limit).map((response: Response) => response)
     }
 
     readQualifications(qualificationsObj: any) {
