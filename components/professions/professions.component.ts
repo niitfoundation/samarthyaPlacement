@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfessionsComponent implements OnInit {
   data: any;
-  public show: any = [];
+  public showData: any = [];
 
   constructor(private customnodeService: CustomnodeService) { }
 
@@ -18,11 +18,11 @@ export class ProfessionsComponent implements OnInit {
   }
 
   getProfessions(professionsObj: any) {
-    this.show = [];
+    this.showData = [];
     this.customnodeService.readProfessions(professionsObj).subscribe(res => {
       this.data = JSON.parse(res["_body"]);
       this.data.forEach(element => {
-        this.show.push(element.name);
+        this.showData.push(element.name);
       });
     }, err => {
       console.log(err)

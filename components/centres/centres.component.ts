@@ -5,17 +5,26 @@ import { Component, OnInit } from '@angular/core';
   selector: 'centres',
   templateUrl: './centres.component.html',
   styleUrls: ['./centres.component.css'],
-  providers:[CustomnodeService]
+  providers: [CustomnodeService]
 })
 export class CentresComponent implements OnInit {
-
-  constructor(private customnodeService:CustomnodeService) { }
+  data: any;
+  public showData: any = [];
+  constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
-  getCentres(centresObj:any){
-    return this.customnodeService.readCentres(centresObj);
+  getCentres(centresObj: any) {
+    this.showData = [];
+    this.customnodeService.readCentres(centresObj).subscribe(res => {
+      this.data = JSON.parse(res["_body"]);
+      this.data.forEach(element => {
+        this.showData.push(element.name);
+      }); console.log(this.showData);
+    }, err => {
+      console.log(err)
+    });
   }
 
 }

@@ -10,8 +10,6 @@ export class CustomnodeService {
 
     readProfessions(professionsObj: any) {
         this.url = '/professions';
-        console.log(professionsObj);
-        console.log(this.url+'?name='+professionsObj.name+'&limit='+professionsObj.limit);
         return this.http.get(this.url+'?name='+professionsObj.name+'&limit='+professionsObj.limit).map((response: Response) => response)
     }
 
@@ -37,7 +35,7 @@ export class CustomnodeService {
 
     readCentres(centresObj: any) {
         this.url = '/centres';
-        return this.http.get(this.url, centresObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+centresObj.name+'&limit='+centresObj.limit).map((response: Response) => response)
     }
 
     readRoles(rolesObj: any) {

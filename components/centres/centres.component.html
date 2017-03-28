@@ -1,4 +1,18 @@
 <p>
-    Centers
+    Centres
 </p>
+<div>
+    Search Centres: <input type="text" [(ngModel)]="centreName">
+</div>
+
+<div>
+    <button md-raised-button (click)="getCentres({name:centreName,limit:5})">Centres</button>
+</div>
+
+<div>
+    <ul>
+    <li *ngFor="let item of showData">{{item}}</li>
+</ul>
+</div>
+
 <app-footer></app-footer>
