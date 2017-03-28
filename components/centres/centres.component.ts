@@ -21,7 +21,7 @@ export class CentresComponent implements OnInit {
       this.data = JSON.parse(res["_body"]);
       this.data.forEach(element => {
         this.showData.push(element.name);
-      }); console.log(this.showData);
+      });
     }, err => {
       console.log(err)
     });

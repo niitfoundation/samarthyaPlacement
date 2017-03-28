@@ -20,7 +20,7 @@ export class CustomnodeService {
 
     readLanguages(languagesObj: any) {
         this.url = '/languages';
-        return this.http.get(this.url, languagesObj).map((response: Response) => response.json)
+        return this.http.get(this.url+'?name='+languagesObj.name+'&limit='+languagesObj.limit).map((response: Response) => response)
     }
 
     readLocations(locationsObj: any) {
