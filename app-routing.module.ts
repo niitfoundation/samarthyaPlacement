@@ -12,11 +12,18 @@ import { AdminRegistrationComponent } from './components/admin-registration/admi
 import { AuthGuard } from './services/auth.guard';
 import { AfterLoginHeaderComponent } from './components/postlogin-registration-layout/header-layout/headerLayout.component';
 import { VerifyEmailComponent } from './components/verify-email/verifyEmail.component';
-import { ForgotPasswordComponent } from './components/forget-password/forgetPassword.component'
-import { PasswordResetComponent } from './components/password-reset/passwordReset.component'
-import {LandingPageComponent} from './components/landing-page/landing-page.component';
-import {ProfileCardComponent} from './components/profile-card/profileCard.component';
-import {ImportComponent} from './components/import-candidates/importCandidates.component'
+import { ForgotPasswordComponent } from './components/forget-password/forgetPassword.component';
+import { PasswordResetComponent } from './components/password-reset/passwordReset.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { ProfileCardComponent } from './components/profile-card/profileCard.component';
+import { ImportComponent } from './components/import-candidates/importCandidates.component';
+import { ProfessionsComponent } from './components/professions/professions.component';
+import { SkillsComponent } from './components/skills/skills.component';
+import { LanguagesComponent } from './components/languages/languages.component';
+import { LocationsComponent } from './components/locations/locations.component';
+import { QualificationsComponent } from './components/qualifications/qualifications.component';
+import { CentresComponent } from './components/centres/centres.component';
+import { RolesComponent } from './components/roles/roles.component';
 // routes
 const routes: Routes = [
   { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
@@ -29,15 +36,22 @@ const routes: Routes = [
   {
     path: 'home', component: AfterLoginHeaderComponent, canActivate: [AuthGuard],
     children: [
-      {path:'import',component:ImportComponent,canActivate:[AuthGuard]},
+      { path: 'import', component: ImportComponent, canActivate: [AuthGuard] },
       { path: 'aboutUs', component: AboutUsComponent, canActivate: [AuthGuard] },
       { path: 'candidateRegister/:location', component: CandidateRegisterComponent, canActivate: [AuthGuard] },
       { path: 'candidateSearch', component: CandidateSearchComponent, canActivate: [AuthGuard] },
       { path: 'eventPost', component: EventPostComponent, canActivate: [AuthGuard] },
       { path: 'jobPost', component: JobPostComponent, canActivate: [AuthGuard] },
-        { path: 'passwordReset/:reset', component: PasswordResetComponent , canActivate: [AuthGuard] },
-      { path: 'register/:title', component: AdminRegistrationComponent ,canActivate: [AuthGuard]},
-      { path: '**', component: DashboardComponent,canActivate: [AuthGuard] },
+      { path: 'passwordReset/:reset', component: PasswordResetComponent, canActivate: [AuthGuard] },
+      { path: 'register/:title', component: AdminRegistrationComponent, canActivate: [AuthGuard] },
+      { path: 'professions', component: ProfessionsComponent, canActivate: [AuthGuard] },
+      { path: 'skills', component: SkillsComponent, canActivate: [AuthGuard] },
+      { path: 'languages', component: LanguagesComponent, canActivate: [AuthGuard] },
+      { path: 'locations', component: LocationsComponent, canActivate: [AuthGuard] },
+      { path: 'qualifications', component: QualificationsComponent, canActivate: [AuthGuard] },
+      { path: 'centres', component: CentresComponent, canActivate: [AuthGuard] },
+      { path: 'roles', component: RolesComponent, canActivate: [AuthGuard] },
+      { path: '**', component: DashboardComponent, canActivate: [AuthGuard] },
     ]
   },
 ]

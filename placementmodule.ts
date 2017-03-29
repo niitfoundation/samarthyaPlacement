@@ -4,6 +4,7 @@ import { JsonDataService } from './services/json-data.service';
 import { EmailService } from './services/email.service';
 import { Data } from './services/data.service';
 import { AuthenticationService } from './services/authentication.service';
+import { CustomnodeService } from './services/customnode.service'
 import { AuthGuard } from './services/auth.guard';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -34,6 +35,13 @@ import { CandidateSearchComponent } from './components/candidate-search/candidat
 import { CandidateRegisterComponent } from './components/candidate-register/candidate-register.component';
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ProfessionsComponent } from './components/professions/professions.component';
+import { SkillsComponent } from './components/skills/skills.component';
+import { LanguagesComponent } from './components/languages/languages.component';
+import { LocationsComponent } from './components/locations/locations.component';
+import { QualificationsComponent } from './components/qualifications/qualifications.component';
+import { CentresComponent } from './components/centres/centres.component';
+import { RolesComponent } from './components/roles/roles.component';
 
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 
@@ -69,7 +77,14 @@ import { ImportComponent } from './components/import-candidates/importCandidates
 		ProfileCardComponent,
 		VerifyEmailComponent,
         placementComponent,
-		ImportComponent
+		ImportComponent,
+		ProfessionsComponent,
+		SkillsComponent,
+		LanguagesComponent,
+		LocationsComponent,
+		QualificationsComponent,
+		CentresComponent,
+		RolesComponent
 		//routingComponents check working or not	
 	],
 	bootstrap: [placementComponent],
@@ -93,7 +108,14 @@ import { ImportComponent } from './components/import-candidates/importCandidates
 		ProfileCardComponent,
 		VerifyEmailComponent,
         placementComponent,
-		ImportComponent
+		ImportComponent,
+		ProfessionsComponent,
+		SkillsComponent,
+		LanguagesComponent,
+		LocationsComponent,
+		QualificationsComponent,
+		CentresComponent,
+		RolesComponent
 	]
 })
 
@@ -104,6 +126,7 @@ export class placementmodule {
       providers: [
        AuthGuard,
 	   AuthenticationService,
+	   CustomnodeService,
 	   Data,
 	   EmailService,
 	   JsonDataService,

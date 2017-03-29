@@ -1,0 +1,18 @@
+<p>
+    Roles
+</p>
+<div>
+    Search Roles: <input type="text" [(ngModel)]="roleName">
+</div>
+
+<div>
+    <button md-raised-button (click)="getRoles({name:roleName,limit:5})">Roles</button>
+</div>
+
+<div>
+    <ul>
+    <li *ngFor="let item of showData">{{item}}</li>
+</ul>
+</div>
+
+<app-footer></app-footer>
