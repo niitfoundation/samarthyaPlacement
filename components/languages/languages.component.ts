@@ -27,4 +27,21 @@ export class LanguagesComponent implements OnInit {
     });
   }
 
+  addLanguage(languageObj: any) {
+    this.showData = [];
+    if(languageObj.name !== undefined && languageObj.name !== ""){
+      this.customnodeService.createLanguage(languageObj).subscribe(res => {
+        this.data = JSON.parse(res["_body"]);
+        this.data.forEach(element => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else{
+      this.showData.push("Please enter a language");
+    }
+  }
+
 }

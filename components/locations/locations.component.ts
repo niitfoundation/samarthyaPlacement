@@ -26,4 +26,22 @@ export class LocationsComponent implements OnInit {
       console.log(err)
     });
   }
+
+  addLocation(locationObj: any) {
+    this.showData = [];
+    if(locationObj.name !== undefined && locationObj.name !== ""){
+      this.customnodeService.createLocation(locationObj).subscribe(res => {
+        this.data = JSON.parse(res["_body"]);
+        this.data.forEach(element => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else{
+      this.showData.push("Please enter a location");
+    }
+  }
+
 }
