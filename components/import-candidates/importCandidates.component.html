@@ -11,7 +11,7 @@
   </form>-->
 <div class="container width-75 margin-auto paddings margin-top" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
     <div fxFlex class="margin-auto import-file ">
-        <form method="post" enctype="multipart/form-data">
+        <form  method="post" enctype="multipart/form-data">
             <input class="file-style" type="file" (change)="openFile($event)" placeholder="Choose file..." />
         </form>
     </div>
@@ -28,28 +28,21 @@
     
 </div>
 </div>
-
-<label class="uploader" ondragover="return false;"
-    [class.loaded]="loaded" 
-    [style.outlineColor]="dragging ? activeColor : baseColor"
-    (dragenter)="handleDragEnter()"
-    (dragleave)="handleDragLeave()"
-    (drop)="handleDrop($event)">
-    
-    <i class="icon icon-upload" 
-        [style.color]="dragging 
-            ? ((imageSrc.length > 0) ? overlayColor : activeColor)
-            : ((imageSrc.length > 0) ? overlayColor : baseColor)"></i>
-    
-    <img 
-        [src]="imageSrc" 
-        (load)="handleImageLoad()" 
-        [class.loaded]="imageLoaded"/>
-    
-    <input type="file" name="file" accept="image/*"
-        (change)="handleInputChange($event)">
-</label>
-
-
+            <button md-raised-button color="primary"  type="button" (click)="getHistory()">View Import History</button>
+ <div *ngIf="allHistories">           
+<table>
+<tr><th>Total Profiles</th><th>Success</th><th>Failure</th><th>Created On</th><th>Status</th>  </tr>
+<tr *ngFor="let history of allHistories">
+<td>{{history.totalProfiles}}</td>
+<td>{{history.status.noOfSuccess}}</td>
+<td>{{history.status.noOfFailure}}</td>
+<td>{{history.createdOn}}</td>
+<td><button md-raised-button color="primary"  type="button" (click)="getDetailHistory(history.documentId)">View Failure Detail</button></td>
+</tr>
+</table>
+ </div>
+ <div *ngIf="allFailureHistories">
+{{allFailureHistories}}
+ </div>
 
 <app-footer></app-footer>

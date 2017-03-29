@@ -21,4 +21,16 @@ export class PlacementRegisterService {
   private handleError(error: any): any {
     return false;
   }
+
+  getHistory(){
+    this.url="/coordinates/import-history";
+        return this.http.get(this.url).map((response: Response) => response.json());
+
+  }
+
+  getDetailHistory(documentId:any){
+     this.url="/coordinates/failure-history?documentId="+documentId;
+        return this.http.get(this.url).map((response: Response) => response.json());
+
+  }
 }
