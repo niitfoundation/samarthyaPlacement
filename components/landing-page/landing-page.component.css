@@ -104,12 +104,12 @@ box-shadow: -2px -1px 29px 1px  rgba(0,0,0,0.55);
 text-align:center;   
 }
 
-.item-back
+/*.item-back
 {
     background:url("./../..//images/mentor.jpg");
     background-repeat: no-repeat;
     background-size:100% 100%; 
-}
+}*/
 .blinkimg
 {
     animation: blinkerimg 5s linear infinite;
@@ -127,14 +127,11 @@ text-align:center;
 {
     padding:10px 15px;
 }
-.card-item
+/*.card-item
 {
     padding: 20px;
     border-radius: 15px;
-    background: url("./../..//images/cardback.jpg");
-    
-
-}
+}*/
 .container-padding
 {
     padding: 20px;
