@@ -27,4 +27,21 @@ export class CentresComponent implements OnInit {
     });
   }
 
+  addCentre(centresObj: any) {
+    this.showData = [];
+    if (centresObj.name !== undefined && centresObj.name !== '') {
+      this.customnodeService.createCentre(centresObj).subscribe(res => {
+        this.data = JSON.parse(res['_body']);
+        this.data.forEach((element: any) => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else {
+      this.showData.push('Please enter a centre');
+    }
+  }
+
 }

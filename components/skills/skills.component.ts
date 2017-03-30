@@ -26,4 +26,21 @@ export class SkillsComponent implements OnInit {
       console.log(err)
     });
   }
+
+  addSkill(skillsObj: any) {
+    this.showData = [];
+    if (skillsObj.name !== undefined && skillsObj.name !== '') {
+      this.customnodeService.createSkill(skillsObj).subscribe(res => {
+        this.data = JSON.parse(res['_body']);
+        this.data.forEach((element: any) => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else {
+      this.showData.push('Please enter a skill');
+    }
+  }
 }

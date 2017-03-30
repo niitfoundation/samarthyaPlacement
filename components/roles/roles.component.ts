@@ -27,4 +27,21 @@ export class RolesComponent implements OnInit {
     });
   }
 
+  addRole(roleObj: any) {
+    this.showData = [];
+    if (roleObj.name !== undefined && roleObj.name !== '') {
+      this.customnodeService.createRole(roleObj).subscribe(res => {
+        this.data = JSON.parse(res['_body']);
+        this.data.forEach((element: any) => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else {
+      this.showData.push('Please enter a role');
+    }
+  }
+
 }

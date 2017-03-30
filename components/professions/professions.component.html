@@ -10,6 +10,10 @@
 </div>
 
 <div>
+    <button md-raised-button (click)="addProfession({name:professionName})">Add Profession</button>
+</div>
+
+<div>
     <ul>
     <li *ngFor="let item of showData">{{item}}</li>
 </ul>

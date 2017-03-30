@@ -2,11 +2,15 @@
     Languages
 </p>
 <div>
-    Search Languages: <input type="text" [(ngModel)]="LanguageName">
+    Search Languages: <input type="text" [(ngModel)]="languageName">
 </div>
 
 <div>
-    <button md-raised-button (click)="getLanguages({name:LanguageName,limit:5})">Languages</button>
+    <button md-raised-button (click)="getLanguages({name:languageName,limit:5})">Languages</button>
+</div>
+
+<div>
+    <button md-raised-button (click)="addLanguage({name:languageName})">Add Language</button>
 </div>
 
 <div>
