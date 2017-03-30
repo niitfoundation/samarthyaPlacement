@@ -19,8 +19,8 @@ export class ProfessionsComponent implements OnInit {
   getProfessions(professionsObj: any) {
     this.showData = [];
     this.customnodeService.readProfessions(professionsObj).subscribe(res => {
-      this.data = JSON.parse(res["_body"]);
-      this.data.forEach(element => {
+      this.data = JSON.parse(res['_body']);
+      this.data.forEach((element: any) => {
         this.showData.push(element.name);
       });
     }, err => {

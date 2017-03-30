@@ -16,11 +16,11 @@ import { Router } from '@angular/router';
 export class ForgotPasswordComponent implements OnInit {
 
   public userForm: FormGroup;
-  public infoobj:any;
-  private postobject:any;
-  public candidates:any;
-  public timer:any;
-  public emailId:any = '';
+  public infoobj: any;
+  private postobject: any;
+  public candidates: any;
+  public timer: any;
+  public emailId: any = '';
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router, private emailService: EmailService) {
@@ -39,7 +39,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   // snackBar for notification
-  openSnackBar(message:any, action:any) {
+  openSnackBar(message: any, action: any) {
     this.snackBar.open(message, action, {
       duration: 5000,
     });
@@ -50,7 +50,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   //   if (this.candidates.length!=0) {
   //     let link="";
-     
+
   //     this.emailservice.postdata(this.infoobj).subscribe(data => this.postobject = data,
   //       error => [this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
   //       this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
@@ -63,18 +63,18 @@ export class ForgotPasswordComponent implements OnInit {
   // on password reset submit
   onResetLink() {
      this.infoobj = {
-       'title':'',
+       'title': '',
         'username': this.userForm.value.email,
         'subject': 'Password Reset',
       };
-    this.emailService.sendResetPasswordEmail(this.infoobj).subscribe(resEmailData =>{ 
-this.openSnackBar(resEmailData.msg,'ok'),
-        this.timer = setTimeout(() => this.router.navigate(['/login']), 500)  
+    this.emailService.sendResetPasswordEmail(this.infoobj).subscribe(resEmailData => {
+this.openSnackBar(resEmailData.msg, 'ok'),
+        this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
       },    error => {
         console.log(error)
-        this.openSnackBar("User Doesn't exist",'ok');
+        this.openSnackBar('User Doesn\'t exist', 'ok');
       });
-  
+
   }
   onBack() {
     this.router.navigate(['/login']);

@@ -1,4 +1,4 @@
-import {Component,NgModule} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 @Component({
   selector: 'landing-page',
   templateUrl: './landing-page.component.html',
@@ -7,7 +7,7 @@ import {Component,NgModule} from '@angular/core';
 
 
 export class LandingPageComponent {
-headingTitle="Samarthya";
-subtitleDetails="Reach out directly to most relevant job consultants and recruiters across India.";
-aboutus=["Sam","John","Karol"];
+  headingTitle = 'Samarthya';
+  subtitleDetails = 'Reach out directly to most relevant job consultants and recruiters across India.';
+  aboutus = ['Sam', 'John', 'Karol'];
 }

@@ -7,7 +7,7 @@ export class Data {
     public storage: any;
 
     public constructor(private snackBar: MdSnackBar) { }
-    openSnackBar(message:any, action:any) {
+    openSnackBar(message: any, action: any) {
         this.snackBar.open(message, action, {
             duration: 5000,
         });

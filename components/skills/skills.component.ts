@@ -18,8 +18,8 @@ export class SkillsComponent implements OnInit {
   getSkills(skillsObj: any) {
     this.showData = [];
     this.customnodeService.readSkills(skillsObj).subscribe(res => {
-      this.data = JSON.parse(res["_body"]);
-      this.data.forEach(element => {
+      this.data = JSON.parse(res['_body']);
+      this.data.forEach((element: any) => {
         this.showData.push(element.name);
       });
     }, err => {

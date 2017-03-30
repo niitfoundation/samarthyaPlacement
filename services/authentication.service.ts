@@ -1,20 +1,20 @@
 import { not } from '@angular-cli/ast-tools/node_modules/rxjs/util/not';
 import { inject } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response,RequestOptions } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable'; //http request using observable
+import { Observable } from 'rxjs/Observable'; // http request using observable
 import 'rxjs/add/operator/map'  // map operatror for observable
 // this service is used to authenticate the current user is logged in or not
 
 @Injectable()
 export class AuthenticationService {
     public token: string;
-    private headers = new Headers({ 'Content-Type': 'application/json'});
-    
+    private headers = new Headers({ 'Content-Type': 'application/json' });
+
     constructor(private http: Http, private router: Router) {
         // set token if saved in local storage
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
 
@@ -28,7 +28,7 @@ export class AuthenticationService {
                     // set token property
                     this.token = token;
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token,role:response.json().role }));
+                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, role: response.json().role }));
                     // return true to indicate successful login
                     return response.json();
                 } else {
@@ -46,9 +46,9 @@ export class AuthenticationService {
         this.router.navigate(['/'])
     }
 
-    getPasswordResetToken(token:any,username:any){
-                return this.http.post('/emailverify/passwordResetToken',{ username: username, token: token })
-                 .map((response: Response) => {
+    getPasswordResetToken(token: any, username: any) {
+        return this.http.post('/emailverify/passwordResetToken', { username: username, token: token })
+            .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let token = response.json().authToken;
                 if (token) {
@@ -62,52 +62,51 @@ export class AuthenticationService {
                 }
             });
     }
-//change password for existing placement role user
-    passwordChange(email:any,password:any){
-            return this.http.post('/auth/reset-password',{ username: email, password: password })
-                 .map((response: Response) => {
+    // change password for existing placement role user
+    passwordChange(email: any, password: any) {
+        return this.http.post('/auth/reset-password', { username: email, password: password })
+            .map((response: Response) => {
                 // login successful if there's a jwt token in the response
-               return response.json();
+                return response.json();
             });
     }
-    socialAuthentication(socialSite:any)
-    {
-        
-       
-         return this.http.get('/auth/facebook',this.authoriZation())
-                 .map((response: Response) => {
+    socialAuthentication(socialSite: any) {
+
+
+        return this.http.get('/auth/facebook', this.authoriZation())
+            .map((response: Response) => {
                 // login successful if there's a jwt token in the response
-               return response.json();
+                return response.json();
             });
-    
-}
 
-getEmail(token:any){
-     return this.http.post('/auth/verify-email',{token:token})
-                 .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-            
-               return response.json();
-            });
-    
-}
-
-getCreatedBy(){
-            let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-    if(currentUser){
-        return currentUser.username;
-    }
-    else{
-        return currentUser;
     }
 
-}
- private authoriZation() {
- 
-      let headers = new Headers({'Access-Control-Allow-Origin': "*","Access-Control-Allow-Headers": "X-Requested-With" });
-      return new RequestOptions({ headers: headers });
-    
+    getEmail(token: any) {
+        return this.http.post('/auth/verify-email', { token: token })
+            .map((response: Response) => {
+                // login successful if there's a jwt token in the response
 
-  }
+                return response.json();
+            });
+
+    }
+
+    getCreatedBy() {
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (currentUser) {
+            return currentUser.username;
+        }
+        else {
+            return currentUser;
+        }
+
+    }
+    private authoriZation() {
+
+        let headers = new Headers({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'X-Requested-With' });
+        return new RequestOptions({ headers: headers });
+
+
+    }
 }

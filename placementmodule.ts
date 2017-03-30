@@ -46,93 +46,95 @@ import { RolesComponent } from './components/roles/roles.component';
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		FormsModule,
-		HttpModule,
-		MaterialModule.forRoot(),
-		Md2Module.forRoot(),
-		ReactiveFormsModule,
-		FlexLayoutModule,
-		AppRoutingModule,
-		RouterModule
-	],
-	declarations: [
-		AboutUsComponent,
-		AdminRegistrationComponent,
-		CandidateRegisterComponent,
-		CandidateSearchComponent,
-		DashboardComponent,
-		EmployersComponent,
-		EventPostComponent,
-		ForgotPasswordComponent,
-		JobPostComponent,
-		LandingPageComponent,
-		LoginComponent,
-		PasswordResetComponent,
-		FooterComponent,
-	    AfterLoginHeaderComponent,
-		LoginFooterComponent,
-		LoginHeaderComponent,
-		ProfileCardComponent,
-		VerifyEmailComponent,
-        placementComponent,
-		ImportComponent,
-		ProfessionsComponent,
-		SkillsComponent,
-		LanguagesComponent,
-		LocationsComponent,
-		QualificationsComponent,
-		CentresComponent,
-		RolesComponent
-		//routingComponents check working or not	
-	],
-	bootstrap: [placementComponent],
-	exports: [
-		AboutUsComponent,
-		AdminRegistrationComponent,
-		CandidateRegisterComponent,
-		CandidateSearchComponent,
-		DashboardComponent,
-		EmployersComponent,
-		EventPostComponent,
-		ForgotPasswordComponent,
-		JobPostComponent,
-		LandingPageComponent,
-		LoginComponent,
-		PasswordResetComponent,
-		FooterComponent,
-	    AfterLoginHeaderComponent,
-		LoginFooterComponent,
-		LoginHeaderComponent,
-		ProfileCardComponent,
-		VerifyEmailComponent,
-        placementComponent,
-		ImportComponent,
-		ProfessionsComponent,
-		SkillsComponent,
-		LanguagesComponent,
-		LocationsComponent,
-		QualificationsComponent,
-		CentresComponent,
-		RolesComponent
-	]
+
+imports: [
+BrowserModule,
+FormsModule,
+HttpModule,
+MaterialModule.forRoot(),
+Md2Module.forRoot(),
+ReactiveFormsModule,
+FlexLayoutModule,
+AppRoutingModule,
+RouterModule
+],
+declarations: [
+AboutUsComponent,
+AdminRegistrationComponent,
+CandidateRegisterComponent,
+CandidateSearchComponent,
+DashboardComponent,
+EmployersComponent,
+EventPostComponent,
+ForgotPasswordComponent,
+JobPostComponent,
+LandingPageComponent,
+LoginComponent,
+PasswordResetComponent,
+FooterComponent,
+AfterLoginHeaderComponent,
+LoginFooterComponent,
+LoginHeaderComponent,
+ProfileCardComponent,
+VerifyEmailComponent,
+placementComponent,
+ImportComponent,
+ProfessionsComponent,
+SkillsComponent,
+LanguagesComponent,
+LocationsComponent,
+QualificationsComponent,
+CentresComponent,
+RolesComponent
+// routingComponents check working or not
+],
+bootstrap: [placementComponent],
+exports: [
+AboutUsComponent,
+AdminRegistrationComponent,
+CandidateRegisterComponent,
+CandidateSearchComponent,
+DashboardComponent,
+EmployersComponent,
+EventPostComponent,
+ForgotPasswordComponent,
+JobPostComponent,
+LandingPageComponent,
+LoginComponent,
+PasswordResetComponent,
+FooterComponent,
+AfterLoginHeaderComponent,
+LoginFooterComponent,
+LoginHeaderComponent,
+ProfileCardComponent,
+VerifyEmailComponent,
+placementComponent,
+ImportComponent,
+ProfessionsComponent,
+SkillsComponent,
+LanguagesComponent,
+LocationsComponent,
+QualificationsComponent,
+CentresComponent,
+RolesComponent
+]
 })
 
-export class placementmodule { 
-    static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: placementmodule,
-      providers: [
-       AuthGuard,
-	   AuthenticationService,
-	   CustomnodeService,
-	   Data,
-	   EmailService,
-	   JsonDataService,
-	   PlacementRegisterService,
-	   UiDetails
-      ]
-    }
-  }
+// tslint:disable-next-line:class-name
+export class placementmodule {
+static forRoot(): ModuleWithProviders {
+return {
+ngModule: placementmodule,
+providers: [
+AuthGuard,
+AuthenticationService,
+CustomnodeService,
+Data,
+EmailService,
+JsonDataService,
+PlacementRegisterService,
+UiDetails
+]
+}
+}
 }

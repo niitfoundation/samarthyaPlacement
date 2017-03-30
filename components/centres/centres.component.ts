@@ -18,8 +18,8 @@ export class CentresComponent implements OnInit {
   getCentres(centresObj: any) {
     this.showData = [];
     this.customnodeService.readCentres(centresObj).subscribe(res => {
-      this.data = JSON.parse(res["_body"]);
-      this.data.forEach(element => {
+      this.data = JSON.parse(res['_body']);
+      this.data.forEach((element: any) => {
         this.showData.push(element.name);
       });
     }, err => {

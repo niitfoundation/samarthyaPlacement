@@ -1,7 +1,7 @@
 import { JsonDataService } from './../../../services/json-data.service';
 import { Component, OnInit } from '@angular/core';
 
-import { Router} from '@angular/router'
+import { Router } from '@angular/router'
 
 
 @Component({
@@ -12,24 +12,24 @@ import { Router} from '@angular/router'
 })
 export class LoginHeaderComponent implements OnInit {
 
-  public languages:any = [];
+  public languages: any = [];
 
-  constructor(private JsonDataService: JsonDataService,private router:Router) { }
+  constructor(private JsonDataService: JsonDataService, private router: Router) { }
 
   ngOnInit() {
     // getting languages form json file
     this.JsonDataService.getJsonData().subscribe(resJsonData => this.getdata(resJsonData));
   }
-  getdata(jsonData:any) {
+  getdata(jsonData: any) {
     this.languages = jsonData;
   }
   login() {
-   this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
-  verifyEmail(){
+  verifyEmail() {
     this.router.navigate(['/verifyEmail']);
   }
-  samarthya(){
+  samarthya() {
     this.router.navigate(['/samarthya']);
   }
 

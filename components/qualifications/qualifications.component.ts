@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'qualifications',
   templateUrl: './qualifications.component.html',
   styleUrls: ['./qualifications.component.css'],
-  providers:[CustomnodeService]
+  providers: [CustomnodeService]
 })
 export class QualificationsComponent implements OnInit {
   data: any;
@@ -15,11 +15,11 @@ export class QualificationsComponent implements OnInit {
   ngOnInit() {
   }
 
-  getQualifications(qualificationsObj:any){
+  getQualifications(qualificationsObj: any) {
     this.showData = [];
     this.customnodeService.readQualifications(qualificationsObj).subscribe(res => {
-      this.data = JSON.parse(res["_body"]);
-      this.data.forEach(element => {
+      this.data = JSON.parse(res['_body']);
+      this.data.forEach((element: any) => {
         this.showData.push(element.name);
       });
     }, err => {
