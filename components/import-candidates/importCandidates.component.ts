@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-<<<<<<< HEAD
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
+
 import {Data} from './../../services/data.service';
 import {PlacementRegisterService} from './../../services/placement-register.service';
 import {AuthenticationService} from './../../services/authentication.service';
-
-=======
-import { Data } from './../../services/data.service';
-import { PlacementRegisterService } from './../../services/placement-register.service';
->>>>>>> e6100faa3363af54432f84f0baa2833cc114771b
-
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
 
 @Component({
     selector: 'app-job-post',
@@ -24,11 +18,7 @@ export class ImportComponent implements OnInit {
     public allHistories: any;
     public allFailureHistories: any;
     filesToUpload: Array<File>;
-<<<<<<< HEAD
     constructor(private http: Http,private data:Data,private router:Router,private authenticationService:AuthenticationService ,private PlacementRegisterService:PlacementRegisterService) {
-=======
-    constructor(private http: Http, private data: Data, private router: Router, private PlacementRegisterService: PlacementRegisterService) {
->>>>>>> e6100faa3363af54432f84f0baa2833cc114771b
         this.filesToUpload = [];
     }
     formFileData: any;
@@ -41,17 +31,8 @@ export class ImportComponent implements OnInit {
 
     }
     upload() {
-<<<<<<< HEAD
-      
-        
         this.makeFileRequest("/coordinates/upload?remarks="+this.remarks+"&username="+this.createdUser, [], this.filesToUpload).then((result) => {
             this.data.openSnackBar("File Upload is in progress.","Please check File upload history");
-=======
-
-
-        this.makeFileRequest('/coordinates/upload', [], this.filesToUpload).then((result) => {
-            this.data.openSnackBar('File Upload is in progress.', 'Please check File upload history');
->>>>>>> e6100faa3363af54432f84f0baa2833cc114771b
             this.router.navigate(['/home']);
         }, (error) => {
             console.error(error + 'err');
@@ -98,20 +79,11 @@ this.remarks=events.target.value;
     makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
 
         return new Promise((resolve, reject) => {
-<<<<<<< HEAD
             var formData: any = new FormData();
             var xhr = new XMLHttpRequest();
             for (var i = 0; i < files.length; i++) {
                 formData.append("uploads[]", files[i], files[i].name);
             }            
-=======
-            let formData: any = new FormData();
-            let xhr = new XMLHttpRequest();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('uploads[]', files[i], files[i].name);
-            }
-
->>>>>>> e6100faa3363af54432f84f0baa2833cc114771b
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 201) {
@@ -134,22 +106,12 @@ this.remarks=events.target.value;
                 console.log('History error' + err);
             });
     }
-<<<<<<< HEAD
 getDetailHistory(documentId:any){
      this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res:any)=>{
             if(res.data)
             this.allFailureHistories=res;
             else{
                 this.allFailureHistories="No failure records"
-=======
-    getDetailHistory(documentId: any) {
-        this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res: any) => {
-            console.log(res.data)
-            if (res.data)
-                this.allFailureHistories = res;
-            else {
-                this.allFailureHistories = 'No failure records'
->>>>>>> e6100faa3363af54432f84f0baa2833cc114771b
             }
         },
             (err: any) => {
