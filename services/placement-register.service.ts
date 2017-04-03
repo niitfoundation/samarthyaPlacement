@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-//import {CandidateRegister} from '../modal/candidate-register.modal';
+// import {CandidateRegister} from '../modal/candidate-register.modal';
 @Injectable()
 export class PlacementRegisterService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = '';
   constructor(private http: Http) { }
-  add(userdata:any): any {
-    this.url='/coordinates'
-    return this.http.post(this.url,userdata).map((response: Response) => response.json());
+  add(userdata: any): any {
+    this.url = '/coordinates'
+    return this.http.post(this.url, userdata).map((response: Response) => response.json());
 
   }
-  verifyToken(token:any){
-    this.url="/auth/verify-email";
-        return this.http.post(this.url, {token:token}).map((response: Response) => response.json());
+  verifyToken(token: any) {
+    this.url = '/auth/verify-email';
+    return this.http.post(this.url, { token: token }).map((response: Response) => response.json());
 
   }
 
@@ -22,15 +22,15 @@ export class PlacementRegisterService {
     return false;
   }
 
-  getHistory(){
-    this.url="/coordinates/import-history";
-        return this.http.get(this.url).map((response: Response) => response.json());
+  getHistory() {
+    this.url = '/coordinates/import-history';
+    return this.http.get(this.url).map((response: Response) => response.json());
 
   }
 
-  getDetailHistory(documentId:any){
-     this.url="/coordinates/failure-history?documentId="+documentId;
-        return this.http.get(this.url).map((response: Response) => response.json());
+  getDetailHistory(documentId: any) {
+    this.url = '/coordinates/failure-history?documentId=' + documentId;
+    return this.http.get(this.url).map((response: Response) => response.json());
 
   }
 }

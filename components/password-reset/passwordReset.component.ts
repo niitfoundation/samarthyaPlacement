@@ -19,16 +19,16 @@ import {Location} from '@angular/common';
 export class PasswordResetComponent implements OnInit {
 
   public jsonObj = {};
-  public languages:any = [];
+  public languages: any = [];
   public userForm: FormGroup;
   public emailId = '';
   public password = '';
   public passwordMatchWarning = '';
-  public reset:any;
-  private token:any;
+  public reset: any;
+  private token: any;
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder,private backLocation: Location, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private backLocation: Location, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
     private router: Router, private emailService: EmailService) {
     // register candidate form
     this.userForm = fb.group({
@@ -40,35 +40,35 @@ export class PasswordResetComponent implements OnInit {
 
   ngOnInit() {
      this.route.params.subscribe(params => this.reset = params['reset']);
-    if(this.reset=='reset'){
-              var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (this.reset === 'reset') {
+              let currentUser = JSON.parse(localStorage.getItem('currentUser'));
                this.userForm.patchValue({
       'email': currentUser.username
        });
     }
-    else{
-      this.token=this.route.snapshot.queryParams['confirm']
+    else {
+      this.token = this.route.snapshot.queryParams['confirm']
       // this.route.params.subscribe(params => this.token = params['confirm']);
        let email;
-      this.AuthenticationService.getEmail(this.token).subscribe((res)=>{
-        email=res.data['username'];
+      this.AuthenticationService.getEmail(this.token).subscribe((res) => {
+        email = res.data['username'];
          this.userForm.patchValue({
       'email': email
     });
-      })   
+      })
     }
   }
 
-  getdata(jsonData:any) {
+  getdata(jsonData: any) {
     this.jsonObj = jsonData;
     this.languages = this.jsonObj['languages'];
   }
 
   // password confirm Validators
-  passwordValue(pass:any) {
+  passwordValue(pass: any) {
     this.password = pass;
   }
-  conPasswordValue(conPass:any, pass:any) {
+  conPasswordValue(conPass: any, pass: any) {
     if (pass !== conPass) {
       this.passwordMatchWarning = 'Password Not Match';
       (<HTMLInputElement>document.getElementById('resetBtn')).disabled = true;
@@ -81,28 +81,28 @@ export class PasswordResetComponent implements OnInit {
 
   // on form submit
   onSubmit() {
-    if(this.reset=='reset'){
-         this.AuthenticationService.passwordChange(this.userForm.get('email').value,this.userForm.get('password').value).subscribe(
-      res=>{
-        if(res.success==true){
+    if (this.reset === 'reset') {
+         this.AuthenticationService.passwordChange(this.userForm.get('email').value, this.userForm.get('password').value).subscribe(
+      res => {
+        if (res.success === true) {
           this.router.navigate(['/home']);
               this.Data.openSnackBar(res.msg, 'OK');
         }
-        else{
+        else {
           this.Data.openSnackBar(res.msg, 'OK');
           this.router.navigate(['/home']);
         }
       }
     );
     }
-    else{
-    this.AuthenticationService.passwordChange(this.userForm.get('email').value,this.userForm.get('password').value).subscribe(
-      res=>{
-        if(res.success==true){
+    else {
+    this.AuthenticationService.passwordChange(this.userForm.get('email').value, this.userForm.get('password').value).subscribe(
+      res => {
+        if (res.success === true) {
           this.router.navigate(['/login']);
               this.Data.openSnackBar(res.msg, 'OK');
         }
-        else{
+        else {
           this.Data.openSnackBar(res.msg, 'OK');
           this.router.navigate(['/login']);
         }

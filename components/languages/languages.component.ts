@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'languages',
   templateUrl: './languages.component.html',
   styleUrls: ['./languages.component.css'],
-  providers:[CustomnodeService]
+  providers: [CustomnodeService]
 })
 export class LanguagesComponent implements OnInit {
   data: any;
@@ -15,16 +15,33 @@ export class LanguagesComponent implements OnInit {
   ngOnInit() {
   }
 
-  getLanguages(languagesObj:any){
+  getLanguages(languagesObj: any) {
     this.showData = [];
     this.customnodeService.readLanguages(languagesObj).subscribe(res => {
-      this.data = JSON.parse(res["_body"]);
-      this.data.forEach(element => {
+      this.data = JSON.parse(res['_body']);
+      this.data.forEach((element: any) => {
         this.showData.push(element.name);
       });
     }, err => {
       console.log(err)
     });
+  }
+
+  addLanguage(languageObj: any) {
+    this.showData = [];
+    if (languageObj.name !== undefined && languageObj.name !== '') {
+      this.customnodeService.createLanguage(languageObj).subscribe(res => {
+        this.data = JSON.parse(res['_body']);
+        this.data.forEach((element: any) => {
+          this.showData.push(element.name);
+        });
+      }, err => {
+        console.log(err)
+      });
+    }
+    else {
+      this.showData.push('Please enter a language');
+    }
   }
 
 }

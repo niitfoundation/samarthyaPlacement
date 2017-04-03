@@ -2,7 +2,7 @@ import { Data } from './../../../services/data.service';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { JsonDataService } from './../../../services/json-data.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -13,9 +13,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class AfterLoginHeaderComponent implements OnInit {
 
-  public languages:any = [];
-  public navList:any = [];
-public isDarkTheme = false;
+  public languages: any = [];
+  public navList: any = [];
+  public isDarkTheme = false;
 
   constructor(private JsonDataService: JsonDataService, private AuthenticationService: AuthenticationService, private data: Data, private router: Router) { }
 
@@ -23,10 +23,10 @@ public isDarkTheme = false;
     // getting languages form json file
 
     this.JsonDataService.getJsonData().subscribe(resJsonData => this.getdata(resJsonData));
-    let tokenVerification = JSON.parse(localStorage.getItem('currentUser'))["token"];
+    let tokenVerification = JSON.parse(localStorage.getItem('currentUser'))['token'];
     this.JsonDataService.getJsonNavList(tokenVerification)
       .subscribe(
-      (role:any) => {
+      (role: any) => {
         if (role.success) {
           this.getNavList(role.data)
         }
@@ -34,36 +34,36 @@ public isDarkTheme = false;
           tokenVerification = null;
           localStorage.removeItem('currentUser');
           this.router.navigate(['/login']);
-          this.data.openSnackBar(role["message"], 'Ok');
+          this.data.openSnackBar(role['message'], 'Ok');
 
         }
-      }, (error:any) => {
+      }, (error: any) => {
         tokenVerification = null;
-          localStorage.removeItem('currentUser');
-          this.router.navigate(['/login']);
-          this.data.openSnackBar("Session expired Please Login again", 'Ok');
+        localStorage.removeItem('currentUser');
+        this.router.navigate(['/login']);
+        this.data.openSnackBar("Session expired Please Login again", 'Ok');
       })
   }
 
-   toggleTheme() {
+  toggleTheme() {
     if (this.isDarkTheme === true) {
       this.isDarkTheme = false;
     } else {
       this.isDarkTheme = true;
     }
   }
-  getdata(jsonData:any) {
+  getdata(jsonData: any) {
     this.languages = jsonData;
   }
-  getNavList(navListItem:any) {
+  getNavList(navListItem: any) {
     this.navList = navListItem;
   }
   logoutUser() {
 
     this.AuthenticationService.logout();
-    this.data.openSnackBar("logged out successfully", "OK");
+    this.data.openSnackBar('logged out successfully', 'OK');
   }
-  changePassword(){
+  changePassword() {
     this.router.navigate(['/home/passwordReset/reset']);
   }
 }

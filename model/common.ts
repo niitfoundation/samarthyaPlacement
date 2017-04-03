@@ -1,5 +1,5 @@
 export class Common {
-    id:number;
-    name:string;
-    path:string;
+    id: number;
+    name: string;
+    path: string;
 }

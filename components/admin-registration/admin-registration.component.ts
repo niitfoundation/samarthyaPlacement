@@ -19,111 +19,111 @@ import { Observable } from 'rxjs/Observable';
 export class AdminRegistrationComponent implements OnInit {
 
 
-  //form name
+  // form name
   public userForm: FormGroup;
 
-  //Title of the form which maybe coordinato or supervisor.it should be dynamic
-  
+  // Title of the form which maybe coordinato or supervisor.it should be dynamic
+
   private title: string;
-  disabled: string = "false";
+  disabled: string = 'false';
   hiddenParticularRole: any;
   hiddenRole: any;
   public pincodeLocation: any;
-  public areaList:any = [];
+  public areaList: any = [];
   emailDisable: any = false;
-  public createdBy:any;
-  public district:any;
-  public state:any;
-  public landmark:any;
-  public createdUser:any;
+  public createdBy: any;
+  public district: any;
+  public state: any;
+  public landmark: any;
+  public createdUser: any;
 
 
-  //Dropdown values.Should be data driven
+  // Dropdown values.Should be data driven
   roles: any;
-  professions :any;
-  placementCenters :any;
-  languages:any;
+  professions: any;
+  placementCenters: any;
+  languages: any;
 
   ngOnInit() {
-     this.JsonDataService.getPlacementCenter().subscribe(resJsonData => this.placementCenters=resJsonData);
-          this.JsonDataService.getRoles().subscribe(resJsonData => this.roles=resJsonData);
+    this.JsonDataService.getPlacementCenter().subscribe(resJsonData => this.placementCenters = resJsonData);
+    this.JsonDataService.getRoles().subscribe(resJsonData => this.roles = resJsonData);
 
-    this.JsonDataService.getJsonData().subscribe(resJsonData => this.languages=resJsonData);
+    this.JsonDataService.getJsonData().subscribe(resJsonData => this.languages = resJsonData);
 
-    this.JsonDataService.getProfession().subscribe(resJsonData => this.professions=resJsonData);
+    this.JsonDataService.getProfession().subscribe(resJsonData => this.professions = resJsonData);
 
-    this.createdUser=this.authenticationService.getCreatedBy()
-if(this.createdUser){
-  this.title = "Admin";
-      this.disabled = "false";
+    this.createdUser = this.authenticationService.getCreatedBy()
+    if (this.createdUser) {
+      this.title = 'Admin';
+      this.disabled = 'false';
       this.hiddenRole = false;
       this.hiddenParticularRole = true;
-} 
-else{
-    this.PlacementRegisterService.verifyToken(this.route.snapshot.queryParams['confirm']).subscribe(res=>{
-      if(res.msg!='Session Expired'){
-         if (res.data.username) {
-      this.userForm.patchValue({
-        'emailControl': res.data.username
-      })
-      this.emailDisable = true;
-    this.title=res.data.title;
-     if (this.title.toLowerCase() == 'coordinator') {
-      this.userForm.patchValue({
-        roleControl: "Coordinator"
-      })
-      this.hiddenRole = true;
-      this.hiddenParticularRole = false;
-      this.disabled = "true";
     }
-    else if (this.title.toLowerCase() == 'supervisor') {
-      this.userForm.patchValue({
-        roleControl: "Supervisor"
-      })
-      this.hiddenRole = true;
-      this.hiddenParticularRole = false;
+    else {
+      this.PlacementRegisterService.verifyToken(this.route.snapshot.queryParams['confirm']).subscribe(res => {
+        if (res.msg !== 'Session Expired') {
+          if (res.data.username) {
+            this.userForm.patchValue({
+              'emailControl': res.data.username
+            })
+            this.emailDisable = true;
+            this.title = res.data.title;
+            if (this.title.toLowerCase() === 'coordinator') {
+              this.userForm.patchValue({
+                roleControl: 'Coordinator'
+              })
+              this.hiddenRole = true;
+              this.hiddenParticularRole = false;
+              this.disabled = 'true';
+            }
+            else if (this.title.toLowerCase() === 'supervisor') {
+              this.userForm.patchValue({
+                roleControl: 'Supervisor'
+              })
+              this.hiddenRole = true;
+              this.hiddenParticularRole = false;
 
-      this.disabled = "true";
+              this.disabled = 'true';
+            }
+            else if (this.title.toLowerCase() === 'admin') {
+              this.title = 'Admin';
+              this.disabled = 'false';
+              this.hiddenRole = false;
+              this.hiddenParticularRole = true;
+
+            }
+            this.emailService.sendEmail({ username: this.userForm.get('emailControl').value }).subscribe(resJsonData => {
+
+            },
+              error => {
+                this.data.openSnackBar('Already Registered', 'Please Login');
+                this.router.navigate(['/login']);
+              });
+          }
+        }
+
+        else {
+
+          this.router.navigate(['/login']);
+          this.data.openSnackBar(res.msg['msg'], 'OK');
+
+        }
+      },
+        (err) => {
+          this.router.navigate(['/login']);
+          this.data.openSnackBar('Session Expired', 'OK');
+        })
+
     }
-    else if (this.title.toLowerCase() == 'admin') {
-      this.title = "Admin";
-      this.disabled = "false";
-      this.hiddenRole = false;
-      this.hiddenParticularRole = true;
 
-    }   
-     this.emailService.sendEmail({username:this.userForm.get('emailControl').value}).subscribe(resJsonData => {
-   
-    },
-      error => {
-        this.data.openSnackBar('Already Registered', 'Please Login');
-         this.router.navigate(['/login']);
-      })  ;
-         }
-    }
-
-    else{
-      
-      this.router.navigate(['/login']);
-              this.data.openSnackBar(res.msg['msg'],"OK");
-
-    }
-  },
-  (err)=>{
-     this.router.navigate(['/login']);
-              this.data.openSnackBar("Session Expired","OK");
-  })
-
-}
-   
   }
 
 
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder,private authenticationService:AuthenticationService, private data: Data, private JsonDataService: JsonDataService,private emailService:EmailService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private authenticationService: AuthenticationService, private data: Data, private JsonDataService: JsonDataService, private emailService: EmailService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
     private router: Router, ) {
-    //building the form using FormBuilder and FormGroup
+    // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
@@ -143,12 +143,12 @@ else{
     });
   }
 
-  //password validation which is calling from form building of passwordControl
+  // password validation which is calling from form building of passwordControl
   passwordValidator(): ValidatorFn {
 
     return (c: AbstractControl) => {
       if (this.userForm && this.userForm.get('confirmPasswordControl').value) {
-        if (this.userForm.get('passwordControl').value == this.userForm.get('confirmPasswordControl').value) {
+        if (this.userForm.get('passwordControl').value === this.userForm.get('confirmPasswordControl').value) {
           return null;
         }
         else {
@@ -161,12 +161,12 @@ else{
 
   }
 
-  //password validation which is calling from form building of confirmPasswordControl
+  // password validation which is calling from form building of confirmPasswordControl
   matchPassword(): ValidatorFn {
 
     return (c: AbstractControl) => {
       if (this.userForm && this.userForm.get('passwordControl').value) {
-        if (this.userForm.get('passwordControl').value == this.userForm.get('confirmPasswordControl').value) {
+        if (this.userForm.get('passwordControl').value === this.userForm.get('confirmPasswordControl').value) {
           return null;
         }
         else {
@@ -177,9 +177,9 @@ else{
     }
   }
 
-  //user choose the location by pincode which is calling from close dialog and it should set location to the entered pincode
+  // user choose the location by pincode which is calling from close dialog and it should set location to the entered pincode
   getPincode() {
-    if (this.userForm.get('pincodeControl').value.length == 6 && this.userForm.get('pincodeControl').valid) {
+    if (this.userForm.get('pincodeControl').value.length === 6 && this.userForm.get('pincodeControl').valid) {
       this.JsonDataService.getPincode(this.userForm.get('pincodeControl').value).subscribe(
         resPincodeData => [this.pincodeLocation = resPincodeData.records, this.getPincodeLocation()]);
     }
@@ -195,7 +195,7 @@ else{
   getPincodeLocation() {
     this.userForm.value.locationControl = '';
     this.areaList = [];
-    this.pincodeLocation.forEach((element:any) => {
+    this.pincodeLocation.forEach((element: any) => {
       this.areaList.push(element['officename'] + ', ' + element['Districtname'] + ', ' + element['statename']);
     });
     if (this.areaList.length === 0) {
@@ -206,52 +206,54 @@ else{
     }
   }
 
-  save(userdata:any): boolean {
-    if(this.createdUser){
-      this.createdBy=this.createdUser;
+  save(userdata: any): boolean {
+    if (this.createdUser) {
+      this.createdBy = this.createdUser;
     }
-    else{
-      this.createdBy=userdata.get('emailControl').value;
+    else {
+      this.createdBy = userdata.get('emailControl').value;
     }
-    this.landmark=userdata.get('locationControl').value.split(',')[0];
-        this.district=userdata.get('locationControl').value.split(',')[1];
-    this.state=userdata.get('locationControl').value.split(',')[2];
+    this.landmark = userdata.get('locationControl').value.split(',')[0];
+    this.district = userdata.get('locationControl').value.split(',')[1];
+    this.state = userdata.get('locationControl').value.split(',')[2];
     let userData = {
-      profileData:{fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
-      gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
-      mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
-      profession: userdata.get('professionControl').value,
-      pincode:userdata.get('pincodeControl').value,
-      district:this.district,
-      landmark:this.landmark,
-      state:this.state,
-       identity:[{idType:"Aadhaar",value:userdata.get('aadharControl').value},
-       {idType:"RegNumber",value:userdata.get('registrationControl').value}],
-      location: userdata.get('locationControl').value,
-      placementCenter: userdata.get('placementControl').value,
-      language: userdata.get('languageControl').value,
-      createdBy:this.createdBy
-    },
-      userCredentialsData:{
-      username: userdata.get('emailControl').value, password: userdata.get('passwordControl').value,
-      role: userdata.get('roleControl').value,
+      profileData: {
+        fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
+        gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
+        mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
+        profession: userdata.get('professionControl').value,
+        pincode: userdata.get('pincodeControl').value,
+        district: this.district,
+        landmark: this.landmark,
+        state: this.state,
+        identity: [{ idType: "Aadhaar", value: userdata.get('aadharControl').value },
+        { idType: "RegNumber", value: userdata.get('registrationControl').value }],
+        location: userdata.get('locationControl').value,
+        placementCenter: userdata.get('placementControl').value,
+        language: userdata.get('languageControl').value,
+        createdBy: this.createdBy
+      },
+      userCredentialsData: {
+        username: userdata.get('emailControl').value, password: userdata.get('passwordControl').value,
+        role: userdata.get('roleControl').value,
+
       }
     };
-   
-   
-  
-    this.PlacementRegisterService.add(userData).subscribe((resJsonData:any) => {
-      if (resJsonData['success'] == true) {
+
+
+
+    this.PlacementRegisterService.add(userData).subscribe((resJsonData: any) => {
+      if (resJsonData['success'] === true) {
         this.userForm.reset();
         this.router.navigate(['/login']);
-        this.data.openSnackBar(resJsonData['msg'],"OK");
+        this.data.openSnackBar(resJsonData['msg'], 'OK');
         return true;
       }
       else {
-        this.data.openSnackBar(resJsonData['msg'],"OK");
+        this.data.openSnackBar(resJsonData['msg'], 'OK');
       }
     },
-      (error:any) => {
+      (error: any) => {
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       })
 

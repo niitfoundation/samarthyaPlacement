@@ -10,6 +10,10 @@
 </div>
 
 <div>
+    <button md-raised-button (click)="addRole({name:roleName})">Add Role</button>
+</div>
+
+<div>
     <ul>
     <li *ngFor="let item of showData">{{item}}</li>
 </ul>

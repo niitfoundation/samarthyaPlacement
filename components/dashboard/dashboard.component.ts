@@ -1,6 +1,6 @@
 // import { log } from 'util';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute,Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -8,13 +8,11 @@ import { ActivatedRoute,Router } from "@angular/router";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  title:any;
-  constructor(private route: ActivatedRoute,private router:Router) {
-   
+  title: any;
+  constructor(private route: ActivatedRoute, private router: Router) {
+
   }
-  ngOnInit() 
-    {
-    }
-  
+  ngOnInit() {
+  }
 
 }
