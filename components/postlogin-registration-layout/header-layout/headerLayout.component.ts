@@ -38,7 +38,10 @@ public isDarkTheme = false;
 
         }
       }, (error:any) => {
-        console.log(error);
+        tokenVerification = null;
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+          this.data.openSnackBar("Session expired Please Login again", 'Ok');
       })
   }
 

@@ -4,14 +4,11 @@ import { EmailService } from './../../services/email.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
 import { AuthenticationService } from './../../services/authentication.service';
-import { UiDetails } from './../../services/uidetails.service';
 import { Data } from '../../services/data.service';
-
 import { Common } from '../../model/common';
 @Component({
   selector: 'app-login',
@@ -21,19 +18,10 @@ import { Common } from '../../model/common';
 export class LoginComponent implements OnInit {
 
   public userForm: FormGroup;
-  public modalVerify: FormGroup;
-  public modalReset: FormGroup;
-  public infoobj:any;
-  private postobject:any;
-  public candidates:any = [];
-  public userRole:any;
-  user: any = {};
-  returnUrl: String;
-  menuLinks: Common[] = [];
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService, private JsonDataService: JsonDataService,
-    private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute,
-    private authenticationService: AuthenticationService, private uiDetails: UiDetails, private data: Data) {
+    private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute,
+    private authenticationService: AuthenticationService, private data: Data) {
 
     // getting login form data
     this.userForm = fb.group({
@@ -42,10 +30,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // on login submit
-  onSubmit() {
-      }
-
+ 
   ngOnInit() {
   if(this.route.snapshot.queryParams['message'])
     this.data.openSnackBar(this.route.snapshot.queryParams['message'],'ok');

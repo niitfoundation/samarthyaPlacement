@@ -1,4 +1,3 @@
-import { UiDetails } from './services/uidetails.service';
 import { PlacementRegisterService } from './services/placement-register.service';
 import { JsonDataService } from './services/json-data.service';
 import { EmailService } from './services/email.service';
@@ -130,8 +129,7 @@ export class placementmodule {
 	   Data,
 	   EmailService,
 	   JsonDataService,
-	   PlacementRegisterService,
-	   UiDetails
+	   PlacementRegisterService
       ]
     }
   }

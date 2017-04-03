@@ -18,6 +18,7 @@
 </div>
 <!--import-button-->
 <div class="container width-75 margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
+                <input type="text" placeholder="Remarks" (blur)="getRemarks($event)"/>
     <div fxFlex class="margin-auto  text-center ">
         <button md-button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
     </div>
@@ -31,13 +32,14 @@
             <button md-raised-button color="primary"  type="button" (click)="getHistory()">View Import History</button>
  <div *ngIf="allHistories">           
 <table>
-<tr><th>Total Profiles</th><th>Success</th><th>Failure</th><th>Created On</th><th>Status</th>  </tr>
+<tr><th>Total Profiles</th><th>Success</th><th>Failure</th><th>Created On</th><th>Remarks</th>  </tr>
 <tr *ngFor="let history of allHistories">
-<td>{{history.totalProfiles}}</td>
-<td>{{history.status.noOfSuccess}}</td>
-<td>{{history.status.noOfFailure}}</td>
-<td>{{history.createdOn}}</td>
-<td><button md-raised-button color="primary"  type="button" (click)="getDetailHistory(history.documentId)">View Failure Detail</button></td>
+<td>{{history.importResult.total}}</td>
+<td>{{history.importResult.success}}</td>
+<td>{{history.importResult.failed}}</td>
+<td>{{history.requestedOn}}</td>
+<td>{{history.remarks}}</td>
+<td><button md-raised-button color="primary"  type="button" (click)="getDetailHistory(history._id)">View Failure Detail</button></td>
 </tr>
 </table>
  </div>

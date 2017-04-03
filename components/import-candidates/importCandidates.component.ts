@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import {Data} from './../../services/data.service';
 import {PlacementRegisterService} from './../../services/placement-register.service';
+import {AuthenticationService} from './../../services/authentication.service';
+
 
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
 
@@ -17,19 +19,22 @@ export class ImportComponent implements OnInit {
     public allHistories:any;
     public allFailureHistories:any;
     filesToUpload: Array<File>;
-    constructor(private http: Http,private data:Data,private router:Router,private PlacementRegisterService:PlacementRegisterService) {
+    constructor(private http: Http,private data:Data,private router:Router,private authenticationService:AuthenticationService ,private PlacementRegisterService:PlacementRegisterService) {
         this.filesToUpload = [];
     }
     formFileData: any;
+    remarks:any;
+    createdUser:any;
 
     ngOnInit() {
+            this.createdUser=this.authenticationService.getCreatedBy();
 
 
     }
     upload() {
       
         
-        this.makeFileRequest("/coordinates/upload", [], this.filesToUpload).then((result) => {
+        this.makeFileRequest("/coordinates/upload?remarks="+this.remarks+"&username="+this.createdUser, [], this.filesToUpload).then((result) => {
             this.data.openSnackBar("File Upload is in progress.","Please check File upload history");
             this.router.navigate(['/home']);
         }, (error) => {
@@ -41,13 +46,6 @@ export class ImportComponent implements OnInit {
         const files = event.target.files;
         if (files.length > 0) {
             let file;
-            let formData = new FormData();
-            for (let i = 0; i < files.length; i++) {
-                file = files[i];
-                formData.append('userfile[]', file, file.name);
-            }
-
-            this.formFileData = formData;
             let input = event.target;
 
 
@@ -75,6 +73,11 @@ export class ImportComponent implements OnInit {
         }
     }
 
+    getRemarks(events:any){
+this.remarks=events.target.value;
+
+    }
+
 
     makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
        
@@ -83,8 +86,7 @@ export class ImportComponent implements OnInit {
             var xhr = new XMLHttpRequest();
             for (var i = 0; i < files.length; i++) {
                 formData.append("uploads[]", files[i], files[i].name);
-            }
-            
+            }            
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 201) {
@@ -109,7 +111,6 @@ export class ImportComponent implements OnInit {
     }
 getDetailHistory(documentId:any){
      this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res:any)=>{
-            console.log(res.data)
             if(res.data)
             this.allFailureHistories=res;
             else{
