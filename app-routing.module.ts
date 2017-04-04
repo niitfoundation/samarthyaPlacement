@@ -14,7 +14,6 @@ import { AfterLoginHeaderComponent } from './components/postlogin-registration-l
 import { VerifyEmailComponent } from './components/verify-email/verifyEmail.component';
 import { ForgotPasswordComponent } from './components/forget-password/forgetPassword.component';
 import { PasswordResetComponent } from './components/password-reset/passwordReset.component';
-import { ProfileCardComponent } from './components/profile-card/profileCard.component';
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 import { ProfessionsComponent } from './components/professions/professions.component';
 import { SkillsComponent } from './components/skills/skills.component';

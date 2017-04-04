@@ -16,7 +16,6 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { VerifyEmailComponent } from './components/verify-email/verifyEmail.component';
-import { ProfileCardComponent } from './components/profile-card/profileCard.component';
 import { LoginHeaderComponent } from './components/prelogin-registration-layout/login-header/login-header.component';
 import { LoginFooterComponent } from './components/prelogin-registration-layout/login-footer/login-footer.component';
 import { AfterLoginHeaderComponent } from './components/postlogin-registration-layout/header-layout/headerLayout.component';
@@ -72,7 +71,6 @@ FooterComponent,
 AfterLoginHeaderComponent,
 LoginFooterComponent,
 LoginHeaderComponent,
-ProfileCardComponent,
 VerifyEmailComponent,
 placementComponent,
 ImportComponent,
@@ -102,7 +100,6 @@ FooterComponent,
 AfterLoginHeaderComponent,
 LoginFooterComponent,
 LoginHeaderComponent,
-ProfileCardComponent,
 VerifyEmailComponent,
 placementComponent,
 ImportComponent,
