@@ -30,7 +30,7 @@ export class LoginHeaderComponent implements OnInit {
     this.router.navigate(['/verifyEmail']);
   }
   samarthya() {
-    this.router.navigate(['/samarthya']);
+    this.router.navigate(['/login']);
   }
 
 }

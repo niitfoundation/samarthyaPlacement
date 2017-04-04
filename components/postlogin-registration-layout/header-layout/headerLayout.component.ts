@@ -66,4 +66,7 @@ export class AfterLoginHeaderComponent implements OnInit {
   changePassword() {
     this.router.navigate(['/home/passwordReset/reset']);
   }
+  home(){
+    this.router.navigate(['/home']);
+  }
 }
