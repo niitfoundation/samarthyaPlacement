@@ -1,4 +1,3 @@
-import { not } from '@angular-cli/ast-tools/node_modules/rxjs/util/not';
 import { inject } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
