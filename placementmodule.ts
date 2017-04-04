@@ -23,7 +23,6 @@ import { AfterLoginHeaderComponent } from './components/postlogin-registration-l
 import { FooterComponent } from './components/postlogin-registration-layout/footer-layout/footer.component';
 import { PasswordResetComponent } from './components/password-reset/passwordReset.component';
 import { LoginComponent } from './components/login/login.component';
-import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { JobPostComponent } from './components/job-post/job-post.component';
 import { ForgotPasswordComponent } from './components/forget-password/forgetPassword.component';
 import { EventPostComponent } from './components/event-post/event-post.component';
@@ -67,7 +66,6 @@ EmployersComponent,
 EventPostComponent,
 ForgotPasswordComponent,
 JobPostComponent,
-LandingPageComponent,
 LoginComponent,
 PasswordResetComponent,
 FooterComponent,
@@ -98,7 +96,6 @@ EmployersComponent,
 EventPostComponent,
 ForgotPasswordComponent,
 JobPostComponent,
-LandingPageComponent,
 LoginComponent,
 PasswordResetComponent,
 FooterComponent,

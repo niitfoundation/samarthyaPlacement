@@ -18,8 +18,8 @@
 </div>
 <!--import-button-->
 <div class="container width-75 margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
-                <input type="text" placeholder="Remarks" (blur)="getRemarks($event)"/>
     <div fxFlex class="margin-auto  text-center ">
+                        <input type="text" placeholder="Remarks" (blur)="getRemarks($event)"/>
         <button md-button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
     </div>
 </div>

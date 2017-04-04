@@ -125,6 +125,7 @@ export class AdminRegistrationComponent implements OnInit {
     private router: Router, ) {
     // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
+      nameControl:['',[Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
@@ -218,6 +219,7 @@ export class AdminRegistrationComponent implements OnInit {
     this.state = userdata.get('locationControl').value.split(',')[2];
     let userData = {
       profileData: {
+        name:userdata.get('nameControl').value,
         fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
         gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
         mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,

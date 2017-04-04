@@ -26,14 +26,14 @@ export class LoginComponent implements OnInit {
     // getting login form data
     this.userForm = fb.group({
       email: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
-      password: ['', [Validators.required,  Validators.pattern('[A-Za-z0-9.@!$*&]{6,}')]]
+      password: ['', [Validators.required, Validators.pattern('[A-Za-z0-9.@!$*&]{6,}')]]
     });
   }
 
- 
+
   ngOnInit() {
-  if (this.route.snapshot.queryParams['message'])
-    this.data.openSnackBar(this.route.snapshot.queryParams['message'], 'ok');
+    if (this.route.snapshot.queryParams['message'])
+      this.data.openSnackBar(this.route.snapshot.queryParams['message'], 'ok');
 
   }
   public result: any;
@@ -50,21 +50,21 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(value['email'], value['password'])
       .subscribe(
       res => {
-        this.data.openSnackBar('Welcome back', 'Ok');
-              this.router.navigate(['/home']);
+        this.data.openSnackBar('Welcome ',value['email'] );
+        this.router.navigate(['/home']);
       },
       error => {
-       this.data.openSnackBar('Invalid username or password', 'Try again');
-              this.router.navigate(['/login']);
+        this.data.openSnackBar('Invalid username or password', 'Try again');
+        this.router.navigate(['/login']);
       });
 
   }
 
   socialAuthentication(socialSite: any) {
-      this.authenticationService.socialAuthentication(socialSite) .subscribe(
+    this.authenticationService.socialAuthentication(socialSite).subscribe(
       data => {
         this.data.openSnackBar(data['message'], 'Ok');
-              this.router.navigate(['/home']);
+        this.router.navigate(['/home']);
       },
       error => {
         console.log(error);

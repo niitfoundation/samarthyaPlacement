@@ -14,7 +14,6 @@ import { AfterLoginHeaderComponent } from './components/postlogin-registration-l
 import { VerifyEmailComponent } from './components/verify-email/verifyEmail.component';
 import { ForgotPasswordComponent } from './components/forget-password/forgetPassword.component';
 import { PasswordResetComponent } from './components/password-reset/passwordReset.component';
-import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ProfileCardComponent } from './components/profile-card/profileCard.component';
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 import { ProfessionsComponent } from './components/professions/professions.component';
@@ -26,9 +25,8 @@ import { CentresComponent } from './components/centres/centres.component';
 import { RolesComponent } from './components/roles/roles.component';
 // routes
 const routes: Routes = [
-  { path: '', redirectTo: '/samarthya', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'samarthya', component: LandingPageComponent },
   { path: 'verifyEmail', component: VerifyEmailComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'passwordReset', component: PasswordResetComponent },
