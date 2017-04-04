@@ -40,7 +40,7 @@ export class VerifyEmailComponent implements OnInit {
       };
     this.emailservice.sendEmail(this.infoobj).subscribe(resJsonData => {
       if(resJsonData.success){
-      this.data.openSnackBar('mail sent succefully', 'Please Check your MAIL');
+      this.data.openSnackBar(resJsonData.msg, 'Please Check your MAIL');
       this.timer = setTimeout(() => this.router.navigate(['/login']), 500);
     }
     else{

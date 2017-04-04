@@ -118,17 +118,15 @@ export class AdminRegistrationComponent implements OnInit {
 
   }
 
-
-
-
   constructor( @Inject(FormBuilder) fb: FormBuilder, private authenticationService: AuthenticationService, private data: Data, private JsonDataService: JsonDataService, private emailService: EmailService, private PlacementRegisterService: PlacementRegisterService, private route: ActivatedRoute,
     private router: Router, ) {
     // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
-      nameControl:['',[Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
+      nameControl:['',[Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
+      dobControl:['',[Validators.required,this.validateDate()]],
       registrationControl: [''],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       aadharControl: ['', [Validators.required, Validators.pattern(/^\d{12}$/)]],
@@ -144,6 +142,23 @@ export class AdminRegistrationComponent implements OnInit {
     });
   }
 
+//validate the date of birth to be less than 10 years from current year
+validateDate():ValidatorFn{
+   return (c: AbstractControl) => {
+
+      if (this.userForm && this.userForm.get('dobControl').value) {
+             let date:Date=this.userForm.get('dobControl').value;
+             let systemDate=new Date();
+        if (date.getFullYear() <= systemDate.getFullYear()-10) {
+          return null;
+        }
+        else {
+          return { valid: false };
+        }
+      }
+
+    }
+}
   // password validation which is calling from form building of passwordControl
   passwordValidator(): ValidatorFn {
 
@@ -221,6 +236,7 @@ export class AdminRegistrationComponent implements OnInit {
       profileData: {
         name:userdata.get('nameControl').value,
         fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
+        dob:userdata.get('dobControl').value,
         gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
         mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
         profession: userdata.get('professionControl').value,

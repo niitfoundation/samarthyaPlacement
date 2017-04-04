@@ -104,7 +104,7 @@
               <md-input-container class="full-width">
                 <input mdInput formControlName="nameControl" id="name" type="text" class="validate" placeholder="Display Name" />
                 <md-hint align="start" class="full-width">
-                  <div *ngIf="userForm.get('name').hasError('required') && userForm.get('name').touched" class="errorStyle">
+                  <div *ngIf="userForm.get('nameControl').hasError('required') && userForm.get('nameControl').touched" class="errorStyle">
                     First Name is required
                   </div>
                 </md-hint>
@@ -176,7 +176,7 @@
             </div>
             <div fxFlex.xs="90" fxFlex.gt-xs="93">
               <md-input-container class="full-width">
-                <input mdInput formControlName="aadharControl" type="text" class="validate" placeholder="Aadhar No. (Optional)" />
+                <input mdInput formControlName="aadharControl" type="text" class="validate" placeholder="Aadhar No." />
                 <md-hint align="start" class="full-width">
                   <!--<div *ngIf="userForm.get('aadharControl').hasError('pattern')" class="errorStyle">Invaild Aadhar</div>-->
                 </md-hint>
@@ -186,12 +186,15 @@
 
 
 
-          <!--Date of Birth-->
-          <!--<div fxLayout="row" fxLayoutAlign="start end">
+                   <!--Date of Birth-->
+          <div fxLayout="row" fxLayoutAlign="start end">
             <div fxFlex>
-              <md2-datepicker formControlName="dob" [(ngModel)]="date" class="full-width">date</md2-datepicker>
+              <md2-datepicker formControlName="dobControl"placeholder="Date Of Birth" class="full-width">date</md2-datepicker>
             </div>
-          </div>-->
+            <div *ngIf="!userForm.get('dobControl').valid  && userForm.get('dobControl').touched" class="errorStyle">
+              Date Of Birth is required and it should be 10 years less than to register
+            </div>
+          </div>
 
           <!--Contact info division-->
           <div class="division">
