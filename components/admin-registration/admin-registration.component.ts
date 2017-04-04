@@ -21,7 +21,7 @@ export class AdminRegistrationComponent implements OnInit {
 
   // form name
   public userForm: FormGroup;
-
+  public showProgress=false;
   // Title of the form which maybe coordinato or supervisor.it should be dynamic
 
   private title: string;
@@ -223,6 +223,7 @@ validateDate():ValidatorFn{
   }
 
   save(userdata: any): boolean {
+    this.showProgress=true;
     if (this.createdUser) {
       this.createdBy = this.createdUser;
     }
@@ -268,10 +269,12 @@ validateDate():ValidatorFn{
         return true;
       }
       else {
+        this.showProgress=false;
         this.data.openSnackBar(resJsonData['msg'], 'OK');
       }
     },
       (error: any) => {
+        this.showProgress=false;
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       })
 

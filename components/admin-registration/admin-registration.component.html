@@ -1,7 +1,9 @@
 <app-login-header *ngIf="title=='Coordinator' || title=='Supervisor'">
 </app-login-header>
 <app-header *ngIf="title=='Admin'"></app-header>
-
+<div *ngIf="showProgress" class="progressBar">
+  <md-progress-bar mode="indeterminate"></md-progress-bar>
+</div>
 <!--Register card-->
 <md-grid-list cols="1" rowHeight="1750">
   <md-grid-tile>

@@ -19,6 +19,7 @@ export class VerifyEmailComponent implements OnInit {
   public userForm: FormGroup;
   public infoobj: any;
   public timer: any;
+  public showProgress=false;
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router) {
@@ -33,6 +34,7 @@ export class VerifyEmailComponent implements OnInit {
 
   // on create account submit
   onVerifyLink() {
+    this.showProgress=true;
      this.infoobj = {
         'title': this.userForm.value.role,
         'username': this.userForm.value.email,
@@ -44,6 +46,7 @@ export class VerifyEmailComponent implements OnInit {
       this.timer = setTimeout(() => this.router.navigate(['/login']), 500);
     }
     else{
+
          this.data.openSnackBar(resJsonData.msg, 'OK');
       this.timer = setTimeout(() => this.router.navigate(['/login']), 500);
     }

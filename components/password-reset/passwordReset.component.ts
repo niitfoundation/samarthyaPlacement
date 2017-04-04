@@ -26,6 +26,7 @@ export class PasswordResetComponent implements OnInit {
   public passwordMatchWarning = '';
   public reset: any;
   private token: any;
+  public showProgress=false;
 
 
   constructor( @Inject(FormBuilder) fb: FormBuilder, private backLocation: Location, private Data: Data, private AuthenticationService: AuthenticationService, private JsonDataService: JsonDataService, private route: ActivatedRoute,
@@ -81,6 +82,7 @@ export class PasswordResetComponent implements OnInit {
 
   // on form submit
   onSubmit() {
+    this.showProgress=true;
     if (this.reset === 'reset') {
          this.AuthenticationService.passwordChange(this.userForm.get('email').value, this.userForm.get('password').value).subscribe(
       res => {

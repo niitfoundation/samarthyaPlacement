@@ -5,6 +5,8 @@ import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
+import { Data } from './../../services/data.service';
+
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,8 +23,9 @@ export class ForgotPasswordComponent implements OnInit {
   public candidates: any;
   public timer: any;
   public emailId: any = '';
+  public showProgress = false;
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private emailservice: EmailService,
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router, private emailService: EmailService) {
     // getting login form data
     this.userForm = fb.group({
@@ -31,49 +34,22 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.emailService.getRegister()
-    //   .subscribe(resEmployeeData => {
-    //     this.emailId = resEmployeeData.usermail2;
-    //     console.log(this.emailId);
-    //   });
   }
 
-  // snackBar for notification
-  openSnackBar(message: any, action: any) {
-    this.snackBar.open(message, action, {
-      duration: 5000,
-    });
-  }
-
-  // verify user if already exist or not for password Reset
-  // verifyUserReset() {
-
-  //   if (this.candidates.length!=0) {
-  //     let link="";
-
-  //     this.emailservice.postdata(this.infoobj).subscribe(data => this.postobject = data,
-  //       error => [this.openSnackBar('PASSWORD RESET LINK SENT', 'Please Check your mail'),
-  //       this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
-  //       ], () => console.log('finished'));
-  //   } else {
-  //     this.openSnackBar('User not Registered', 'Please Register');
-  //   }
-  // }
-
-  // on password reset submit
   onResetLink() {
-     this.infoobj = {
-       'title': '',
-        'username': this.userForm.value.email,
-        'subject': 'Password Reset',
-      };
+    this.showProgress = true;
+    this.infoobj = {
+      'title': '',
+      'username': this.userForm.value.email,
+      'subject': 'Password Reset',
+    };
     this.emailService.sendResetPasswordEmail(this.infoobj).subscribe(resEmailData => {
-this.openSnackBar(resEmailData.msg, 'ok'),
+      this.data.openSnackBar(resEmailData.msg, 'ok'),
         this.timer = setTimeout(() => this.router.navigate(['/login']), 500)
-      },    error => {
-        console.log(error)
-        this.openSnackBar('User Doesn\'t exist', 'ok');
-      });
+    }, error => {
+      this.showProgress = false;
+      this.data.openSnackBar('User Doesn\'t exist', 'ok');
+    });
 
   }
   onBack() {
