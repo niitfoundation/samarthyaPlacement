@@ -1,12 +1,9 @@
-.icon{
+/*.icon{
     font-size: 50px;
     line-height: 0px;
     margin: auto;
     color: gray;
-}
-.cards{
-    margin:20px;
-}
+}*/
 .results{
     align-content: center;
     text-align: center;
@@ -21,45 +18,21 @@
     transition: all .7s;
     color: #F44336;
 }
-.view{
+/*.view{
     position: fixed;
+}*/
 
-}
-.search-icon {
-    position: absolute;
-    top: 50%;
-    right: 25px;
-    margin-top: -10px;
-}
-
-.loginCard{
-    text-align: center;
-}
-
-button
-{
-    margin:0px 5px;
-}
-.pull-right
-{
-    float: right;
-
-}
 .search-box
 {
     width:80%;
     margin:auto;
-        }
+}
+.openCardBtn{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
 
-.width-75
-{
-    width:75%;
-    margin:auto;
-}
-.pull-left
-{
-    float: left;
-}
 .expand{
 
   -webkit-animation: moveDown 1s .1s ease forwards;
@@ -68,22 +41,18 @@ button
 
  
 @-webkit-keyframes moveDown {
-  
-  
   100% {
    width:65%;
   }
 }
 
 @keyframes moveDown {
-
   100% {
    width:65%;
   }
 }
 
 .expand-out{
-
   -webkit-animation: moveDowns 1s .1s ease forwards;
   animation: moveDowns 1s .1s ease forwards;
 }
@@ -165,12 +134,25 @@ button
     margin-left:0;
     margin-right: 0;
 }
+
+.cards{
+    margin:auto;
+    margin-top:20px;
+    margin-bottom: 20px;
+  
+}
    
 }
 
 @media (min-width: 768px) {
 .results{
-    margin-left: 14%;
-    margin-right: 8%;
+    margin: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.cards{
+    margin:20px;
+ 
 }
 }

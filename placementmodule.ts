@@ -50,7 +50,7 @@ import { SamProfileSectionFormComponent } from 'samarthyaWebcomponent/sam-profil
 import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-section/sam-profile-section.component';
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
-
+import { CardDialog } from './components/cardDialog/cardDialog.component';
 
 @NgModule({
 
@@ -64,7 +64,8 @@ import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profi
     FlexLayoutModule,
     AppRoutingModule,
     RouterModule,
-    SamarthyaWebComponentsModule
+    SamarthyaWebComponentsModule,
+
   ],
   declarations: [
     AboutUsComponent,
@@ -91,10 +92,11 @@ import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profi
     LocationsComponent,
     QualificationsComponent,
     CentresComponent,
-    JobRolesComponent
+    JobRolesComponent,
+    CardDialog
     // routingComponents check working or not
   ],
-  bootstrap: [placementComponent],
+  bootstrap: [placementComponent, CardDialog],
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,
@@ -125,6 +127,7 @@ import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profi
     SamProfileCardComponent,
     SamProfileSectionComponent,
     SamProfileSectionFormComponent,
+    CardDialog
 
   ]
 })

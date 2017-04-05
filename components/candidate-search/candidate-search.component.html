@@ -13,22 +13,32 @@
             </p>
           </md-hint>
         </md-input-container>
-        <!--<md-icon class="icon">search</md-icon>-->
       </div>
     </form>
   </div>
 </div>
 
-<sam-profile-thumbnail></sam-profile-thumbnail>
-<div fxLayout="row" fxLayoutWrap class="results">
-  <div *ngFor="let data of tempData" class="cards">
-    <md-card>
-      <md-card-title>{{data}}</md-card-title>
-      <md-card-content>
-        TEMP
-      </md-card-content>
-    </md-card>
+
+<div fxLayout="row" fxLayoutWrap fxLayoutAlign="center" class="results">
+  <div *ngFor="let data of displayData" class="cards">
+    {{data}}
+    <sam-profile-thumbnail [thumb]="thumbData">
+      <div openCard>
+        <button md-icon-button (click)="openCardDialog(username)" class="openCardBtn">
+        <i class="material-icons">fullscreen</i>
+      </button> </div>
+    </sam-profile-thumbnail>
   </div>
 </div>
 
+<div fxLayout="row">
+  <div fxFlex></div>
+  <button md-icon-button [disabled]="!prevBtn" (click)="onPrev()"><i class="material-icons">chevron_left</i></button>
+
+  <div fxFlex="50px"></div>
+  <button md-icon-button [disabled]="!nextBtn" (click)="onNext()"><i class="material-icons">chevron_right</i></button>
+
+  <div fxFlex></div>
+
+</div>
 <!--<app-footer></app-footer>-->
