@@ -39,13 +39,14 @@ export class CandidateSearchComponent implements OnInit {
     });
   }
 
+  tempData = ['hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello'];
   ngOnInit() {
     this.getArray();
+
 
   }
   public getSearch() {
     console.log(this.searchForm.value.searchControl);
-
   }
 
   public change() {

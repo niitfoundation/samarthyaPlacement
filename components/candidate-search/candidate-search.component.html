@@ -1,26 +1,34 @@
+<div class="container paddings" fxLayoutGap.xs="0">
 
-<div class="container paddings"
-     fxLayout
-     fxLayout.xs="column"
-     fxLayoutAlign="center"
-         fxLayoutGap.xs="0">
+  <div fxFlex fxFlexOffset.xs="0" class="full-width form-style">
 
-  <div  fxFlex  fxFlexOffset.xs="0" class="full-width form-style">
-    
- <form [formGroup]="searchForm" class={{cls}}>
-
-                <md-input-container class="full-width">
-                    <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getSearch() " />
-                    <md-hint>
-                    <p class="error-style">
-                    {{message}}
-                  </p>
-                  </md-hint>
-                  </md-input-container>
-                </form>
-              </div>
-
+    <form [formGroup]="searchForm" class={{cls}}>
+      <div fxLayout="row">
+        <md-input-container class="full-width">
+          <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getSearch() "
+          />
+          <md-hint>
+            <p class="error-style">
+              {{message}}
+            </p>
+          </md-hint>
+        </md-input-container>
+        <!--<md-icon class="icon">search</md-icon>-->
+      </div>
+    </form>
+  </div>
 </div>
 
+<sam-profile-thumbnail></sam-profile-thumbnail>
+<div fxLayout="row" fxLayoutWrap class="results">
+  <div *ngFor="let data of tempData" class="cards">
+    <md-card>
+      <md-card-title>{{data}}</md-card-title>
+      <md-card-content>
+        TEMP
+      </md-card-content>
+    </md-card>
+  </div>
+</div>
 
-<app-footer></app-footer>
+<!--<app-footer></app-footer>-->

@@ -1,4 +1,16 @@
-
+.icon{
+    font-size: 50px;
+    line-height: 0px;
+    margin: auto;
+    color: gray;
+}
+.cards{
+    margin:20px;
+}
+.results{
+    align-content: center;
+    text-align: center;
+}
 .full-width {
     width: 100%;
     margin: auto;
@@ -111,12 +123,12 @@ button
 }
 .form-style
 {
-    -webkit-box-shadow: 3px 3px 5px 6px #ccc;  
+    /*-webkit-box-shadow: 3px 3px 5px 6px #ccc;  
   -moz-box-shadow:    3px 3px 5px 6px #ccc;  
   box-shadow:         3px 3px 5px 6px #ccc; 
-  animation: blink 1s linear infinite;
+  animation: blink 1s linear infinite;*/
 }
-
+/*
 @keyframes blink
 {
     50%{
@@ -125,7 +137,7 @@ button
   -moz-box-shadow:    3px 3px 5px 6px #6d587a;  
   box-shadow:         3px 3px 5px 6px #6d587a; 
     }
-}
+}*/
 
 
 @media (max-width: 400px) {
@@ -133,6 +145,8 @@ button
     {
     font-size: 25px;
 }
+
+
     
 }
 
@@ -141,8 +155,22 @@ button
     {
     font-size: 30px;
 }
-    
+
 }
 
 
 
+@media (min-width: 10px) {
+.results{
+    margin-left:0;
+    margin-right: 0;
+}
+   
+}
+
+@media (min-width: 768px) {
+.results{
+    margin-left: 14%;
+    margin-right: 8%;
+}
+}
