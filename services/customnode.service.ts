@@ -44,37 +44,37 @@ export class CustomnodeService {
     }
 
     createSkill(skillsObj: any) {
-        this.url = '/skills/add';
+        this.url = '/skills';
         return this.http.post(this.url, skillsObj).map((response: Response) => response)
     }
 
     createProfession(professionsObj: any) {
-        this.url = '/professions/add';
+        this.url = '/professions';
         return this.http.post(this.url, professionsObj).map((response: Response) => response)
     }
 
     createLanguage(languagesObj: any) {
-        this.url = '/languages/add';
+        this.url = '/languages';
         return this.http.post(this.url, languagesObj).map((response: Response) => response)
     }
 
     createLocation(locationsObj: any) {
-        this.url = '/locations/add';
+        this.url = '/locations';
         return this.http.post(this.url, locationsObj).map((response: Response) => response)
     }
 
     createQualification(qualificationsObj: any) {
-        this.url = '/qualifications/add';
+        this.url = '/qualifications';
         return this.http.post(this.url, qualificationsObj).map((response: Response) => response)
     }
 
     createCentre(centresObj: any) {
-        this.url = '/centres/add';
+        this.url = '/centres';
         return this.http.post(this.url, centresObj).map((response: Response) => response)
     }
 
     createRole(rolesObj: any) {
-        this.url = '/roles/add';
+        this.url = '/roles';
         return this.http.post(this.url, rolesObj).map((response: Response) => response)
     }
 }

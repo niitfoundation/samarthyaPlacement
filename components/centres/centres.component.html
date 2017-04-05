@@ -1,4 +1,36 @@
-<p>
+<md-grid-list cols="1" rowHeight="650px">
+  <md-grid-tile>
+    <md-card class="loginCard">
+      <md-card-title>
+        Centres
+      </md-card-title>
+      <md-card-content>
+        <div fxLayout="row" fxLayoutAlign="start end">
+          <div fxFlex="35px">
+            <i class="material-icons formIcons">search</i>
+          </div>
+          <div fxFlex>
+            <md-input-container class="full-width">
+              <input mdInput type="text" [(ngModel)]="centreName" placeholder="Search Centre..." />
+            </md-input-container>
+          </div>
+        </div>
+
+
+        <!--sign in button-->
+        <div fxLayout="row">
+          <div fxFlex="100">
+            <button md-raised-button color="primary" (click)="getCentres({name:centreName,limit:5})">Sign in</button>
+          </div>
+        </div>
+
+      </md-card-content>
+    </md-card>
+    <!--card-ends-->
+  </md-grid-tile>
+</md-grid-list>
+
+<!--<p>
     Centres
 </p>
 <div>
@@ -19,4 +51,4 @@
 </ul>
 </div>
 
-<app-footer></app-footer>
+<app-footer></app-footer>-->
