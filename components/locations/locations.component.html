@@ -1,22 +1,33 @@
-<p>
-    Locations
-</p>
-<div>
-    Search Locations: <input type="text" [(ngModel)]="locationName">
-</div>
+<md-grid-list cols="1" rowHeight="100px">
+  <md-grid-tile>
+    <div fxLayout="row" fxLayoutAlign="start end">
+      <md-input-container class="input">
+        <input mdInput type="text" [(ngModel)]="locationName" placeholder="Search Locations..." />
+      </md-input-container>
+    </div>
 
-<div>
-    <button md-raised-button (click)="getLocations({name:locationName,limit:5})">Locations</button>
-</div>
+    <!--sign in button-->
+    <div fxLayout="row">
+      <div fxFlex="100">
+        <button md-icon-button (click)="getLocations({name:locationName,limit:25})">
+                <i class="material-icons input">search</i>
+            </button>
+      </div>
+    </div>
 
-<div>
-    <button md-raised-button (click)="addLocation({name:locationName})">Add Location</button>
-</div>
+  </md-grid-tile>
+</md-grid-list>
+<div fxLayout="row" *ngIf="showCard">
+  <div fxFlex></div>
+<md-card>
+  <md-card-content>
+    <md-list fxLayout="row" fxLayoutWrap>
+      <md-list-item *ngFor="let item of showData" ><div class="item">{{item}}</div></md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>
+  <div fxFlex></div>
 
-<div>
-    <ul>
-    <li *ngFor="let item of showData">{{item}}</li>
-</ul>
 </div>
 
 <app-footer></app-footer>

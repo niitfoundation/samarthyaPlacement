@@ -38,93 +38,93 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
-import { RolesComponent } from './components/roles/roles.component';
+import { JobRolesComponent } from './components/job-roles/job-roles.component';
 
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 
 @NgModule({
 
-imports: [
-BrowserModule,
-FormsModule,
-HttpModule,
-MaterialModule.forRoot(),
-Md2Module.forRoot(),
-ReactiveFormsModule,
-FlexLayoutModule,
-AppRoutingModule,
-RouterModule
-],
-declarations: [
-AboutUsComponent,
-AdminRegistrationComponent,
-CandidateRegisterComponent,
-CandidateSearchComponent,
-DashboardComponent,
-EmployersComponent,
-EventPostComponent,
-ForgotPasswordComponent,
-JobPostComponent,
-LoginComponent,
-PasswordResetComponent,
-FooterComponent,
-AfterLoginHeaderComponent,
-LoginFooterComponent,
-LoginHeaderComponent,
-VerifyEmailComponent,
-placementComponent,
-ImportComponent,
-ProfessionsComponent,
-SkillsComponent,
-LanguagesComponent,
-LocationsComponent,
-QualificationsComponent,
-CentresComponent,
-RolesComponent
-// routingComponents check working or not
-],
-bootstrap: [placementComponent],
-exports: [
-AboutUsComponent,
-AdminRegistrationComponent,
-CandidateRegisterComponent,
-CandidateSearchComponent,
-DashboardComponent,
-EmployersComponent,
-EventPostComponent,
-ForgotPasswordComponent,
-JobPostComponent,
-LoginComponent,
-PasswordResetComponent,
-FooterComponent,
-AfterLoginHeaderComponent,
-LoginFooterComponent,
-LoginHeaderComponent,
-VerifyEmailComponent,
-placementComponent,
-ImportComponent,
-ProfessionsComponent,
-SkillsComponent,
-LanguagesComponent,
-LocationsComponent,
-QualificationsComponent,
-CentresComponent,
-RolesComponent
-]
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    MaterialModule.forRoot(),
+    Md2Module.forRoot(),
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    AppRoutingModule,
+    RouterModule
+  ],
+  declarations: [
+    AboutUsComponent,
+    AdminRegistrationComponent,
+    CandidateRegisterComponent,
+    CandidateSearchComponent,
+    DashboardComponent,
+    EmployersComponent,
+    EventPostComponent,
+    ForgotPasswordComponent,
+    JobPostComponent,
+    LoginComponent,
+    PasswordResetComponent,
+    FooterComponent,
+    AfterLoginHeaderComponent,
+    LoginFooterComponent,
+    LoginHeaderComponent,
+    VerifyEmailComponent,
+    placementComponent,
+    ImportComponent,
+    ProfessionsComponent,
+    SkillsComponent,
+    LanguagesComponent,
+    LocationsComponent,
+    QualificationsComponent,
+    CentresComponent,
+    JobRolesComponent
+    // routingComponents check working or not
+  ],
+  bootstrap: [placementComponent],
+  exports: [
+    AboutUsComponent,
+    AdminRegistrationComponent,
+    CandidateRegisterComponent,
+    CandidateSearchComponent,
+    DashboardComponent,
+    EmployersComponent,
+    EventPostComponent,
+    ForgotPasswordComponent,
+    JobPostComponent,
+    LoginComponent,
+    PasswordResetComponent,
+    FooterComponent,
+    AfterLoginHeaderComponent,
+    LoginFooterComponent,
+    LoginHeaderComponent,
+    VerifyEmailComponent,
+    placementComponent,
+    ImportComponent,
+    ProfessionsComponent,
+    SkillsComponent,
+    LanguagesComponent,
+    LocationsComponent,
+    QualificationsComponent,
+    CentresComponent,
+    JobRolesComponent
+  ]
 })
 
-export class placementmodule { 
-    static forRoot(): ModuleWithProviders {
+export class placementmodule {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: placementmodule,
       providers: [
-       AuthGuard,
-	   AuthenticationService,
-	   CustomnodeService,
-	   Data,
-	   EmailService,
-	   JsonDataService,
-	   PlacementRegisterService
+        AuthGuard,
+        AuthenticationService,
+        CustomnodeService,
+        Data,
+        EmailService,
+        JsonDataService,
+        PlacementRegisterService
       ]
     }
   }

@@ -38,9 +38,9 @@ export class CustomnodeService {
         return this.http.get(this.url + '?name=' + centresObj.name + '&limit=' + centresObj.limit).map((response: Response) => response)
     }
 
-    readRoles(rolesObj: any) {
+    readJobRoles(jobRolesObj: any) {
         this.url = '/roles';
-        return this.http.get(this.url + '?name=' + rolesObj.name + '&limit=' + rolesObj.limit).map((response: Response) => response)
+        return this.http.get(this.url + '?name=' + jobRolesObj.name + '&limit=' + jobRolesObj.limit).map((response: Response) => response)
     }
 
     createSkill(skillsObj: any) {
@@ -73,8 +73,8 @@ export class CustomnodeService {
         return this.http.post(this.url, centresObj).map((response: Response) => response)
     }
 
-    createRole(rolesObj: any) {
+    createJobRole(jobRolesObj: any) {
         this.url = '/roles';
-        return this.http.post(this.url, rolesObj).map((response: Response) => response)
+        return this.http.post(this.url, jobRolesObj).map((response: Response) => response)
     }
 }

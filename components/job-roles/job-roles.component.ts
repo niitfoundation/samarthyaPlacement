@@ -3,21 +3,23 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.css'],
+  templateUrl: './job-roles.component.html',
+  styleUrls: ['./job-roles.component.css'],
   providers: [CustomnodeService]
 })
-export class RolesComponent implements OnInit {
+export class JobRolesComponent implements OnInit {
   data: any;
   public showData: any = [];
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
-  getRoles(rolesObj: any) {
+  getRoles(jobRolesObj: any) {
+    this.showCard = true;
     this.showData = [];
-    this.customnodeService.readRoles(rolesObj).subscribe(res => {
+    this.customnodeService.readJobRoles(jobRolesObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);
       this.data.forEach((element: any) => {
         this.showData.push(element.name);
@@ -27,10 +29,10 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  addRole(roleObj: any) {
+  addJobRole(jobRolesObj: any) {
     this.showData = [];
-    if (roleObj.name !== undefined && roleObj.name !== '') {
-      this.customnodeService.createRole(roleObj).subscribe(res => {
+    if (jobRolesObj.name !== undefined && jobRolesObj.name !== '') {
+      this.customnodeService.createJobRole(jobRolesObj).subscribe(res => {
         this.data = JSON.parse(res['_body']);
         this.data.forEach((element: any) => {
           this.showData.push(element.name);
