@@ -20,10 +20,20 @@ export class CandidateSearchComponent implements OnInit {
 
   getSearchResult() {
     let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
-    console.log(this.searchForm.value.searchControl);
+    // console.log(this.searchForm.value.searchControl);
     return this.http.get(urlSearch).subscribe((response: Response) => {
       this.result = response.json(),
-        console.log('Results -> ', response.json());
+        console.log('Results -> ', response.json())
+      // this.result.push(
+      //   {
+      //     "gender": "male",
+      //     "displayName": "pankush manchanda",
+      //     "dob": "2015-04-07T15:28:00.000Z",
+      //     "name": "sankhlasaini@gmail.com",
+      //     "email": "sankhlasaini@gmail.com",
+      //     "profession": "civilaviation"
+      //   }
+      // )
       if (this.result.length <= 0) {
         this.noResult = true;
       } else {
@@ -42,10 +52,9 @@ export class CandidateSearchComponent implements OnInit {
   }
 
   openCardDialog(username: string) {
-    console.log(username);
     let dialogRef = this.dialog.open(CardDialog, {
       height: '95%',
-      // width:'100%',
+      // width: '50%',
       data: username
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -73,7 +82,7 @@ export class CandidateSearchComponent implements OnInit {
     for (let i = this.min; i < this.max; i++) {
       this.displayData.push(this.result[i]);
     }
-    console.log(this.displayData);
+    // console.log(this.displayData);
   }
   public prevBtn = true;
   public nextBtn = true;
@@ -111,12 +120,7 @@ export class CandidateSearchComponent implements OnInit {
       this.nextBtn = true;
     }
   }
-
-  public getSearch() {
-    console.log(this.searchForm.value.searchControl);
-
-  }
-
+  
   public change() {
     this.cls = 'expand-out search-box big-res';
   }

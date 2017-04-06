@@ -1,0 +1,23 @@
+.showProfileBtn{
+    margin: auto;
+    margin-top: 70px;
+}
+.showProfileCardBtn{
+    margin: auto;
+    margin-top: 20px;
+}
+.profile{
+    width: 600px;
+}
+/*
+@media (min-width: 10px) {
+     .profile{
+    width: 400px;
+}
+
+@media (min-width: 900px) {
+    .profile{
+    width: 800px;
+}
+
+}*/

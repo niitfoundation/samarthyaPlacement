@@ -97,7 +97,7 @@
             Personal Details
           </div>
 
-           <!--Display Name-->
+          <!--Display Name-->
           <div fxLayout="row" fxLayoutAlign="start end">
             <div fxFlex="35px">
               <i class="material-icons formIcons">person</i>
@@ -113,7 +113,7 @@
               </md-input-container>
             </div>
           </div>
-          
+
           <!--First Name-->
           <div fxLayout="row" fxLayoutAlign="start end">
             <div fxFlex.xs="10" fxFlex.gt-xs="7">
@@ -186,12 +186,10 @@
             </div>
           </div>
 
-
-
-                   <!--Date of Birth-->
+          <!--Date of Birth-->
           <div fxLayout="row" fxLayoutAlign="start end">
             <div fxFlex>
-              <md2-datepicker formControlName="dobControl"placeholder="Date Of Birth" class="full-width">date</md2-datepicker>
+              <md2-datepicker formControlName="dobControl" placeholder="Date Of Birth" class="full-width">date</md2-datepicker>
             </div>
             <div *ngIf="!userForm.get('dobControl').valid  && userForm.get('dobControl').touched" class="errorStyle">
               Date Of Birth is required and it should be 10 years less than to register
