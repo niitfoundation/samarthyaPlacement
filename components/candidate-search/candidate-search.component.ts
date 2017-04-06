@@ -19,27 +19,30 @@ export class CandidateSearchComponent implements OnInit {
   public noResult = false;
 
   getSearchResult() {
-    let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
-    // console.log(this.searchForm.value.searchControl);
-    return this.http.get(urlSearch).subscribe((response: Response) => {
-      this.result = response.json(),
-        console.log('Results -> ', response.json())
-      // this.result.push(
-      //   {
-      //     "gender": "male",
-      //     "displayName": "pankush manchanda",
-      //     "dob": "2015-04-07T15:28:00.000Z",
-      //     "name": "sankhlasaini@gmail.com",
-      //     "email": "sankhlasaini@gmail.com",
-      //     "profession": "civilaviation"
-      //   }
-      // )
-      if (this.result.length <= 0) {
-        this.noResult = true;
-      } else {
-        this.noResult = false;
-      }
-    });
+    this.result = [];
+    if (this.searchForm.value.searchControl.length > 0) {
+      let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
+      // console.log(this.searchForm.value.searchControl);
+      return this.http.get(urlSearch).subscribe((response: Response) => {
+        this.result = response.json(),
+          console.log('Results -> ', response.json())
+        // this.result.push(
+        //   {
+        //     "gender": "male",
+        //     "displayName": "pankush manchanda",
+        //     "dob": "2015-04-07T15:28:00.000Z",
+        //     "name": "sankhlasaini@gmail.com",
+        //     "email": "sankhlasaini@gmail.com",
+        //     "profession": "civilaviation"
+        //   }
+        // )
+        if (this.result.length <= 0) {
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+        }
+      });
+    }
   };
 
 
@@ -120,7 +123,7 @@ export class CandidateSearchComponent implements OnInit {
       this.nextBtn = true;
     }
   }
-  
+
   public change() {
     this.cls = 'expand-out search-box big-res';
   }
