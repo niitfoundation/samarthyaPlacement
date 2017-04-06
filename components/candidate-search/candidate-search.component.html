@@ -29,8 +29,13 @@
     </sam-profile-thumbnail>
   </div>
 </div>
+<div class="noRes" *ngIf="noResult">
+  <i class="material-icons icon">sentiment_dissatisfied</i>
+  <br>
+  No Result Found
+  </div>
 
-<div fxLayout="row">
+<div *ngIf="showBtn" fxLayout="row">
   <div fxFlex></div>
   <button md-icon-button [disabled]="!prevBtn" (click)="onPrev()"><i class="material-icons">chevron_left</i></button>
 

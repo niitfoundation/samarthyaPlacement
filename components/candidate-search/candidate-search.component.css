@@ -4,6 +4,13 @@
     margin: auto;
     color: gray;
 }*/
+.icon{
+    font-size: 50px;
+}
+.noRes{
+    text-align: center;
+    font-size: 20px;
+}
 .results{
     align-content: center;
     text-align: center;
