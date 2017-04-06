@@ -5,7 +5,7 @@
     <form [formGroup]="searchForm" class={{cls}}>
       <div fxLayout="row">
         <md-input-container class="full-width">
-          <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getSearch() "
+          <input formControlName="searchControl" mdInput placeholder="Search Candidate"  (keyup.enter)="getSearchResult() "
           />
           <md-hint>
             <p class="error-style">
@@ -20,11 +20,10 @@
 
 
 <div fxLayout="row" fxLayoutWrap fxLayoutAlign="center" class="results">
-  <div *ngFor="let data of displayData" class="cards">
-    {{data}}
-    <sam-profile-thumbnail [thumb]="thumbData">
+  <div *ngFor="let data of result" class="cards">
+    <sam-profile-thumbnail [thumb]="data">
       <div openCard>
-        <button md-icon-button (click)="openCardDialog(username)" class="openCardBtn">
+        <button md-icon-button (click)="openCardDialog(data.email)" class="openCardBtn">
         <i class="material-icons">fullscreen</i>
       </button> </div>
     </sam-profile-thumbnail>
@@ -41,4 +40,3 @@
   <div fxFlex></div>
 
 </div>
-<!--<app-footer></app-footer>-->

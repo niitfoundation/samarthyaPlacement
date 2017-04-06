@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CardDialog } from './../cardDialog/cardDialog.component';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { Http, Response } from '@angular/http'
 
 @Component({
   selector: 'app-candidate-search',
@@ -19,6 +21,15 @@ export class CandidateSearchComponent implements OnInit {
   public loops = -1;
   public message = '';
 
+
+
+  getSearchResult() {
+    let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
+    console.log(this.searchForm.value.searchControl);
+    return this.http.get(urlSearch).subscribe((response: Response) => { response.json(), console.log("-->>>",response.json()) });
+  };
+
+
   getArray() {
     for (let obj in this.resultProfile) {
 
@@ -31,7 +42,7 @@ export class CandidateSearchComponent implements OnInit {
     console.log(this.arr)
   }
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, public dialog: MdDialog,
+  constructor( @Inject(FormBuilder) fb: FormBuilder, public dialog: MdDialog, private http: Http
   ) {
 
     this.searchForm = fb.group({
@@ -46,17 +57,13 @@ export class CandidateSearchComponent implements OnInit {
     role: 'Manager',
     experience: 3
   }
-  onScroll() {
-    console.log('scrolled!!')
-  }
 
-  tempData = [
-    '1', '2', '3', '4', '5', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello'];
-
-
+  // tempData = [
+  //   '1', '2', '3', '4', '5', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello'];
 
   openCardDialog(username: string) {
-    username = 'sankhlasaini2@gmail.com';
+    // username = 'sankhlasaini2@gmail.com';
+    console.log(username);
     let dialogRef = this.dialog.open(CardDialog, {
       height: '95%',
       // width:'100%',
@@ -74,7 +81,7 @@ export class CandidateSearchComponent implements OnInit {
     this.setData();
     if (this.min >= this.showRecords) {
       this.prevBtn = true;
-      console.log(this.prevBtn);
+      // console.log(this.prevBtn);
     } else {
       this.prevBtn = false;
     }
@@ -86,9 +93,9 @@ export class CandidateSearchComponent implements OnInit {
 
   setData() {
     for (let i = this.min; i < this.max; i++) {
-      this.thumbData.experience = i;
-      this.displayData.push(this.tempData[i]);
+      this.displayData.push(this.result[i]);
     }
+    console.log(this.displayData);
   }
   public prevBtn = true;
   public nextBtn = true;
@@ -97,19 +104,18 @@ export class CandidateSearchComponent implements OnInit {
     this.min = this.min + this.showRecords;
     this.max = this.min + this.showRecords;
     this.setData();
-    console.log(this.min, this.max, this.displayData);
+    // console.log(this.min, this.max, this.displayData);
     if (this.min >= this.showRecords) {
       this.prevBtn = true;
     } else {
       this.prevBtn = false;
     }
-    if (this.max >= this.tempData.length) {
+    if (this.max >= this.result.length) {
       this.nextBtn = false;
     } else {
       this.nextBtn = true;
     }
   }
-
 
   onPrev() {
     this.displayData = [];
@@ -121,7 +127,7 @@ export class CandidateSearchComponent implements OnInit {
     } else {
       this.prevBtn = false;
     }
-    if (this.max >= this.tempData.length) {
+    if (this.max >= this.result.length) {
       this.nextBtn = false;
     } else {
       this.nextBtn = true;
@@ -130,6 +136,7 @@ export class CandidateSearchComponent implements OnInit {
 
   public getSearch() {
     console.log(this.searchForm.value.searchControl);
+
   }
 
   public change() {
@@ -138,5 +145,16 @@ export class CandidateSearchComponent implements OnInit {
   public fullView() {
     this.cls = 'expand search-box big-res';
   }
+
+  public result = [
+    {
+      "gender": "male",
+      "displayName": "pankush manchanda",
+      "dob": "2015-04-07T15:28:00.000Z",
+      "name": "sankhlasaini@gmail.com",
+      "email": "sankhlasaini@gmail.com",
+      "profession": "civilaviation"
+    }
+  ];
 
 }

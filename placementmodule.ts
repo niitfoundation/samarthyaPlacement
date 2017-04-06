@@ -51,6 +51,8 @@ import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sa
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+
 
 @NgModule({
 
@@ -65,6 +67,7 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
     AppRoutingModule,
     RouterModule,
     SamarthyaWebComponentsModule,
+    InfiniteScrollModule
 
   ],
   declarations: [
