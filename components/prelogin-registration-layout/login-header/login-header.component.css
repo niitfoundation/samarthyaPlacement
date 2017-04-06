@@ -2,7 +2,7 @@
     line-height: unset;
 }
 
-* {
+*{
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .headerBtn{
@@ -110,6 +110,24 @@ md-select {
 
 
 /*for smaller screens*/
+
+@media (min-width: 480px) {
+      .langBar{
+        margin-top: 64px;
+    }
+}
+@media (min-width: 768px) {
+      .langBar{
+        margin-top: 48px;
+    }
+}
+
+@media (min-width: 961px) {
+    .langBar{
+        margin-top: 64px;
+    }
+}
+
 
 @media (min-width: 10px) {}
 

@@ -10,12 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class LocationsComponent implements OnInit {
   data: any;
   public showData: any = [];
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getLocations(locationsObj: any) {
+    this.showCard = true;
     this.showData = [];
     this.customnodeService.readLocations(locationsObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);

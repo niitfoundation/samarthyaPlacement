@@ -1,22 +1,33 @@
-<p>
-    Qualifications
-</p>
-<div>
-    Search Qualifications: <input type="text" [(ngModel)]="qualificationName">
-</div>
+<md-grid-list cols="1" rowHeight="100px">
+  <md-grid-tile>
+    <div fxLayout="row" fxLayoutAlign="start end">
+      <md-input-container class="input">
+        <input mdInput type="text" [(ngModel)]="qualificationName" placeholder="Search Qualifications..." />
+      </md-input-container>
+    </div>
 
-<div>
-    <button md-raised-button (click)="getQualifications({name:qualificationName,limit:5})">Qualifications</button>
-</div>
+    <!--sign in button-->
+    <div fxLayout="row">
+      <div fxFlex="100">
+        <button md-icon-button (click)="getQualifications({name:qualificationName,limit:25})">
+                <i class="material-icons input">search</i>
+            </button>
+      </div>
+    </div>
 
-<div>
-    <button md-raised-button (click)="addQualification({name:qualificationName})">Add Qualification</button>
-</div>
+  </md-grid-tile>
+</md-grid-list>
+<div fxLayout="row" *ngIf="showCard">
+  <div fxFlex></div>
+<md-card>
+  <md-card-content>
+    <md-list fxLayout="row" fxLayoutWrap>
+      <md-list-item *ngFor="let item of showData" ><div class="item">{{item}}</div></md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>
+  <div fxFlex></div>
 
-<div>
-    <ul>
-    <li *ngFor="let item of showData">{{item}}</li>
-</ul>
 </div>
 
 <app-footer></app-footer>

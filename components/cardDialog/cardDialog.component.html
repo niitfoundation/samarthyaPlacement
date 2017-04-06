@@ -1,0 +1,28 @@
+<div *ngIf="!showFullProfile">
+    <div *ngIf="profileCardData">
+        <sam-profile-card [profileCardData]="profileCardData"> </sam-profile-card>
+    </div>
+    <div fxLayoutAlign="center">
+        <button md-raised-button class="showProfileBtn" (click)="showProfile()">Show Full Profile</button>
+    </div>
+
+</div>
+
+
+<div class="profile" *ngIf="showFullProfile">
+    <div *ngIf="profileConfig && profileData && profileCardData">
+
+        <div fxFlex class="profileSection">
+            <div fxLayout="row" fxLayoutWrap>
+                <div *ngFor="let section of profileSections" fxFlex>
+                    <sam-profile-section [sectionFieldConfig]="getSectionConfig(section.name)" [sectionData]="getSectiondata(section.name)" [sectionTitle]="section.title"
+                        [alignElement]="section.align">
+                        </sam-profile-section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div fxLayoutAlign="center">
+        <button md-raised-button class="showProfileCardBtn" (click)="showCard()">Show Profile Card</button>
+    </div>
+</div>

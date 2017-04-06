@@ -1,6 +1,6 @@
 // import { log } from 'util';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +13,8 @@ export class DashboardComponent implements OnInit {
 
   }
   ngOnInit() {
+    console.log('calling redirect');
+    this.router.navigate(['/home/candidateSearch']);
   }
 
 }

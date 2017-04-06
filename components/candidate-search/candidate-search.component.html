@@ -1,26 +1,28 @@
-
-<div class="container paddings"
-     fxLayout
-     fxLayout.xs="column"
-     fxLayoutAlign="center"
-         fxLayoutGap.xs="0">
-
-  <div  fxFlex  fxFlexOffset.xs="0" class="full-width form-style">
-    
- <form [formGroup]="searchForm" class={{cls}}>
-
-                <md-input-container class="full-width">
-                    <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getThumbnail() " />
-                    <md-hint>
-                    <p class="error-style">
-                    {{message}}
-                  </p>
-                  </md-hint>
-                  </md-input-container>
-                </form>
-              </div>
+<div *ngIf="!showFullProfile">
+   <div *ngIf="profileCardData">
+       <sam-profile-card [profileCardData]="profileCardData"> </sam-profile-card>
+   </div>
+   <div fxLayoutAlign="center">
+       <button md-raised-button class="showProfileBtn" (click)="showProfile()">Show Full Profile</button>
+   </div>
 
 </div>
 
 
-<app-footer></app-footer>
+<div class="profile" *ngIf="showFullProfile">
+   <div *ngIf="profileConfig && profileData && profileCardData">
+
+       <div fxFlex class="profileSection">
+           <div fxLayout="row" fxLayoutWrap>
+               <div *ngFor="let section of profileSections" fxFlex>
+                   <sam-profile-section [sectionFieldConfig]="getSectionConfig(section.name)" [sectionData]="getSectiondata(section.name)" [sectionTitle]="section.title"
+                       [alignElement]="section.align">
+                       </sam-profile-section>
+               </div>
+           </div>
+       </div>
+   </div>
+   <div fxLayoutAlign="center">
+       <button md-raised-button class="showProfileCardBtn" (click)="showCard()">Show Profile Card</button>
+   </div>
+</div>

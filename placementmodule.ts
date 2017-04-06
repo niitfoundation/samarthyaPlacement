@@ -3,14 +3,12 @@ import { JsonDataService } from './services/json-data.service';
 import { EmailService } from './services/email.service';
 import { Data } from './services/data.service';
 import { AuthenticationService } from './services/authentication.service';
-import { CandidateSearchService } from './services/cadidate-search.service';
 import { CustomnodeService } from './services/customnode.service'
 import { AuthGuard } from './services/auth.guard';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { Md2Module } from 'md2';
 import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
@@ -39,96 +37,110 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
-import { RolesComponent } from './components/roles/roles.component';
-
+import { JobRolesComponent } from './components/job-roles/job-roles.component';
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
+import { SamarthyaWebComponentsModule } from 'samarthyaWebcomponent';
+import { SamProfileCardService } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.service';
+import { SamProfileSectionConfigService } from 'samarthyaWebcomponent/sam-profile/sam-profile-section/sam-profile-section-config.service';
+import { ProfileService } from 'samarthyaWebcomponent/sam-profile/sam-profile-section/sam-profile-section-data.service';
+import { SamProfileSectionFormComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-section-form/sam-profile-section-form.component';
+import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-section/sam-profile-section.component';
+import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
+import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
+import { CardDialog } from './components/cardDialog/cardDialog.component';
 
 @NgModule({
-
-imports: [
-BrowserModule,
-FormsModule,
-HttpModule,
-MaterialModule.forRoot(),
-Md2Module.forRoot(),
-ReactiveFormsModule,
-FlexLayoutModule,
-AppRoutingModule,
-RouterModule
-],
-declarations: [
-AboutUsComponent,
-AdminRegistrationComponent,
-CandidateRegisterComponent,
-CandidateSearchComponent,
-DashboardComponent,
-EmployersComponent,
-EventPostComponent,
-ForgotPasswordComponent,
-JobPostComponent,
-LoginComponent,
-PasswordResetComponent,
-FooterComponent,
-AfterLoginHeaderComponent,
-LoginFooterComponent,
-LoginHeaderComponent,
-VerifyEmailComponent,
-placementComponent,
-ImportComponent,
-ProfessionsComponent,
-SkillsComponent,
-LanguagesComponent,
-LocationsComponent,
-QualificationsComponent,
-CentresComponent,
-RolesComponent
-// routingComponents check working or not
-],
-bootstrap: [placementComponent],
-exports: [
-AboutUsComponent,
-AdminRegistrationComponent,
-CandidateRegisterComponent,
-CandidateSearchComponent,
-DashboardComponent,
-EmployersComponent,
-EventPostComponent,
-ForgotPasswordComponent,
-JobPostComponent,
-LoginComponent,
-PasswordResetComponent,
-FooterComponent,
-AfterLoginHeaderComponent,
-LoginFooterComponent,
-LoginHeaderComponent,
-VerifyEmailComponent,
-placementComponent,
-ImportComponent,
-ProfessionsComponent,
-SkillsComponent,
-LanguagesComponent,
-LocationsComponent,
-QualificationsComponent,
-CentresComponent,
-RolesComponent
-]
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    MaterialModule.forRoot(),
+    Md2Module.forRoot(),
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    AppRoutingModule,
+    RouterModule,
+    SamarthyaWebComponentsModule,
+  ],
+  declarations: [
+    AboutUsComponent,
+    AdminRegistrationComponent,
+    CandidateRegisterComponent,
+    CandidateSearchComponent,
+    DashboardComponent,
+    EmployersComponent,
+    EventPostComponent,
+    ForgotPasswordComponent,
+    JobPostComponent,
+    LoginComponent,
+    PasswordResetComponent,
+    FooterComponent,
+    AfterLoginHeaderComponent,
+    LoginFooterComponent,
+    LoginHeaderComponent,
+    VerifyEmailComponent,
+    placementComponent,
+    ImportComponent,
+    ProfessionsComponent,
+    SkillsComponent,
+    LanguagesComponent,
+    LocationsComponent,
+    QualificationsComponent,
+    CentresComponent,
+    JobRolesComponent,
+    CardDialog
+    // routingComponents check working or not
+  ],
+  bootstrap: [placementComponent, CardDialog],
+  exports: [
+    AboutUsComponent,
+    AdminRegistrationComponent,
+    CandidateRegisterComponent,
+    CandidateSearchComponent,
+    DashboardComponent,
+    EmployersComponent,
+    EventPostComponent,
+    ForgotPasswordComponent,
+    JobPostComponent,
+    LoginComponent,
+    PasswordResetComponent,
+    FooterComponent,
+    AfterLoginHeaderComponent,
+    LoginFooterComponent,
+    LoginHeaderComponent,
+    VerifyEmailComponent,
+    placementComponent,
+    ImportComponent,
+    ProfessionsComponent,
+    SkillsComponent,
+    LanguagesComponent,
+    LocationsComponent,
+    QualificationsComponent,
+    CentresComponent,
+    JobRolesComponent,
+    SamProfileThumbnail,
+    SamProfileCardComponent,
+    SamProfileSectionComponent,
+    SamProfileSectionFormComponent,
+    CardDialog
+  ]
 })
-
-export class placementmodule { 
-    static forRoot(): ModuleWithProviders {
+export class placementmodule {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: placementmodule,
       providers: [
-       AuthGuard,
-	   AuthenticationService,
-	   CustomnodeService,
-	   Data,
-	   EmailService,
-	   JsonDataService,
-	   PlacementRegisterService,
-     CandidateSearchService
+        AuthGuard,
+        AuthenticationService,
+        CustomnodeService,
+        Data,
+        EmailService,
+        JsonDataService,
+        PlacementRegisterService,
+        SamProfileCardService,
+        SamProfileSectionConfigService,
+        ProfileService
       ]
     }
   }
-
 }

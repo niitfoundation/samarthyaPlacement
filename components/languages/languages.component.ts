@@ -10,12 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class LanguagesComponent implements OnInit {
   data: any;
   public showData: any = [];
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getLanguages(languagesObj: any) {
+    this.showCard = true;
     this.showData = [];
     this.customnodeService.readLanguages(languagesObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);

@@ -10,13 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class ProfessionsComponent implements OnInit {
   data: any;
   public showData: any = [];
-
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getProfessions(professionsObj: any) {
+    this.showCard = true;
     this.showData = [];
     this.customnodeService.readProfessions(professionsObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);

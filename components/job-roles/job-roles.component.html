@@ -2,14 +2,14 @@
   <md-grid-tile>
     <div fxLayout="row" fxLayoutAlign="start end">
       <md-input-container class="input">
-        <input mdInput type="text" [(ngModel)]="languageName" placeholder="Search Languages..." />
+        <input mdInput type="text" [(ngModel)]="roleName" placeholder="Search JobRoles..." />
       </md-input-container>
     </div>
 
     <!--sign in button-->
     <div fxLayout="row">
       <div fxFlex="100">
-        <button md-icon-button (click)="getLanguages({name:languageName,limit:25})">
+        <button md-icon-button (click)="getRoles({name:roleName,limit:25})">
                 <i class="material-icons input">search</i>
             </button>
       </div>

@@ -10,12 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class QualificationsComponent implements OnInit {
   data: any;
   public showData: any = [];
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getQualifications(qualificationsObj: any) {
+    this.showCard = true;
     this.showData = [];
     this.customnodeService.readQualifications(qualificationsObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);

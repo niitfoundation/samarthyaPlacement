@@ -10,12 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class CentresComponent implements OnInit {
   data: any;
   public showData: any = [];
+  showCard = false;
   constructor(private customnodeService: CustomnodeService) { }
 
   ngOnInit() {
   }
 
   getCentres(centresObj: any) {
+    this.showCard = true;
     this.showData = [];
     this.customnodeService.readCentres(centresObj).subscribe(res => {
       this.data = JSON.parse(res['_body']);

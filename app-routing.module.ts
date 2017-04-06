@@ -21,7 +21,7 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
-import { RolesComponent } from './components/roles/roles.component';
+import { JobRolesComponent } from './components/job-roles/job-roles.component';
 // routes
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -47,7 +47,7 @@ const routes: Routes = [
       { path: 'locations', component: LocationsComponent, canActivate: [AuthGuard] },
       { path: 'qualifications', component: QualificationsComponent, canActivate: [AuthGuard] },
       { path: 'centres', component: CentresComponent, canActivate: [AuthGuard] },
-      { path: 'roles', component: RolesComponent, canActivate: [AuthGuard] },
+      { path: 'roles', component: JobRolesComponent, canActivate: [AuthGuard] },
       { path: '**', component: DashboardComponent, canActivate: [AuthGuard] },
     ]
   },
