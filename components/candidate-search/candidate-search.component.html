@@ -10,7 +10,7 @@
  <form [formGroup]="searchForm" class={{cls}}>
 
                 <md-input-container class="full-width">
-                    <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getSearch() " />
+                    <input formControlName="searchControl" mdInput placeholder="Search Candidate" (focus)="change()" (blur)="fullView()" (keyup.enter)="getThumbnail() " />
                     <md-hint>
                     <p class="error-style">
                     {{message}}

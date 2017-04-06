@@ -3,6 +3,7 @@ import { JsonDataService } from './services/json-data.service';
 import { EmailService } from './services/email.service';
 import { Data } from './services/data.service';
 import { AuthenticationService } from './services/authentication.service';
+import { CandidateSearchService } from './services/cadidate-search.service';
 import { CustomnodeService } from './services/customnode.service'
 import { AuthGuard } from './services/auth.guard';
 import { ModuleWithProviders, NgModule } from '@angular/core';
@@ -124,7 +125,8 @@ export class placementmodule {
 	   Data,
 	   EmailService,
 	   JsonDataService,
-	   PlacementRegisterService
+	   PlacementRegisterService,
+     CandidateSearchService
       ]
     }
   }
