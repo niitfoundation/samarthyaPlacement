@@ -12,7 +12,6 @@ import { SamProfileCardService } from 'samarthyaWebcomponent/sam-profile/sam-pro
   templateUrl: './cardDialog.component.html',
   styleUrls: ['./cardDialog.component.css'],
   providers: [SamProfileCardService]
-
 })
 export class CardDialog implements OnInit {
 
@@ -31,5 +30,3 @@ export class CardDialog implements OnInit {
   }
 
 }
-
-

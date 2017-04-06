@@ -56,7 +56,7 @@ export class CandidateSearchComponent implements OnInit {
 
 
   openCardDialog(username: string) {
-    username = 'sankhlasaini@gmail.com';
+    username = 'sankhlasaini2@gmail.com';
     let dialogRef = this.dialog.open(CardDialog, {
       height: '95%',
       // width:'100%',
@@ -72,7 +72,7 @@ export class CandidateSearchComponent implements OnInit {
   ngOnInit() {
     this.getArray();
     this.setData();
-    if (this.min >= 6) {
+    if (this.min >= this.showRecords) {
       this.prevBtn = true;
       console.log(this.prevBtn);
     } else {
@@ -98,7 +98,7 @@ export class CandidateSearchComponent implements OnInit {
     this.max = this.min + this.showRecords;
     this.setData();
     console.log(this.min, this.max, this.displayData);
-    if (this.min >= 6) {
+    if (this.min >= this.showRecords) {
       this.prevBtn = true;
     } else {
       this.prevBtn = false;
@@ -116,7 +116,7 @@ export class CandidateSearchComponent implements OnInit {
     this.min = this.min - this.showRecords;
     this.max = this.min + this.showRecords;
     this.setData();
-    if (this.min >= 6) {
+    if (this.min >= this.showRecords) {
       this.prevBtn = true;
     } else {
       this.prevBtn = false;
