@@ -26,7 +26,7 @@ export class CandidateSearchComponent implements OnInit {
   getSearchResult() {
     let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
     console.log(this.searchForm.value.searchControl);
-    return this.http.get(urlSearch).subscribe((response: Response) => { response.json(), console.log("-->>>",response.json()) });
+    return this.http.get(urlSearch).subscribe((response: Response) => { response.json(), console.log("-->>>", response.json()) });
   };
 
 
