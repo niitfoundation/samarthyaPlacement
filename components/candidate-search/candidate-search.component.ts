@@ -17,10 +17,13 @@ export class CandidateSearchComponent implements OnInit {
   public showBtn = false;
   public result: any[] = [];
   public noResult = false;
+  public loading = false;
+
 
   getSearchResult() {
+    this.loading = true;
     this.result = [];
-    if (this.searchForm.value.searchControl.length > 0) {
+    if (this.searchForm.value.searchControl.trim().length > 0 ) {
       let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
       // console.log(this.searchForm.value.searchControl);
       return this.http.get(urlSearch).subscribe((response: Response) => {
@@ -34,15 +37,41 @@ export class CandidateSearchComponent implements OnInit {
         //     "name": "sankhlasaini@gmail.com",
         //     "email": "sankhlasaini@gmail.com",
         //     "profession": "civilaviation"
+        //   },
+        //     {
+        //     "gender": "male",
+        //     "displayName": "pankush manchanda",
+        //     "dob": "2015-04-07T15:28:00.000Z",
+        //     "name": "sankhlasaini@gmail.com",
+        //     "email": "sankhlasaini@gmail.com",
+        //     "profession": "civilaviation"
+        //   },  {
+        //     "gender": "male",
+        //     "displayName": "pankush manchanda",
+        //     "dob": "2015-04-07T15:28:00.000Z",
+        //     "name": "sankhlasaini@gmail.com",
+        //     "email": "sankhlasaini@gmail.com",
+        //     "profession": "civilaviation"
+        //   },  {
+        //     "gender": "male",
+        //     "displayName": "pankush manchanda",
+        //     "dob": "2015-04-07T15:28:00.000Z",
+        //     "name": "sankhlasaini@gmail.com",
+        //     "email": "sankhlasaini@gmail.com",
+        //     "profession": "civilaviation"
         //   }
         // )
         if (this.result.length <= 0) {
           this.noResult = true;
+          this.loading = false;
         } else {
           this.noResult = false;
+          this.loading = false;
+
         }
       });
     }
+    this.loading = false;
   };
 
 
