@@ -9,7 +9,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { Md2Module } from 'md2';
 import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
@@ -39,9 +38,7 @@ import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
 import { JobRolesComponent } from './components/job-roles/job-roles.component';
-
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
-
 import { SamarthyaWebComponentsModule } from 'samarthyaWebcomponent';
 import { SamProfileCardService } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.service';
 import { SamProfileSectionConfigService } from 'samarthyaWebcomponent/sam-profile/sam-profile-section/sam-profile-section-config.service';
@@ -51,11 +48,8 @@ import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sa
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
-
 
 @NgModule({
-
   imports: [
     BrowserModule,
     FormsModule,
@@ -67,8 +61,6 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
     AppRoutingModule,
     RouterModule,
     SamarthyaWebComponentsModule,
-    InfiniteScrollModule
-
   ],
   declarations: [
     AboutUsComponent,
@@ -131,10 +123,8 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
     SamProfileSectionComponent,
     SamProfileSectionFormComponent,
     CardDialog
-
   ]
 })
-
 export class placementmodule {
   static forRoot(): ModuleWithProviders {
     return {
@@ -153,5 +143,4 @@ export class placementmodule {
       ]
     }
   }
-
 }

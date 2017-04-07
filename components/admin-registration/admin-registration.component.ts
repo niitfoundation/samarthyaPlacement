@@ -17,8 +17,6 @@ import { Observable } from 'rxjs/Observable';
   providers: [PlacementRegisterService]
 })
 export class AdminRegistrationComponent implements OnInit {
-
-
   // form name
   public userForm: FormGroup;
   public showProgress=false;

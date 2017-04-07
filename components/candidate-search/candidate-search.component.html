@@ -11,8 +11,7 @@
     <form [formGroup]="searchForm" class={{cls}}>
       <div fxLayout="row">
         <md-input-container class="full-width">
-          <input formControlName="searchControl" mdInput placeholder="Search Candidate"  (keyup.enter)="getSearchResult() "
-          />
+          <input formControlName="searchControl" mdInput placeholder="Search Candidate" (keyup.enter)="getSearchResult() " />
           <md-hint>
             <p class="error-style">
               {{message}}
@@ -30,16 +29,15 @@
     <sam-profile-thumbnail [thumb]="data">
       <div openCard>
         <button md-icon-button (click)="openCardDialog(data.email)" class="openCardBtn">
-        <i class="material-icons">fullscreen</i>
-      </button> </div>
+       <i class="material-icons">fullscreen</i>
+     </button> </div>
     </sam-profile-thumbnail>
   </div>
 </div>
 <div class="noRes" *ngIf="noResult">
   <i class="material-icons icon">sentiment_dissatisfied</i>
-  <br>
-  No Result Found
-  </div>
+  <br> No Result Found
+</div>
 
 <div *ngIf="showBtn" fxLayout="row">
   <div fxFlex></div>

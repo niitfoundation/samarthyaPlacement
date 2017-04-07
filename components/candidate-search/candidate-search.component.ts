@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CardDialog } from './../cardDialog/cardDialog.component';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Http, Response } from '@angular/http'
 
 @Component({
@@ -23,7 +22,7 @@ export class CandidateSearchComponent implements OnInit {
   getSearchResult() {
     this.loading = true;
     this.result = [];
-    if (this.searchForm.value.searchControl.trim().length > 0 ) {
+    if (this.searchForm.value.searchControl.trim().length > 0) {
       let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
       // console.log(this.searchForm.value.searchControl);
       return this.http.get(urlSearch).subscribe((response: Response) => {
@@ -67,7 +66,6 @@ export class CandidateSearchComponent implements OnInit {
         } else {
           this.noResult = false;
           this.loading = false;
-
         }
       });
     }
