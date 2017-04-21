@@ -17,49 +17,17 @@ export class CandidateSearchComponent implements OnInit {
   public result: any[] = [];
   public noResult = false;
   public loading = false;
+  public unnecessaryWords=['in','of','at','or',''];
 
 
   getSearchResult() {
+
     this.loading = true;
     this.result = [];
     if (this.searchForm.value.searchControl.trim().length > 0) {
       let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
-      // console.log(this.searchForm.value.searchControl);
       return this.http.get(urlSearch).subscribe((response: Response) => {
-        this.result = response.json(),
-          console.log('Results -> ', response.json())
-        // this.result.push(
-        //   {
-        //     "gender": "male",
-        //     "displayName": "pankush manchanda",
-        //     "dob": "2015-04-07T15:28:00.000Z",
-        //     "name": "sankhlasaini@gmail.com",
-        //     "email": "sankhlasaini@gmail.com",
-        //     "profession": "civilaviation"
-        //   },
-        //     {
-        //     "gender": "male",
-        //     "displayName": "pankush manchanda",
-        //     "dob": "2015-04-07T15:28:00.000Z",
-        //     "name": "sankhlasaini@gmail.com",
-        //     "email": "sankhlasaini@gmail.com",
-        //     "profession": "civilaviation"
-        //   },  {
-        //     "gender": "male",
-        //     "displayName": "pankush manchanda",
-        //     "dob": "2015-04-07T15:28:00.000Z",
-        //     "name": "sankhlasaini@gmail.com",
-        //     "email": "sankhlasaini@gmail.com",
-        //     "profession": "civilaviation"
-        //   },  {
-        //     "gender": "male",
-        //     "displayName": "pankush manchanda",
-        //     "dob": "2015-04-07T15:28:00.000Z",
-        //     "name": "sankhlasaini@gmail.com",
-        //     "email": "sankhlasaini@gmail.com",
-        //     "profession": "civilaviation"
-        //   }
-        // )
+        this.result = response.json();       
         if (this.result.length <= 0) {
           this.noResult = true;
           this.loading = false;
@@ -157,16 +125,5 @@ export class CandidateSearchComponent implements OnInit {
   public fullView() {
     this.cls = 'expand search-box big-res';
   }
-
-  // public result = [
-  //   {
-  //     "gender": "male",
-  //     "displayName": "pankush manchanda",
-  //     "dob": "2015-04-07T15:28:00.000Z",
-  //     "name": "sankhlasaini@gmail.com",
-  //     "email": "sankhlasaini@gmail.com",
-  //     "profession": "civilaviation"
-  //   }
-  // ];
 
 }

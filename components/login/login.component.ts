@@ -18,7 +18,7 @@ import { Common } from '../../model/common';
 export class LoginComponent implements OnInit {
 
   public userForm: FormGroup;
-  public showProgress=false;
+  public showProgress = false;
   constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService, private JsonDataService: JsonDataService,
     private viewContainerRef: ViewContainerRef, private router: Router, private route: ActivatedRoute,
     private authenticationService: AuthenticationService, private data: Data) {
@@ -45,17 +45,24 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/verifyEmail']);
   }
   login() {
-    this.showProgress=true;
+    this.showProgress = true;
     let value = this.userForm.value;
 
     this.authenticationService.login(value['email'], value['password'])
       .subscribe(
       res => {
-        this.data.openSnackBar('Welcome ',value['email'] );
-        this.router.navigate(['/home']);
+        if (res['role'] == 'candidate') {
+          this.data.openSnackBar('Not authorised', 'Try later');
+          this.showProgress = false;
+          this.router.navigate(['/login']);
+        }
+        else {
+          this.data.openSnackBar('Welcome ', value['email']);
+          this.router.navigate(['/home']);
+        }
       },
       error => {
-            this.showProgress=false;
+        this.showProgress = false;
         this.data.openSnackBar('Invalid username or password', 'Try again');
         this.router.navigate(['/login']);
       });

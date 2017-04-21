@@ -21,7 +21,6 @@ export class AfterLoginHeaderComponent implements OnInit {
 
   ngOnInit() {
     // getting languages form json file
-
     this.JsonDataService.getJsonData().subscribe(resJsonData => this.getdata(resJsonData));
     let tokenVerification = JSON.parse(localStorage.getItem('currentUser'))['token'];
     this.JsonDataService.getJsonNavList(tokenVerification)
