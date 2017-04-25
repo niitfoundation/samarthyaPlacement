@@ -23,13 +23,13 @@ export class PlacementRegisterService {
   }
 
   getHistory() {
-    this.url = '/coordinates/import-history';
+    this.url = '/profile-import/import-history';
     return this.http.get(this.url).map((response: Response) => response.json());
 
   }
 
   getDetailHistory(documentId: any) {
-    this.url = '/coordinates/failure-history?documentId=' + documentId;
+    this.url = '/profile-import/failure-history?documentId=' + documentId;
     return this.http.get(this.url).map((response: Response) => response.json());
 
   }

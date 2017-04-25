@@ -31,6 +31,7 @@ export class ImportComponent implements OnInit {
 
     }
     upload() {
+        console.log("uplooooo");
         this.makeFileRequest("/profile-import/upload?remarks="+this.remarks+"&username="+this.createdUser, [], this.filesToUpload).then((result) => {
             this.data.openSnackBar("File Upload is in progress.","Please check File upload history");
             this.router.navigate(['/home']);
@@ -108,8 +109,9 @@ this.remarks=events.target.value;
     }
 getDetailHistory(documentId:any){
      this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res:any)=>{
-            if(res.data)
-            this.allFailureHistories=res;
+            if(res.data){
+            this.allFailureHistories=JSON.stringify(res.data[0]);
+            }
             else{
                 this.allFailureHistories="No failure records"
             }
