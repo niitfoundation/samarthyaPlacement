@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 export class AdminRegistrationComponent implements OnInit {
   // form name
   public userForm: FormGroup;
-  public showProgress=false;
+  public showProgress = false;
   // Title of the form which maybe coordinato or supervisor.it should be dynamic
 
   private title: string;
@@ -120,11 +120,11 @@ export class AdminRegistrationComponent implements OnInit {
     private router: Router, ) {
     // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
-      nameControl:['',[Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
+      nameControl: ['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
-      dobControl:['',[Validators.required,this.validateDate()]],
+      dobControl: ['', [Validators.required, this.validateDate()]],
       registrationControl: [''],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       aadharControl: ['', [Validators.required, Validators.pattern(/^\d{12}$/)]],
@@ -140,14 +140,14 @@ export class AdminRegistrationComponent implements OnInit {
     });
   }
 
-//validate the date of birth to be less than 10 years from current year
-validateDate():ValidatorFn{
-   return (c: AbstractControl) => {
+  //validate the date of birth to be less than 10 years from current year
+  validateDate(): ValidatorFn {
+    return (c: AbstractControl) => {
 
       if (this.userForm && this.userForm.get('dobControl').value) {
-             let date:Date=this.userForm.get('dobControl').value;
-             let systemDate=new Date();
-        if (date.getFullYear() <= systemDate.getFullYear()-10) {
+        let date: Date = this.userForm.get('dobControl').value;
+        let systemDate = new Date();
+        if (date.getFullYear() <= systemDate.getFullYear() - 10) {
           return null;
         }
         else {
@@ -156,7 +156,7 @@ validateDate():ValidatorFn{
       }
 
     }
-}
+  }
   // password validation which is calling from form building of passwordControl
   passwordValidator(): ValidatorFn {
 
@@ -221,7 +221,7 @@ validateDate():ValidatorFn{
   }
 
   save(userdata: any): boolean {
-    this.showProgress=true;
+    this.showProgress = true;
     if (this.createdUser) {
       this.createdBy = this.createdUser;
     }
@@ -233,22 +233,35 @@ validateDate():ValidatorFn{
     this.state = userdata.get('locationControl').value.split(',')[2];
     let userData = {
       profileData: {
-        name:userdata.get('nameControl').value,
-        fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
-        dob:userdata.get('dobControl').value,
-        gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
-        mobileNumber: userdata.get('mobileControl').value, role: userdata.get('roleControl').value,
+        summary: {
+          summaryText: ''
+        },
+        personalInfo: {
+          name: userdata.get('nameControl').value,
+          fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
+          dob: userdata.get('dobControl').value,
+          gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
+          contact: {
+            I: userdata.get('mobileControl').value
+          },
+          role: userdata.get('roleControl').value,
+          address: {
+            address1: '',
+            address2: '',
+            pincode: userdata.get('pincodeControl').value,
+            district: this.district,
+            landmark: this.landmark,
+            state: this.state
+          },
+          identity: [{ idType: "Aadhaar", value: userdata.get('aadharControl').value },
+          { idType: "RegNumber", value: userdata.get('registrationControl').value }],
+          language: userdata.get('languageControl').value,
+        },
         profession: userdata.get('professionControl').value,
-        pincode: userdata.get('pincodeControl').value,
-        district: this.district,
-        landmark: this.landmark,
-        state: this.state,
-        identity: [{ idType: "Aadhaar", value: userdata.get('aadharControl').value },
-        { idType: "RegNumber", value: userdata.get('registrationControl').value }],
-        location: userdata.get('locationControl').value,
-        placementCenter: userdata.get('placementControl').value,
-        language: userdata.get('languageControl').value,
-        createdBy: this.createdBy
+        centerCode: userdata.get('placementControl').value,
+        createdBy: this.createdBy,
+        username: userdata.get('emailControl').value, password: userdata.get('passwordControl').value,
+
       },
       userCredentialsData: {
         username: userdata.get('emailControl').value, password: userdata.get('passwordControl').value,
@@ -267,12 +280,12 @@ validateDate():ValidatorFn{
         return true;
       }
       else {
-        this.showProgress=false;
+        this.showProgress = false;
         this.data.openSnackBar(resJsonData['msg'], 'OK');
       }
     },
       (error: any) => {
-        this.showProgress=false;
+        this.showProgress = false;
         this.data.openSnackBar('TECHNICAL ISSUE', 'Please Try after some time');
       })
 
