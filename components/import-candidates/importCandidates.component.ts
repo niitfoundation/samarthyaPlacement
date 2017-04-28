@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router'
-
-import {Data} from './../../services/data.service';
-import {PlacementRegisterService} from './../../services/placement-register.service';
-import {AuthenticationService} from './../../services/authentication.service';
+import { Data } from './../../services/data.service';
+import { PlacementRegisterService } from './../../services/placement-register.service';
+import { AuthenticationService } from './../../services/authentication.service';
 
 @Component({
     selector: 'app-job-post',
@@ -13,27 +12,30 @@ import {AuthenticationService} from './../../services/authentication.service';
 })
 export class ImportComponent implements OnInit {
     public error: any;
+    public history: any = "Show";
+    public noResult:any;
+    public hiddenHistory: any = false;
     public text = '';
     public importButton = true;
     public allHistories: any;
     public allFailureHistories: any;
     filesToUpload: Array<File>;
-    constructor(private http: Http,private data:Data,private router:Router,private authenticationService:AuthenticationService ,private PlacementRegisterService:PlacementRegisterService) {
+    public fileName: any = '';
+    constructor(private http: Http, private data: Data, private router: Router, private authenticationService: AuthenticationService, private PlacementRegisterService: PlacementRegisterService) {
         this.filesToUpload = [];
     }
     formFileData: any;
-    remarks:any;
-    createdUser:any;
+    remarks: any;
+    createdUser: any;
 
     ngOnInit() {
-            this.createdUser=this.authenticationService.getCreatedBy();
+        this.createdUser = this.authenticationService.getCreatedBy();
 
 
     }
     upload() {
-        console.log("uplooooo");
-        this.makeFileRequest("/profile-import/upload?remarks="+this.remarks+"&username="+this.createdUser, [], this.filesToUpload).then((result) => {
-            this.data.openSnackBar("File Upload is in progress.","Please check File upload history");
+        this.makeFileRequest("/profile-import/upload?remarks=" + this.remarks + "&username=" + this.createdUser, [], this.filesToUpload).then((result) => {
+            this.data.openSnackBar("File Upload is in progress.", "Please check File upload history");
             this.router.navigate(['/home']);
         }, (error) => {
             console.error(error + 'err');
@@ -41,6 +43,7 @@ export class ImportComponent implements OnInit {
     }
     openFile(event: any) {
         this.filesToUpload = <Array<File>>event.target.files;
+        this.fileName = event.target.files[0].name;
         const files = event.target.files;
         if (files.length > 0) {
             let file;
@@ -71,8 +74,8 @@ export class ImportComponent implements OnInit {
         }
     }
 
-    getRemarks(events:any){
-this.remarks=events.target.value;
+    getRemarks(events: any) {
+        this.remarks = events.target.value;
 
     }
 
@@ -84,7 +87,7 @@ this.remarks=events.target.value;
             var xhr = new XMLHttpRequest();
             for (var i = 0; i < files.length; i++) {
                 formData.append("uploads[]", files[i], files[i].name);
-            }            
+            }
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 201) {
@@ -100,20 +103,42 @@ this.remarks=events.target.value;
     }
 
     getHistory() {
-        this.PlacementRegisterService.getHistory().subscribe((res: any) => {
-            this.allHistories = res;
-        },
-            (err: any) => {
-                console.log('History error' + err);
-            });
+        if (this.history == 'Show') {
+            this.PlacementRegisterService.getHistory(this.createdUser).subscribe((res: any) => {
+                this.hiddenHistory = true;
+                if(res.length>0){
+                     this.allHistories = res;
+                    this.noResult = null;
+                }
+                else
+                    this.noResult = "show";
+                this.history = 'Hide';
+            },
+                (err: any) => {
+                    console.log('History error' + err);
+                });
+        }
+        else {
+            this.hiddenHistory = false;
+            this.history = 'Show';
+        }
+
     }
-getDetailHistory(documentId:any){
-     this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res:any)=>{
-            if(res.data){
-            this.allFailureHistories=JSON.stringify(res.data[0]);
+
+    disableHis(fail:any){
+        if(fail == 0)
+            return true;
+        else
+            return false;
+    }
+
+    getDetailHistory(documentId: any) {
+        this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res: any) => {
+            if (res.data) {
+                this.allFailureHistories = JSON.stringify(res.data[0]);
             }
-            else{
-                this.allFailureHistories="No failure records"
+            else {
+                this.allFailureHistories = "No failure records"
             }
         },
             (err: any) => {

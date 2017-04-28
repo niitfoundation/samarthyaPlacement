@@ -22,8 +22,8 @@ export class PlacementRegisterService {
     return false;
   }
 
-  getHistory() {
-    this.url = '/profile-import/import-history';
+  getHistory(user: any) {
+    this.url = '/profile-import/import-history?user='+user;
     return this.http.get(this.url).map((response: Response) => response.json());
 
   }

@@ -1,50 +1,78 @@
-<!--<input type="file" (change)="openFile($event)" placeholder="Upload file..." />
-<button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
-<div *ngIf="error">{{error}}</div>-->
+<md-card>
+  <md-card-title class="text-center title" rowsHeight="800px">
+    Import candidates
+  </md-card-title>
+  <md-card-content>
+    <input class="file-style" type="file" (change)="openFile($event)" #file placeholder="Choose file..." hidden="true" />
+    <div fxLayout="row" fxLayoutAlign="start end">
+      <div fxFlex.xs="10" fxFlex.gt-xs="7">
+        <button md-raised-button color="primary" (click)="file.click()" type="button">Browse</button>
+      </div>
+      <div fxFlex>
+        <md-input-container class="full-width">
+          <input (click)="file.click()" mdInput placeholder="Filename" readonly="true" [value]="fileName" />
+        </md-input-container>
+      </div>
+    </div><br>
+    <div fxFlex>
+      <md-input-container class="full-width">
+        <input mdInput (blur)="getRemarks($event)" placeholder="Remarks*" />
+      </md-input-container>
+    </div><br>
+    <div fxLayout="row">
+      <button md-button type="button" class="full-width" [disabled]="importButton" (click)="upload()">Import Candidates</button>
+    </div>
+
+  </md-card-content>
+</md-card>
 
 
-<!--
-<form method="post"  enctype="multipart/form-data">
-    <input type="file" (change)="openFile($event)" placeholder="Upload file..." />
-<button type="button" [disabled]="importButton"  (click)="upload()">Import Candidates</button>
-<div *ngIf="error">{{error}}</div>
-  </form>-->
-<div class="container width-75 margin-auto paddings margin-top" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
-    <div fxFlex class="margin-auto import-file ">
-        <form  method="post" enctype="multipart/form-data">
-            <input class="file-style" type="file" (change)="openFile($event)" placeholder="Choose file..." />
-        </form>
-    </div>
-</div>
-<!--import-button-->
-<div class="container width-75 margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
-    <div fxFlex class="margin-auto  text-center ">
-                        <input type="text" placeholder="Remarks" (blur)="getRemarks($event)"/>
-        <button md-button type="button" [disabled]="importButton" (click)="upload()">Import Candidates</button>
-    </div>
-</div>
 <!--error message-->
 <div class="container width-75  margin-auto paddings" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap.xs="0">
-    <div fxFlex class="margin-auto  error-style"  *ngIf="error">{{error}}
-    
+  <div fxFlex class="margin-auto  error-style" *ngIf="error">{{error}}
+
+  </div>
 </div>
+<div fxLayoutAlign="center">
+  <button md-raised-button color="primary" type="button" (click)="getHistory()">{{history}} Import History</button>
 </div>
-            <button md-raised-button color="primary"  type="button" (click)="getHistory()">View Import History</button>
- <div *ngIf="allHistories">           
-<table>
-<tr><th>Total Profiles</th><th>Success</th><th>Failure</th><th>Created On</th><th>Remarks</th>  </tr>
-<tr *ngFor="let history of allHistories">
-<td>{{history.importResult.total}}</td>
-<td>{{history.importResult.success}}</td>
-<td>{{history.importResult.failed}}</td>
-<td>{{history.requestedOn}}</td>
-<td>{{history.remarks}}</td>
-<td><button md-raised-button color="primary"  type="button" (click)="getDetailHistory(history._id)">View Failure Detail</button></td>
-</tr>
-</table>
- </div>
- <div *ngIf="allFailureHistories">
-{{allFailureHistories}}
- </div>
+
+<div *ngIf="hiddenHistory" fxLayout fxLayoutAlign="center">
+  <br>
+  <div *ngIf="noResult">
+    No result found
+  </div>
+  <div *ngIf="allHistories">
+    <div class="table-responsive-vertical shadow-z-1">
+      <!-- Table starts here -->
+      <table id="table" class="table table-hover table-mc-light-blue">
+        <thead>
+          <tr>
+            <th>Total Profiles</th>
+            <th>Success</th>
+            <th>Failure</th>
+            <th>Created On</th>
+            <th>Remarks</th>
+            <th>Failure Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let history of allHistories">
+            <td data-title="Total Profiles">{{history.importResult.total}}</td>
+            <td data-title="Success">{{history.importResult.success}}</td>
+            <td data-title="Failure">{{history.importResult.failed}}</td>
+            <td data-title="Created On">{{history.requestedOn}}</td>
+            <td data-title="Remarks">{{history.remarks}}</td>
+            <td data-title="Failure Status"><button md-raised-button color="primary" [disabled]="disableHis(history.importResult.failed)" type="button" (click)="getDetailHistory(history._id)">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="allFailureHistories">
+    {{allFailureHistories}}
+  </div>
+</div>
 
 <app-footer></app-footer>

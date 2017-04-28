@@ -49,6 +49,7 @@ import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-p
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -89,7 +90,7 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
     CentresComponent,
     JobRolesComponent,
     CardDialog
-    // routingComponents check working or not
+   // routingComponents check working or not
   ],
   bootstrap: [placementComponent, CardDialog],
   exports: [
