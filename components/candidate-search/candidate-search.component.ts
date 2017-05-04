@@ -2,7 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CardDialog } from './../cardDialog/cardDialog.component';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { Http, Response } from '@angular/http'
+import { Http, Response } from '@angular/http';
+import  {AuthenticationService} from './../../services/authentication.service'
 
 @Component({
   selector: 'app-candidate-search',
@@ -17,17 +18,15 @@ export class CandidateSearchComponent implements OnInit {
   public result: any[] = [];
   public noResult = false;
   public loading = false;
-  public unnecessaryWords=['in','of','at','or',''];
-
 
   getSearchResult() {
 
     this.loading = true;
     this.result = [];
     if (this.searchForm.value.searchControl.trim().length > 0) {
-      let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl;
+      let urlSearch = '/candidates-search?intent=' + this.searchForm.value.searchControl+'&token='+this.AuthenticationService.getToken();
       return this.http.get(urlSearch).subscribe((response: Response) => {
-        this.result = response.json();       
+        this.result = response.json().result;       
         if (this.result.length <= 0) {
           this.noResult = true;
           this.loading = false;
@@ -41,7 +40,7 @@ export class CandidateSearchComponent implements OnInit {
   };
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, public dialog: MdDialog, private http: Http
+  constructor( @Inject(FormBuilder) fb: FormBuilder, public dialog: MdDialog, private http: Http, private AuthenticationService:AuthenticationService
   ) {
 
     this.searchForm = fb.group({

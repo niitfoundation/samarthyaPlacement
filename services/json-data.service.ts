@@ -60,7 +60,6 @@ export class JsonDataService {
   };
 
   getJsonNavList(tokenVerification: any): any {
-    console.log(tokenVerification)
     this.url = '/auth/nav-menus';
     return this.http.get(this.url, this.authoriZation(tokenVerification))
       .map((response: Response) =>

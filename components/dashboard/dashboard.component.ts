@@ -13,7 +13,6 @@ export class DashboardComponent implements OnInit {
 
   }
   ngOnInit() {
-    console.log('calling redirect');
     this.router.navigate(['/home/candidateSearch']);
   }
 

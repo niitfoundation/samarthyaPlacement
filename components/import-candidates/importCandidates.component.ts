@@ -34,8 +34,9 @@ export class ImportComponent implements OnInit {
 
     }
     upload() {
-        this.makeFileRequest("/profile-import/upload?remarks=" + this.remarks + "&username=" + this.createdUser, [], this.filesToUpload).then((result) => {
+        this.makeFileRequest("/profile-import/upload?remarks=" + this.remarks + "&username=" + this.createdUser +"&token=" +this.authenticationService.getToken(), [], this.filesToUpload).then((res:Response) => {
             this.data.openSnackBar("File Upload is in progress.", "Please check File upload history");
+            this.authenticationService.setToken(res['authToken']);
             this.router.navigate(['/home']);
         }, (error) => {
             console.error(error + 'err');
@@ -106,7 +107,8 @@ export class ImportComponent implements OnInit {
         if (this.history == 'Show') {
             this.PlacementRegisterService.getHistory(this.createdUser).subscribe((res: any) => {
                 this.hiddenHistory = true;
-                if(res.length>0){
+                this.authenticationService.setToken(res.authToken);
+                if(res.result.length>0){
                      this.allHistories = res;
                     this.noResult = null;
                 }
@@ -134,7 +136,8 @@ export class ImportComponent implements OnInit {
 
     getDetailHistory(documentId: any) {
         this.PlacementRegisterService.getDetailHistory(documentId).subscribe((res: any) => {
-            if (res.data) {
+            this.authenticationService.setToken(res.authToken);
+            if (res.result) {
                 this.allFailureHistories = JSON.stringify(res.data[0]);
             }
             else {
