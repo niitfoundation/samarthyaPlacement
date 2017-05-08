@@ -49,17 +49,15 @@
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="passwordControl" minlength="8" type="password" class="validate" placeholder="Password*" />
+                <input mdInput formControlName="passwordControl" id="password" type="password" class="validate" (keyup)="conPasswordValue(conPassword.value,password.value)" #password
+                  placeholder="Password*" />
                 <md-hint align="start" class="full-width">
-                  <!--Password length validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('passwordControl').hasError('minlength')">
-                    Password should more than 7 character
-                  </div>
-                   <!-- Password required validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('passwordControl').hasError('required') && userForm.get('passwordControl').touched">
+                  <div *ngIf="userForm.get('passwordControl').hasError('required') && userForm.get('passwordControl').touched" class="errorStyle">
                     Password is required
                   </div>
-
+                  <div *ngIf="userForm.get('passwordControl').hasError('pattern')" class="errorStyle">
+                    Invalid password. Password must be at least 6 characters long, and contain a number
+                  </div>
                 </md-hint>
               </md-input-container>
             </div>
@@ -72,20 +70,12 @@
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="confirmPasswordControl"  minlength="8" type="password" class="validate" placeholder="Confirm Password*"
-                />
+                <input mdInput formControlName="confirmPasswordControl" id="conPassword" type="password" class="validate" #conPassword (keyup)="conPasswordValue(conPassword.value,password.value)"
+                  placeholder="Confirm Password*" />
                 <md-hint align="start" class="full-width">
-                  <!-- Confirm password required validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('confirmPasswordControl').hasError('required') && userForm.get('confirmPasswordControl').touched">
+                                    <div *ngIf="passwordMatchWarning && userForm.get('confirmPasswordControl').touched" class="errorStyle">{{passwordMatchWarning}}</div>
+                  <div *ngIf="userForm.get('confirmPasswordControl').hasError('required') && userForm.get('confirmPasswordControl').touched" class="errorStyle">
                     Confirm Password is required
-                  </div>
-                  <!--Confirm Password length validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('confirmPasswordControl').hasError('minlength')">
-                    Password should more than 7 character
-                  </div>
-                  <!-- Matching password  validation-->
-                  <div class="errorStyle" *ngIf="(!userForm.get('confirmPasswordControl').valid) && !userForm.get('confirmPasswordControl').hasError('required') &&!userForm.get('passwordControl').hasError('required') && !userForm.get('confirmPasswordControl').hasError('minlength')">
-                    Mismatch Passwordd
                   </div>
                    <!--Confirm Password length validation-->
                   <div class="errorStyle" *ngIf="!userForm.get('passwordControl').valid && userForm.get('confirmPasswordControl').valid ">
@@ -95,6 +85,7 @@
               </md-input-container>
             </div>
           </div>
+
 
           <!--Personal info division-->
           <div class="division">
@@ -355,7 +346,7 @@
 
           <!--Register Button-->
           <div fxLayout="row">
-            <button md-raised-button color="primary" class="full-width registerBtn" type="button" (click)="save(userForm)" [disabled]="!userForm.valid">Register</button>
+            <button md-raised-button color="primary" class="full-width registerBtn" id="resetBtn" type="button" (click)="save(userForm)" [disabled]="!userForm.valid">Register</button>
           </div>
         </form>
       </md-card-content>

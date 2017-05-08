@@ -34,6 +34,8 @@ export class AdminRegistrationComponent implements OnInit {
   public state: any;
   public landmark: any;
   public createdUser: any;
+  public password:string;
+  public passwordMatchWarning:string;
 
 
   // Dropdown values.Should be data driven
@@ -134,8 +136,8 @@ export class AdminRegistrationComponent implements OnInit {
       dobControl: ['', [Validators.required]],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       aadharControl: ['', [Validators.pattern(/^\d{12}$/)]],
-      passwordControl: ['', [Validators.required,this.passwordValidator()]],
-      confirmPasswordControl: ['', [Validators.required, this.matchPassword()]],
+      passwordControl: ['', [Validators.required,Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
+      confirmPasswordControl: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       roleControl: ['', Validators.required],
       professionControl: ['', Validators.required],
@@ -146,37 +148,13 @@ export class AdminRegistrationComponent implements OnInit {
     });
   }
 
-  // password validation which is calling from form building of passwordControl
-  passwordValidator(): ValidatorFn {
-
-    return (c: AbstractControl) => {
-      if (this.userForm && this.userForm.get('confirmPasswordControl').value) {
-        if (this.userForm.get('passwordControl').value === this.userForm.get('confirmPasswordControl').value) {
-          return null;
-        }
-        else {
-          return { valid: false };
-        }
-      }
-
-    }
-
-
-  }
-
-  // password validation which is calling from form building of confirmPasswordControl
-  matchPassword(): ValidatorFn {
-
-    return (c: AbstractControl) => {
-      if (this.userForm && this.userForm.get('passwordControl').value) {
-        if (this.userForm.get('passwordControl').value === this.userForm.get('confirmPasswordControl').value) {
-          return null;
-        }
-        else {
-          return { valid: false };
-        }
-      }
-
+conPasswordValue(conPass: string,pass:string) {
+    this.password = pass;
+    if (this.password !== conPass) {
+      this.passwordMatchWarning = 'Password Not Match';
+      (<HTMLInputElement>document.getElementById('resetBtn')).disabled = true;
+    } else {
+      this.passwordMatchWarning = '';
     }
   }
 
