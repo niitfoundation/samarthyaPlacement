@@ -42,7 +42,14 @@ export class AdminRegistrationComponent implements OnInit {
   placementCenters: any;
   languages: any;
 
+  minDate: Date = null;
+  maxDate: Date = null;
+
   ngOnInit() {
+
+    let today: Date = new Date();
+    this.maxDate = new Date(today);
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 15);
     this.JsonDataService.getPlacementCenter().subscribe(resJsonData => this.placementCenters = resJsonData);
     this.JsonDataService.getRoles().subscribe(resJsonData => this.roles = resJsonData);
 
@@ -90,7 +97,7 @@ export class AdminRegistrationComponent implements OnInit {
               this.hiddenParticularRole = true;
 
             }
-            this.emailService.sendEmail({ username: this.userForm.get('emailControl').value }).subscribe(resJsonData => {
+            this.emailService.verifyEmail({ username: this.userForm.get('emailControl').value }).subscribe(resJsonData => {
 
             },
               error => {
@@ -121,14 +128,13 @@ export class AdminRegistrationComponent implements OnInit {
     // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
       nameControl: ['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
-      firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z]{2,}')]],
+      firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,}')]],
       genderControl: ['', Validators.required],
-      dobControl: ['', [Validators.required, this.validateDate()]],
-      registrationControl: [''],
+      dobControl: ['', [Validators.required]],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
-      aadharControl: ['', [Validators.required, Validators.pattern(/^\d{12}$/)]],
-      passwordControl: ['', [Validators.required]],
+      aadharControl: ['', [Validators.pattern(/^\d{12}$/)]],
+      passwordControl: ['', [Validators.required,this.passwordValidator()]],
       confirmPasswordControl: ['', [Validators.required, this.matchPassword()]],
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       roleControl: ['', Validators.required],
@@ -136,27 +142,10 @@ export class AdminRegistrationComponent implements OnInit {
       pincodeControl: ['', [Validators.required, Validators.pattern('[0-9]{6}')]],
       locationControl: ['', Validators.required],
       placementControl: ['', Validators.required],
-      languageControl: ['', Validators.required],
+      languageControl: ['', Validators.required]
     });
   }
 
-  //validate the date of birth to be less than 10 years from current year
-  validateDate(): ValidatorFn {
-    return (c: AbstractControl) => {
-
-      if (this.userForm && this.userForm.get('dobControl').value) {
-        let date: Date = this.userForm.get('dobControl').value;
-        let systemDate = new Date();
-        if (date.getFullYear() <= systemDate.getFullYear() - 10) {
-          return null;
-        }
-        else {
-          return { valid: false };
-        }
-      }
-
-    }
-  }
   // password validation which is calling from form building of passwordControl
   passwordValidator(): ValidatorFn {
 
@@ -253,8 +242,7 @@ export class AdminRegistrationComponent implements OnInit {
             landmark: this.landmark,
             state: this.state
           },
-          identity: [{ idType: "Aadhaar", value: userdata.get('aadharControl').value },
-          { idType: "RegNumber", value: userdata.get('registrationControl').value }],
+          identity: [{ idType: "Aadhaar", value: userdata.get('aadharControl').value }],
           language: userdata.get('languageControl').value,
         },
         profession: userdata.get('professionControl').value,

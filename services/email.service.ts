@@ -12,6 +12,11 @@ export class EmailService {
     return this.http.post(this.url, mailObj).map((response: Response) => response.json());
   };
 
+  verifyEmail(user: any) {
+    this.url = '/auth/verify-user';
+    return this.http.post(this.url, user).map((response: Response) => response.json());
+  };
+
   sendResetPasswordEmail(mailObj: any) {
     this.url = '/auth/verify-reset-email';
     return this.http.post(this.url, mailObj).map((response: Response) => response.json());

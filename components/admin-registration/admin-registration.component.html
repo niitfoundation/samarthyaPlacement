@@ -5,7 +5,7 @@
   <md-progress-bar mode="indeterminate"></md-progress-bar>
 </div>
 <!--Register card-->
-<md-grid-list cols="1" rowHeight="1750">
+<md-grid-list cols="1" rowHeight="1800">
   <md-grid-tile>
     <!--card Start-->
     <md-card class="loginCard">
@@ -20,14 +20,14 @@
           </div>
           <!--Email-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">mail</i>
             </div>
 
             <div fxFlex>
               <md-input-container class="full-width">
 
-                <input formControlName="emailControl" mdInput placeholder="Email" [readonly]="emailDisable" />
+                <input formControlName="emailControl" mdInput placeholder="Email*" [readonly]="emailDisable" />
                 <md-hint align="start" class="full-width">
                   <!-- Email required validation-->
                   <div class="errorStyle" *ngIf="userForm.get('emailControl').hasError('required') && userForm.get('emailControl').touched">
@@ -44,21 +44,22 @@
 
           <!--passowrd-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">lock</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="passwordControl" minlength="8" type="password" class="validate" placeholder="Password" />
+                <input mdInput formControlName="passwordControl" minlength="8" type="password" class="validate" placeholder="Password*" />
                 <md-hint align="start" class="full-width">
-                  <!-- Password required validation-->
+                  <!--Password length validation-->
+                  <div class="errorStyle" *ngIf="userForm.get('passwordControl').hasError('minlength')">
+                    Password should more than 7 character
+                  </div>
+                   <!-- Password required validation-->
                   <div class="errorStyle" *ngIf="userForm.get('passwordControl').hasError('required') && userForm.get('passwordControl').touched">
                     Password is required
                   </div>
-                  <!--Password length validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('passwordControl').hasError('minlength') && userForm.get('passwordControl').touched">
-                    Password should more than 7 character
-                  </div>
+
                 </md-hint>
               </md-input-container>
             </div>
@@ -66,12 +67,12 @@
 
           <!--confirm password-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">lock</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="confirmPasswordControl" minlength="8" type="password" class="validate" placeholder="Confirm Password"
+                <input mdInput formControlName="confirmPasswordControl"  minlength="8" type="password" class="validate" placeholder="Confirm Password*"
                 />
                 <md-hint align="start" class="full-width">
                   <!-- Confirm password required validation-->
@@ -79,18 +80,21 @@
                     Confirm Password is required
                   </div>
                   <!--Confirm Password length validation-->
-                  <div class="errorStyle" *ngIf="userForm.get('confirmPasswordControl').hasError('minlength') && userForm.get('confirmPasswordControl').touched">
+                  <div class="errorStyle" *ngIf="userForm.get('confirmPasswordControl').hasError('minlength')">
                     Password should more than 7 character
                   </div>
                   <!-- Matching password  validation-->
-                  <div class="errorStyle" *ngIf="(!userForm.get('confirmPasswordControl').valid) && !userForm.get('confirmPasswordControl').hasError('required') &&!userForm.get('passwordControl').hasError('required') && userForm.get('confirmPasswordControl').touched">
+                  <div class="errorStyle" *ngIf="(!userForm.get('confirmPasswordControl').valid) && !userForm.get('confirmPasswordControl').hasError('required') &&!userForm.get('passwordControl').hasError('required') && !userForm.get('confirmPasswordControl').hasError('minlength')">
+                    Mismatch Passwordd
+                  </div>
+                   <!--Confirm Password length validation-->
+                  <div class="errorStyle" *ngIf="!userForm.get('passwordControl').valid && userForm.get('confirmPasswordControl').valid ">
                     Mismatch Password
                   </div>
                 </md-hint>
               </md-input-container>
             </div>
           </div>
-
 
           <!--Personal info division-->
           <div class="division">
@@ -104,7 +108,7 @@
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="nameControl" id="name" type="text" class="validate" placeholder="Display Name" />
+                <input mdInput formControlName="nameControl" id="name" type="text" class="validate" placeholder="Choose a name to display in profile*" />
                 <md-hint align="start" class="full-width">
                   <div *ngIf="userForm.get('nameControl').hasError('required') && userForm.get('nameControl').touched" class="errorStyle">
                     First Name is required
@@ -116,12 +120,12 @@
 
           <!--First Name-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">perm_identity</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="firstNameControl" id="fname" type="text" class="validate" placeholder="First Name" />
+                <input mdInput formControlName="firstNameControl" id="fname" type="text" class="validate" placeholder="First Name*" />
                 <md-hint align="start" class="full-width">
                   <!-- Name required validation-->
                   <div class="errorStyle" *ngIf="userForm.get('firstNameControl').hasError('required') && userForm.get('firstNameControl').touched">
@@ -138,12 +142,12 @@
 
           <!--Last Name-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">perm_identity</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="lastNameControl" type="text" class="validate" placeholder="Last Name" />
+                <input mdInput formControlName="lastNameControl" type="text" class="validate" placeholder="Last Name*" />
                 <md-hint align="start" class="full-width">
                   <!-- Name pattern validation-->
                   <div class="errorStyle" *ngIf="userForm.get('lastNameControl').hasError('pattern') && userForm.get('lastNameControl').touched">
@@ -156,11 +160,11 @@
 
           <!--Gender-->
           <div fxLayout="row" fxLayoutAlign="start end" class="gender">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons levelIcon">wc</i>
             </div>
-            <div fxFlex>
-              <md-radio-group formControlName="genderControl">
+            <div fxFlex class="full-width">
+              <md-radio-group formControlName="genderControl" color="primary">
                 <md-radio-button value="male">Male</md-radio-button>
                 <md-radio-button value="female">Female</md-radio-button>
               </md-radio-group><br>
@@ -173,14 +177,14 @@
 
           <!--Adhar-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">chrome_reader_mode</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
                 <input mdInput formControlName="aadharControl" type="text" class="validate" placeholder="Aadhar No." />
                 <md-hint align="start" class="full-width">
-                  <!--<div *ngIf="userForm.get('aadharControl').hasError('pattern')" class="errorStyle">Invaild Aadhar</div>-->
+                  <div *ngIf="userForm.get('aadharControl').hasError('pattern')" class="errorStyle">Invaild Aadhar</div>
                 </md-hint>
               </md-input-container>
             </div>
@@ -189,7 +193,7 @@
           <!--Date of Birth-->
           <div fxLayout="row" fxLayoutAlign="start end">
             <div fxFlex>
-              <md2-datepicker formControlName="dobControl" placeholder="Date Of Birth" class="full-width">date</md2-datepicker>
+              <md2-datepicker formControlName="dobControl" [min]="minDate" [max]="maxDate" placeholder="Date Of Birth*" class="full-width">date</md2-datepicker>
             </div>
             <div *ngIf="!userForm.get('dobControl').valid  && userForm.get('dobControl').touched" class="errorStyle">
               Date Of Birth is required and it should be 10 years less than to register
@@ -203,12 +207,12 @@
 
           <!--Mobile No-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">call</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="mobileControl" type="text" class="validate" placeholder="Mobile No." />
+                <input mdInput formControlName="mobileControl" type="text" class="validate" placeholder="Mobile No.*" />
                 <md-hint align="start" class="full-width">
                   <!-- Mobile number required validation-->
                   <div class="errorStyle" *ngIf="userForm.get('mobileControl').hasError('required') && userForm.get('mobileControl').touched">
@@ -225,12 +229,12 @@
 
           <!--location Pincode-->
           <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons">dialpad</i>
             </div>
             <div fxFlex>
               <md-input-container class="full-width">
-                <input mdInput formControlName="pincodeControl" type="text" class="validate" placeholder="Pincode" (keyup)="getPincode()"
+                <input mdInput formControlName="pincodeControl" type="text" class="validate" placeholder="Pincode*" (keyup)="getPincode()"
                 />
                 <md-hint align="start" class="full-width">
                   <div *ngIf="userForm.get('pincodeControl').hasError('pattern')" class="errorStyle">Invaild Pincode</div>
@@ -244,7 +248,7 @@
 
           <!--location area-->
           <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
+            <div fxFlex="35px">
               <i class="material-icons formIcons levelIcon">my_location</i>
             </div>
             <div fxFlex>
@@ -266,10 +270,10 @@
           </div>
           <!--Profession-->
           <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
-              <i class="material-icons formIcons ">layers</i>
+            <div fxFlex="35px">
+              <i class="material-icons formIcons levelIcon">layers</i>
             </div>
-            <div fxFlex>
+            <div fxFlex >
               <md2-select formControlName="professionControl" placeholder="Profession*" [multiple]="true" #selectMultipleControl>
                 <md2-option color="accent" *ngFor="let currentProfession of professions" value="{{currentProfession.name}}">{{currentProfession.name}}</md2-option>
               </md2-select>
@@ -282,10 +286,9 @@
             </div>
           </div>
 
-          <div [hidden]="hiddenParticularRole">
-            <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-              <div fxFlex.xs="10" fxFlex.gt-xs="7">
-                <i class="material-icons formIcons levelIcon">supervisor_account</i>
+         <div [hidden]="hiddenParticularRole" fxLayout="row" fxLayoutAlign="start end">
+              <div fxFlex="35px">
+                <i class="material-icons formIcons">supervisor_account</i>
               </div>
               <div fxFlex>
                 <md-input-container class="full-width">
@@ -296,12 +299,11 @@
                   Role is required
                 </div>
               </div>
-            </div>
           </div>
 
           <div [hidden]="hiddenRole">
             <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-              <div fxFlex.xs="10" fxFlex.gt-xs="7">
+              <div fxFlex="35px">
                 <i class="material-icons formIcons levelIcon">supervisor_account</i>
               </div>
               <div fxFlex>
@@ -317,30 +319,13 @@
             </div>
           </div>
 
-          <!--Registration ID-->
-          <div fxLayout="row" fxLayoutAlign="start end">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
-              <i class="material-icons formIcons">assignment_ind</i>
-            </div>
-            <div fxFlex>
-              <md-input-container class="full-width">
-                <input mdInput formControlName="registrationControl" type="text" class="validate" placeholder="Registration Id" />
-                <md-hint align="start" class="full-width">
-                  <div *ngIf="userForm.get('registrationControl').hasError('required') && userForm.get('registrationControl').touched" class="errorStyle">
-                    Registration ID is required
-                  </div>
-                </md-hint>
-              </md-input-container>
-            </div>
-          </div>
-
           <!--placementCenter-->
           <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
-              <i class="material-icons formIcons levelIcon">person_pin_circle</i>
+            <div fxFlex="35px">
+              <i class="material-icons formIcons level">person_pin_circle</i>
             </div>
             <div fxFlex>
-              <md-select formControlName="placementControl" ng-model="placementSelect" #placementCenterId class="full-width" placeholder="Placement Center*">
+              <md-select formControlName="placementControl" class="full-width" placeholder="Placement Center*">
                 <md-option *ngFor="let center of placementCenters" value="{{center.name}}">{{center.name}}</md-option>
               </md-select>
               <!-- Placement center required validation-->
@@ -352,8 +337,8 @@
 
           <!--Langyuage-->
           <div fxLayout="row" fxLayoutAlign="start end" class="dropdown">
-            <div fxFlex.xs="10" fxFlex.gt-xs="7">
-              <i class="material-icons formIcons">language</i>
+            <div fxFlex="35px">
+              <i class="material-icons formIcons levelIcon">language</i>
             </div>
             <div fxFlex>
               <md2-select formControlName="languageControl" placeholder="Language*" [multiple]="true" #selectMultipleControl>
@@ -377,6 +362,6 @@
     </md-card>
   </md-grid-tile>
 </md-grid-list>
-<!--
+
 <app-footer *ngIf="title=='Admin'" class="adminFooter"></app-footer>
-<app-login-footer *ngIf="title=='Coordinator' || title=='Supervisor'"></app-login-footer>-->
+<app-login-footer *ngIf="title=='Coordinator' || title=='Supervisor'"></app-login-footer>

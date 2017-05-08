@@ -69,16 +69,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  socialAuthentication(socialSite: any) {
-    this.authenticationService.socialAuthentication(socialSite).subscribe(
-      data => {
-        this.data.openSnackBar(data['message'], 'Ok');
-        this.router.navigate(['/home']);
-      },
-      error => {
-        console.log(error);
-      });
-  }
+
 
   redirect() {
     this.router.navigate(['/home']);

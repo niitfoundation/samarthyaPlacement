@@ -81,16 +81,7 @@ export class AuthenticationService {
                 return response.json();
             });
     }
-    socialAuthentication(socialSite: any) {
 
-
-        return this.http.get('/auth/facebook', this.authoriZation())
-            .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                return response.json();
-            });
-
-    }
 
     getEmail(token: any) {
         return this.http.post('/auth/verify-email', { token: token })
