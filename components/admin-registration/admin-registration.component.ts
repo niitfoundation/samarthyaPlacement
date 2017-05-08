@@ -34,8 +34,8 @@ export class AdminRegistrationComponent implements OnInit {
   public state: any;
   public landmark: any;
   public createdUser: any;
-  public password:string;
-  public passwordMatchWarning:string;
+  public password: string;
+  public passwordMatchWarning: string;
 
 
   // Dropdown values.Should be data driven
@@ -100,7 +100,10 @@ export class AdminRegistrationComponent implements OnInit {
 
             }
             this.emailService.verifyEmail({ username: this.userForm.get('emailControl').value }).subscribe(resJsonData => {
-
+              if (resJsonData.msg == 'user already exist') {
+                this.data.openSnackBar('Already Registered', 'Please Login');
+                this.router.navigate(['/login']);
+              }
             },
               error => {
                 this.data.openSnackBar('Already Registered', 'Please Login');
@@ -136,7 +139,7 @@ export class AdminRegistrationComponent implements OnInit {
       dobControl: ['', [Validators.required]],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       aadharControl: ['', [Validators.pattern(/^\d{12}$/)]],
-      passwordControl: ['', [Validators.required,Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
+      passwordControl: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
       confirmPasswordControl: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       roleControl: ['', Validators.required],
@@ -148,7 +151,7 @@ export class AdminRegistrationComponent implements OnInit {
     });
   }
 
-conPasswordValue(conPass: string,pass:string) {
+  conPasswordValue(conPass: string, pass: string) {
     this.password = pass;
     if (this.password !== conPass) {
       this.passwordMatchWarning = 'Password Not Match';
@@ -188,6 +191,8 @@ conPasswordValue(conPass: string,pass:string) {
   }
 
   save(userdata: any): boolean {
+    let dobOfUser = new Date(userdata.get('dobControl').value);
+    dobOfUser.setDate(dobOfUser.getDate() + 1);
     this.showProgress = true;
     if (this.createdUser) {
       this.createdBy = this.createdUser;
@@ -206,7 +211,7 @@ conPasswordValue(conPass: string,pass:string) {
         personalInfo: {
           name: userdata.get('nameControl').value,
           fname: userdata.get('firstNameControl').value, lname: userdata.get('lastNameControl').value,
-          dob: userdata.get('dobControl').value,
+          dob: dobOfUser,
           gender: userdata.get('genderControl').value, email: userdata.get('emailControl').value,
           contact: {
             I: userdata.get('mobileControl').value
