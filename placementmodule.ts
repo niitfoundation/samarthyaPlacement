@@ -33,7 +33,7 @@ import { AdminRegistrationComponent } from './components/admin-registration/admi
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ProfessionsComponent } from './components/professions/professions.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { LanguagesComponent } from './components/languages/languages.component';
+import { LanguagesComponent, DataTablePipe, DialogOverviewExampleDialog} from './components/languages/languages.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
@@ -48,6 +48,7 @@ import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sa
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
+
 
 
 @NgModule({
@@ -89,10 +90,12 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
     QualificationsComponent,
     CentresComponent,
     JobRolesComponent,
-    CardDialog
+    CardDialog,
+    DataTablePipe,
+    DialogOverviewExampleDialog
    // routingComponents check working or not
   ],
-  bootstrap: [placementComponent, CardDialog],
+  bootstrap: [placementComponent, CardDialog, DialogOverviewExampleDialog],
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,

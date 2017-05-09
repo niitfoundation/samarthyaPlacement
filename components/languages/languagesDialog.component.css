@@ -1,0 +1,6 @@
+.errorStyle {
+    position: absolute;
+    font-size: 12px;
+    transition: all .7s;
+    color: #F44336;
+}

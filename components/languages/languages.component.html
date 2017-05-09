@@ -1,33 +1,47 @@
-<md-grid-list cols="1" rowHeight="100px">
-  <md-grid-tile>
-    <div fxLayout="row" fxLayoutAlign="start end">
-      <md-input-container class="input">
-        <input mdInput type="text" [(ngModel)]="languageName" placeholder="Search Languages..." />
-      </md-input-container>
+<div style="text-align:center;margin:auto">
+            <button md-raised-button color="primary"  type="button" (click)="openDialog()" >Add Language</button>
+</div>
+
+<div class="demo-data-table" rowHeight="1000">
+  <div class="card">
+    <div class="header">
+      <h3 class="title">List of Languages</h3>
     </div>
-
-    <!--sign in button-->
-    <div fxLayout="row">
-      <div fxFlex="100">
-        <button md-icon-button (click)="getLanguages({name:languageName,limit:25})">
-                <i class="material-icons input">search</i>
-            </button>
-      </div>
+    <div class="content">
+      <table [md2Data]="data | dataPipe : search" #md2="md2DataTable" [rowsPerPage]="5">
+        <thead>
+          <tr>
+            <td colspan="4">
+              <md-input-container class="full-width">
+                <input mdInput type="text" class="validate" placeholder="Filter By Name" [(ngModel)]="search" />
+              </md-input-container>
+            </td>
+          </tr>
+          <tr>
+            <th style="width: 20%" md2SortBy="name">Name</th>
+            <th style="width: 50%" md2SortBy="email">Code</th>
+            <th style="width: 10%" md2SortBy="age">Native Name</th>
+            <th style="width: 20%" md2SortBy="city">Edit/Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of md2.data">
+            <td>{{i.name}}</td>
+            <td>{{i.code}}</td>
+            <td>{{i.nativeName}}</td>
+            <td><button (click)="openDialog(i)"><i class="material-icons">edit</i></button><button (click)="delete(i)"><i class="material-icons">delete</i></button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination [rowsPerPageSet]="[5,10,15]"></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
-
-  </md-grid-tile>
-</md-grid-list>
-<div fxLayout="row" *ngIf="showCard">
-  <div fxFlex></div>
-<md-card>
-  <md-card-content>
-    <md-list fxLayout="row" fxLayoutWrap>
-      <md-list-item *ngFor="let item of showData" ><div class="item">{{item}}</div></md-list-item>
-    </md-list>
-  </md-card-content>
-</md-card>
-  <div fxFlex></div>
-
+  </div>
 </div>
 
 <app-footer></app-footer>

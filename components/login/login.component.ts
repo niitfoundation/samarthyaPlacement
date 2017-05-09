@@ -30,8 +30,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  public returnUrl: String;
 
   ngOnInit() {
+     if (localStorage.getItem('currentUser')) {
+      this.redirect();
+    }
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     if (this.route.snapshot.queryParams['message'])
       this.data.openSnackBar(this.route.snapshot.queryParams['message'], 'ok');
 

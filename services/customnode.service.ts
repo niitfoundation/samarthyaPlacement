@@ -23,6 +23,16 @@ export class CustomnodeService {
         return this.http.get(this.url + '?name=' + languagesObj.name + '&limit=' + languagesObj.limit).map((response: Response) => response)
     }
 
+    editLanguages(languagesObj: any) {
+        this.url = '/resources/languages';
+        return this.http.patch(this.url,languagesObj).map((response: Response) => response)
+    }
+
+    deleteLanguages(langCode: any) {
+        this.url = '/resources/languages';
+        return this.http.delete(this.url+'?code=' +langCode.code+'&name='+langCode.name).map((response: Response) => response)
+    }
+
     readLocations(locationsObj: any) {
         this.url = '/locations';
         return this.http.get(this.url + '?name=' + locationsObj.name + '&limit=' + locationsObj.limit).map((response: Response) => response)
@@ -54,7 +64,7 @@ export class CustomnodeService {
     }
 
     createLanguage(languagesObj: any) {
-        this.url = '/languages';
+        this.url = '/resources/languages';
         return this.http.post(this.url, languagesObj).map((response: Response) => response)
     }
 

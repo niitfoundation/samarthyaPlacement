@@ -1,0 +1,56 @@
+<h2 md-dialog-title>
+
+  <div fxLayout="row">
+    <div>Edit Language</div>
+    <div fxFlex></div>
+    <div>
+      <button md-icon-button class="closeBtn" md-dialog-close>
+          <i class="material-icons">close</i>
+        </button>
+
+    </div>
+  </div>
+
+</h2>
+<div fxLayout.xs="column">
+  <md-dialog-content>
+    <form [formGroup]="userForm">
+      <span>Language Name is </span>
+      <md-input-container class="full-width">
+        <input mdInput formControlName="name" id="name" type="text" class="validate" placeholder="Language Name*"  />
+        <md-hint align="start" class="full-width">
+          <div *ngIf="userForm.get('name').hasError('required') && userForm.get('name').touched" class="errorStyle">
+            Name is Required
+          </div>
+          <div *ngIf="userForm.get('name').hasError('pattern') && userForm.get('name').touched" class="errorStyle">
+            Invalid Name
+          </div>
+        </md-hint>
+      </md-input-container>
+
+       <span>and the unique code of that language is</span>
+      <md-input-container class="full-width">
+        <input mdInput formControlName="code"  type="text" class="validate" placeholder="Unique code*" />
+        <md-hint align="start" class="full-width">
+          <div *ngIf="userForm.get('code').hasError('required') && userForm.get('code').touched" class="errorStyle">
+            Code is Required
+          </div>
+          <div *ngIf="userForm.get('code').hasError('pattern') && userForm.get('code')" class="errorStyle">
+            Invalid Code
+          </div>
+        </md-hint>
+      </md-input-container>
+
+      <span>. Native name of language is </span>
+      <md-input-container class="full-width">
+        <input mdInput formControlName="nativeName"  type="text" class="validate" placeholder="Native language name*" />
+      </md-input-container>
+
+    </form>
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <button md-raised-button [disabled]="!userForm.valid" type="submit" color="primary" md-dialog-close (click)="save()">Save</button>
+    </div>
+  </md-dialog-content>
+</div>
+
