@@ -21,14 +21,14 @@ export class JsonDataService {
   private urlPincode = 'https://data.gov.in/api/datastore/resource.json?resource_id=6176ee09-3d56-4a3b-8115-21841576b2f6&api-key='
   + this.mygovKey + '&filters[pincode]=';
   // url to get profession
-  private urlProfession = 'resources/profession';
+  private urlProfession = '/professions';
 
   // url to get locations
   private urlLocations = 'resources/locations';
   private urlRole = 'resources/roles';
 
   // url to get placementCenter
-  private urlPlacementCenter = 'resources/placementCenter';
+  private urlPlacementCenter = '/centres';
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -55,7 +55,7 @@ export class JsonDataService {
 
   // get json data for langauges and dropdown
   getJsonData() {
-    this.url = 'resources/languages';
+    this.url = '/languages';
     return this.http.get(this.url).map((response: Response) => response.json());
   };
 

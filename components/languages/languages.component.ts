@@ -1,12 +1,10 @@
 import { CustomnodeService } from './../../services/customnode.service';
-import { Component, Inject, OnInit, Pipe, PipeTransform, Input } from '@angular/core';
+import { Component, Inject, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Http } from '@angular/http';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Data } from './../../services/data.service';
-
-
 
 
 @Pipe({ name: 'dataPipe' })
@@ -29,26 +27,23 @@ export class DataTablePipe implements PipeTransform {
 })
 export class LanguagesComponent implements OnInit {
 
-  @Input()
   data: any;
-
   search: string = null;
   public showData: any = [];
   showCard = false;
 
   getAlllanguages() {
-    this.http.get('./resources/languages')
+    this.customnodeService.readLanguages()
       .subscribe((data) => {
         this.data = data.json();
       });
   }
   constructor(public dialog: MdDialog, private router: Router, private dataSnack: Data, private customnodeService: CustomnodeService, private http: Http) {
     this.getAlllanguages();
-
   }
 
   openDialog(details: any) {
-    let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    let dialogRef = this.dialog.open(LanguageDialog, {
       // height: '80%',
       width: '80%',
       data: details
@@ -56,7 +51,7 @@ export class LanguagesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       setTimeout(() => {
           this.getAlllanguages();
-      })
+      },1000);
     })
   }
 
@@ -73,8 +68,7 @@ export class LanguagesComponent implements OnInit {
         this.dataSnack.openSnackBar('Update Failure', 'Try again');
       }
     }, (err) => {
-      this.dataSnack.openSnackBar('Update Failure', 'Try again');
-
+      this.dataSnack.openSnackBar('Update Failure due to relationship with other node', 'Try again');
     })
   }
 }
@@ -82,13 +76,13 @@ export class LanguagesComponent implements OnInit {
 
 
 @Component({
-  selector: 'dialog-overview-example-dialog',
+  selector: 'LanguageDialog',
   templateUrl: './languagesDialog.component.html',
   styleUrls: ['./languagesDialog.component.css'],
-  providers: [CustomnodeService, LanguagesComponent]
+  providers: [CustomnodeService]
 
 })
-export class DialogOverviewExampleDialog {
+export class LanguageDialog {
   public userForm: FormGroup;
   public languageData: any;
   public action: any;

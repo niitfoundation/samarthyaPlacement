@@ -8,9 +8,9 @@ export class CustomnodeService {
 
     constructor(private http: Http) { }
 
-    readProfessions(professionsObj: any) {
+    readProfessions() {
         this.url = '/professions';
-        return this.http.get(this.url + '?name=' + professionsObj.name + '&limit=' + professionsObj.limit).map((response: Response) => response)
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     readSkills(skillsObj: any) {
@@ -18,19 +18,39 @@ export class CustomnodeService {
         return this.http.get(this.url + '?name=' + skillsObj.name + '&limit=' + skillsObj.limit).map((response: Response) => response)
     }
 
-    readLanguages(languagesObj: any) {
+    readLanguages() {
         this.url = '/languages';
-        return this.http.get(this.url + '?name=' + languagesObj.name + '&limit=' + languagesObj.limit).map((response: Response) => response)
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     editLanguages(languagesObj: any) {
-        this.url = '/resources/languages';
+        this.url = '/languages';
         return this.http.patch(this.url,languagesObj).map((response: Response) => response)
     }
 
+     editProfession(professionObj: any) {
+        this.url = '/professions';
+        return this.http.patch(this.url,professionObj).map((response: Response) => response)
+    }
+
+    editCentre(centreObj: any) {
+        this.url = '/centres';
+        return this.http.patch(this.url,centreObj).map((response: Response) => response)
+    }
+
     deleteLanguages(langCode: any) {
-        this.url = '/resources/languages';
+        this.url = '/languages';
         return this.http.delete(this.url+'?code=' +langCode.code+'&name='+langCode.name).map((response: Response) => response)
+    }
+
+    deleteProfessions(language: any) {
+        this.url = '/professions';
+        return this.http.delete(this.url+'?name=' +language.name).map((response: Response) => response)
+    }
+
+     deleteCentres(centres: any) {
+        this.url = '/centres';
+        return this.http.delete(this.url+'?name=' +centres.name).map((response: Response) => response)
     }
 
     readLocations(locationsObj: any) {
@@ -43,9 +63,9 @@ export class CustomnodeService {
         return this.http.get(this.url + '?name=' + qualificationsObj.name + '&limit=' + qualificationsObj.limit).map((response: Response) => response)
     }
 
-    readCentres(centresObj: any) {
+    readCentres() {
         this.url = '/centres';
-        return this.http.get(this.url + '?name=' + centresObj.name + '&limit=' + centresObj.limit).map((response: Response) => response)
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     readJobRoles(jobRolesObj: any) {
@@ -64,7 +84,7 @@ export class CustomnodeService {
     }
 
     createLanguage(languagesObj: any) {
-        this.url = '/resources/languages';
+        this.url = '/languages';
         return this.http.post(this.url, languagesObj).map((response: Response) => response)
     }
 

@@ -31,12 +31,12 @@ import { CandidateSearchComponent } from './components/candidate-search/candidat
 import { CandidateRegisterComponent } from './components/candidate-register/candidate-register.component';
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
-import { ProfessionsComponent } from './components/professions/professions.component';
+import { ProfessionsComponent , ProfessionDialog} from './components/professions/professions.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { LanguagesComponent, DataTablePipe, DialogOverviewExampleDialog} from './components/languages/languages.component';
+import { LanguagesComponent, DataTablePipe, LanguageDialog} from './components/languages/languages.component';
 import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
-import { CentresComponent } from './components/centres/centres.component';
+import { CentresComponent,CentreDialog } from './components/centres/centres.component';
 import { JobRolesComponent } from './components/job-roles/job-roles.component';
 import { ImportComponent } from './components/import-candidates/importCandidates.component';
 import { SamarthyaWebComponentsModule } from 'samarthyaWebcomponent';
@@ -92,10 +92,12 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
     JobRolesComponent,
     CardDialog,
     DataTablePipe,
-    DialogOverviewExampleDialog
+    LanguageDialog,
+    ProfessionDialog,
+    CentreDialog
    // routingComponents check working or not
   ],
-  bootstrap: [placementComponent, CardDialog, DialogOverviewExampleDialog],
+  bootstrap: [placementComponent, CardDialog, LanguageDialog, ProfessionDialog, CentreDialog],
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,
