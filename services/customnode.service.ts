@@ -13,9 +13,9 @@ export class CustomnodeService {
         return this.http.get(this.url).map((response: Response) => response)
     }
 
-    readSkills(skillsObj: any) {
+    readSkills() {
         this.url = '/skills';
-        return this.http.get(this.url + '?name=' + skillsObj.name + '&limit=' + skillsObj.limit).map((response: Response) => response)
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     readLanguages() {
@@ -25,42 +25,82 @@ export class CustomnodeService {
 
     editLanguages(languagesObj: any) {
         this.url = '/languages';
-        return this.http.patch(this.url,languagesObj).map((response: Response) => response)
+        return this.http.patch(this.url, languagesObj).map((response: Response) => response)
     }
 
-     editProfession(professionObj: any) {
+    editProfession(professionObj: any) {
         this.url = '/professions';
-        return this.http.patch(this.url,professionObj).map((response: Response) => response)
+        return this.http.patch(this.url, professionObj).map((response: Response) => response)
     }
 
     editCentre(centreObj: any) {
         this.url = '/centres';
-        return this.http.patch(this.url,centreObj).map((response: Response) => response)
+        return this.http.patch(this.url, centreObj).map((response: Response) => response)
+    }
+
+    editLocation(locationObj: any) {
+        this.url = '/locations';
+        return this.http.patch(this.url, locationObj).map((response: Response) => response)
+    }
+
+    editJobRole(role: any) {
+        this.url = '/roles';
+        return this.http.patch(this.url, role).map((response: Response) => response)
+    }
+
+    editSkill(skill: any) {
+        this.url = '/skills';
+        return this.http.patch(this.url, skill).map((response: Response) => response)
+    }
+
+    editQualification(qualification: any) {
+        this.url = '/qualifications';
+        return this.http.patch(this.url, qualification).map((response: Response) => response)
     }
 
     deleteLanguages(langCode: any) {
         this.url = '/languages';
-        return this.http.delete(this.url+'?code=' +langCode.code+'&name='+langCode.name).map((response: Response) => response)
+        return this.http.delete(this.url + '?code=' + langCode.code + '&name=' + langCode.name).map((response: Response) => response)
     }
 
     deleteProfessions(language: any) {
         this.url = '/professions';
-        return this.http.delete(this.url+'?name=' +language.name).map((response: Response) => response)
+        return this.http.delete(this.url + '?name=' + language.name).map((response: Response) => response)
     }
 
-     deleteCentres(centres: any) {
+    deleteCentres(centres: any) {
         this.url = '/centres';
-        return this.http.delete(this.url+'?name=' +centres.name).map((response: Response) => response)
+        return this.http.delete(this.url + '?name=' + centres.name).map((response: Response) => response)
     }
 
-    readLocations(locationsObj: any) {
+    deleteLocations(location: any) {
         this.url = '/locations';
-        return this.http.get(this.url + '?name=' + locationsObj.name + '&limit=' + locationsObj.limit).map((response: Response) => response)
+        return this.http.delete(this.url + '?name=' + location.name).map((response: Response) => response)
     }
 
-    readQualifications(qualificationsObj: any) {
+    deleteJobRole(role: any) {
+        this.url = '/roles';
+        return this.http.delete(this.url + '?name=' + role.name).map((response: Response) => response)
+    }
+
+    deleteSkill(skill: any) {
+        this.url = '/skills';
+        return this.http.delete(this.url + '?name=' + skill.name).map((response: Response) => response)
+    }
+
+    deleteQualification(qualification: any) {
         this.url = '/qualifications';
-        return this.http.get(this.url + '?name=' + qualificationsObj.name + '&limit=' + qualificationsObj.limit).map((response: Response) => response)
+        return this.http.delete(this.url + '?name=' + qualification.name).map((response: Response) => response)
+    }
+
+    readLocations() {
+        this.url = '/locations';
+        return this.http.get(this.url).map((response: Response) => response)
+    }
+
+    readQualifications() {
+        this.url = '/qualifications';
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     readCentres() {
@@ -68,9 +108,9 @@ export class CustomnodeService {
         return this.http.get(this.url).map((response: Response) => response)
     }
 
-    readJobRoles(jobRolesObj: any) {
+    readJobRoles() {
         this.url = '/roles';
-        return this.http.get(this.url + '?name=' + jobRolesObj.name + '&limit=' + jobRolesObj.limit).map((response: Response) => response)
+        return this.http.get(this.url).map((response: Response) => response)
     }
 
     createSkill(skillsObj: any) {

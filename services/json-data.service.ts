@@ -24,8 +24,8 @@ export class JsonDataService {
   private urlProfession = '/professions';
 
   // url to get locations
-  private urlLocations = 'resources/locations';
-  private urlRole = 'resources/roles';
+  private urlLocations = '/locations';
+  private urlRole = '/roles';
 
   // url to get placementCenter
   private urlPlacementCenter = '/centres';

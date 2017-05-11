@@ -1,0 +1,38 @@
+<h2 md-dialog-title>
+
+  <div fxLayout="row">
+    <div>Edit JobRole</div>
+    <div fxFlex></div>
+    <div>
+      <button md-icon-button class="closeBtn" md-dialog-close>
+          <i class="material-icons">close</i>
+        </button>
+
+    </div>
+  </div>
+
+</h2>
+<div fxLayout.xs="column">
+  <md-dialog-content>
+    <form [formGroup]="userForm">
+      <span>JobRole Name is </span>
+      <md-input-container class="full-width">
+        <input mdInput formControlName="name" id="name" type="text" class="validate" placeholder="JobRole Name*"  />
+        <md-hint align="start" class="full-width">
+          <div *ngIf="userForm.get('name').hasError('required') && userForm.get('name').touched" class="errorStyle">
+            Name is Required
+          </div>
+          <div *ngIf="userForm.get('name').hasError('pattern') && userForm.get('name').touched" class="errorStyle">
+            Invalid Name
+          </div>
+        </md-hint>
+      </md-input-container>
+
+    </form>
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <button md-raised-button [disabled]="!userForm.valid" type="submit" color="primary" md-dialog-close (click)="save()">Save</button>
+    </div>
+  </md-dialog-content>
+</div>
+

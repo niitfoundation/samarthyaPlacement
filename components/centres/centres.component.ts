@@ -96,7 +96,7 @@ export class CentreDialog {
 
 
 
-  constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private router: Router, private customnodeService: CustomnodeService, private dialog: MdDialogRef<DialogOverviewExampleDialog>, private http: Http) {
+  constructor( @Inject(FormBuilder) fb: FormBuilder, private data: Data, private router: Router, private customnodeService: CustomnodeService, private dialog: MdDialogRef<CentreDialog>, private http: Http) {
 
     this.userForm = fb.group({
       name: ['', [Validators.required, Validators.pattern('[A-Za-z0-9#*&!()@$^ ]{2,}')]],
