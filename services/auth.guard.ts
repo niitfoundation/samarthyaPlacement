@@ -17,12 +17,17 @@ export class AuthGuard implements CanActivate {
                 .map((response: Response) => {
                     this.AuthenticationService.setToken(response.json().authToken);
                     return true;
+                },(err:any) => {
+                    console.log("eerrrr")
+                      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+                 this.data.openSnackBar('Please Login!!',"OK");
+                     return false;
                 });
         }
         else {
             // not logged in so redirect to login page with the return url
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-            // this.data.openSnackBar('Please Login!!',"OK");
+             this.data.openSnackBar('Please Login!!',"OK");
             return false;
         }
     }

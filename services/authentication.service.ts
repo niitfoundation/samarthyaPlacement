@@ -73,6 +73,14 @@ export class AuthenticationService {
                 }
             });
     }
+
+    checkOldPassword(pass:any, username:any){
+        return this.http.post('/auth/check-password', { username:username,oldPassword: pass,token:this.getToken() })
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
     // change password for existing placement role user
     passwordChange(email: any, password: any) {
         return this.http.post('/auth/reset-password', { username: email, password: password })
