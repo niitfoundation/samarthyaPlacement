@@ -138,7 +138,7 @@ export class AdminRegistrationComponent implements OnInit {
       genderControl: ['', Validators.required],
       dobControl: ['', [Validators.required]],
       emailControl: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
-      aadharControl: ['', [Validators.pattern(/^\d{12}$/)]],
+      aadharControl: [''],
       passwordControl: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
       confirmPasswordControl: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/)]],
       mobileControl: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
