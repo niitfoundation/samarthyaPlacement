@@ -28,7 +28,6 @@ import { EmployersComponent } from './components/employers/employers.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { placementComponent } from './placementComponent';
 import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
-import { CandidateRegisterComponent } from './components/candidate-register/candidate-register.component';
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ProfessionsComponent, ProfessionDialog } from './components/professions/professions.component';
@@ -67,7 +66,6 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
   declarations: [
     AboutUsComponent,
     AdminRegistrationComponent,
-    CandidateRegisterComponent,
     CandidateSearchComponent,
     DashboardComponent,
     EmployersComponent,
@@ -105,7 +103,6 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,
-    CandidateRegisterComponent,
     CandidateSearchComponent,
     DashboardComponent,
     EmployersComponent,

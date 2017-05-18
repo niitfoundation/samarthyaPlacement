@@ -4,7 +4,6 @@ import { LoginComponent } from './components/login/login.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
-import { CandidateRegisterComponent } from './components/candidate-register/candidate-register.component';
 import { EmployersComponent } from './components/employers/employers.component';
 import { EventPostComponent } from './components/event-post/event-post.component';
 import { JobPostComponent } from './components/job-post/job-post.component';
@@ -36,7 +35,6 @@ const routes: Routes = [
     children: [
       { path: 'import', component: ImportComponent, canActivate: [AuthGuard] },
       { path: 'aboutUs', component: AboutUsComponent, canActivate: [AuthGuard] },
-      { path: 'candidateRegister/:location', component: CandidateRegisterComponent, canActivate: [AuthGuard] },
       { path: 'candidateSearch', component: CandidateSearchComponent, canActivate: [AuthGuard] },
       { path: 'eventPost', component: EventPostComponent, canActivate: [AuthGuard] },
       { path: 'jobPost', component: JobPostComponent, canActivate: [AuthGuard] },
