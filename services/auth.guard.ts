@@ -14,6 +14,7 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (localStorage.getItem('currentUser')) {
             this.activated().subscribe((response: any) => {
+                console.log("herrrrr")
                 if (response.json().success != false) {
                     this.AuthenticationService.setToken(response.json().authToken);
                     return true;
@@ -24,6 +25,7 @@ export class AuthGuard implements CanActivate {
                     return false;
                 }
             }, (err) => {
+                console.log("ss")
                 this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
                 this.data.openSnackBar('Please Login!!', "OK");
                 return false;

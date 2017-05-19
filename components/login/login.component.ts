@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
      if (localStorage.getItem('currentUser')) {
+       console.log('sssssss')
       this.redirect();
     }
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
