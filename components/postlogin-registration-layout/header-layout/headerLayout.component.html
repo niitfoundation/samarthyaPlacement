@@ -11,9 +11,13 @@
 
         <!--sidenav ites list-->
         <md-nav-list>
-          
+            <md-list-item>
+        DARK THEME
+        <md-slide-toggle class="toggleSwitch" (click)="toggleTheme()">
+        </md-slide-toggle>
+      </md-list-item>
             <md-list-item *ngFor="let navItem of navList" routerLink={{navItem.path}} routerLinkActive="active" (click)="sidenav.toggle()">
-                 <i class="material-icons">{{navItem.icon}}</i>  
+                 <i class="material-icons navIcon">{{navItem.icon}}</i>  
                 <p class="navItem"> {{navItem.name}}</p>
             </md-list-item>
         </md-nav-list>
@@ -27,14 +31,10 @@
                 <i class="material-icons">menu</i>
             </button>
                   <button md-button color="" (click)="home()" >Samarthya Placement Portal</button>
-
-
  
         <span class="fill-remaining-space"></span>
-        <!--appbar buttons-->                          <md-slide-toggle (click)="toggleTheme()"></md-slide-toggle>
-
+        <!--appbar buttons-->           
         <span> 
-
             <!--notification button-->
             <button md-icon-button [mdMenuTriggerFor]="menuNotification">
                  <i class="material-icons">notifications_active</i>  
@@ -51,23 +51,23 @@
             <button md-icon-button [mdMenuTriggerFor]="menuAccount">
                 <i class="material-icons">account_circle</i>  
             </button>
-            <md-menu class="menu" #menuAccount x-position="before">
-                <md-nav-list>
+            <md-menu #menuAccount x-position="before">
+                <md-nav-list  class="menu">
                     <md-list-item>
     
                         <p md-line><b>User</b></p>
                     </md-list-item>
                    
                     <md-list-item>
-                         <i class="material-icons">face</i> 
+                         <i class="material-icons navIcon">face</i> 
                         <p>Profile</p>
                     </md-list-item>
                     <md-list-item (click)="changePassword()" routerLinkActive="active">
-                        <i class="material-icons">lock</i> 
+                        <i class="material-icons navIcon">lock</i> 
                         <p>Change Password</p>
                     </md-list-item>
                     <md-list-item (click)="logoutUser()" routerLinkActive="active">
-                        <i class="material-icons">power_settings_new</i> 
+                        <i class="material-icons navIcon">power_settings_new</i> 
                         <p>Log Out</p>
                     </md-list-item>
                 </md-nav-list>
