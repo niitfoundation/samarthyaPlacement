@@ -49,7 +49,7 @@ export class JobRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       setTimeout(() => {
           this.getAllJobRoles();
-      },1000);
+      },1500);
     })
   }
 
@@ -60,13 +60,13 @@ export class JobRolesComponent implements OnInit {
     this.customnodeService.deleteJobRole(roleData).subscribe((res) => {
       if (res.json().success) {
         this.getAllJobRoles();
-        this.dataSnack.openSnackBar('Updated Successfully', 'OK');
+        this.dataSnack.openSnackBar('Deleted Successfully', 'OK');
       }
       else {
-        this.dataSnack.openSnackBar('Update Failure', 'Try again');
+        this.dataSnack.openSnackBar('Delete Failure', 'Try again');
       }
     }, (err) => {
-      this.dataSnack.openSnackBar('Update Failure due to relationship with other node', 'Try again');
+      this.dataSnack.openSnackBar('Delete Failure due to relationship with other node', 'Try again');
 
     })
   }
@@ -127,7 +127,7 @@ export class JobRoleDialog {
       roleData['oldName']=this.oldName;
       this.customnodeService.editJobRole(roleData).subscribe((res) => {
         if (res.json().success) {
-          this.data.openSnackBar('Updatedd Successfully', 'OK');
+          this.data.openSnackBar('Updated Successfully', 'OK');
         }
         else {
           this.data.openSnackBar('Update Failure', 'Try again');

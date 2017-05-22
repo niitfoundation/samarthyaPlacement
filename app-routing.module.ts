@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'passwordReset', component: PasswordResetComponent },
   { path: 'register', component: AdminRegistrationComponent },
   {
-    path: 'home', component: AfterLoginHeaderComponent, canActivate: [AuthGuard],
+    path: 'home', component: AfterLoginHeaderComponent, canActivateChild: [AuthGuard],
     children: [
       { path: 'import', component: ImportComponent },
       { path: 'aboutUs', component: AboutUsComponent },

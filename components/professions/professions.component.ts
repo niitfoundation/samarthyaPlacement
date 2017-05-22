@@ -51,7 +51,7 @@ export class ProfessionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       setTimeout(() => {
           this.getAllProfessions();
-      },1000);
+      },1500);
     })
   }
 
@@ -62,13 +62,13 @@ export class ProfessionsComponent implements OnInit {
     this.customnodeService.deleteProfessions(professionData).subscribe((res) => {
       if (res.json().success) {
         this.getAllProfessions();
-        this.dataSnack.openSnackBar('Updated Successfully', 'OK');
+        this.dataSnack.openSnackBar('Deleted Successfully', 'OK');
       }
       else {
-        this.dataSnack.openSnackBar('Update Failure', 'Try again');
+        this.dataSnack.openSnackBar('Delete Failure', 'Try again');
       }
     }, (err) => {
-      this.dataSnack.openSnackBar('Update Failure due to relationship with other node', 'Try again');
+      this.dataSnack.openSnackBar('Delete Failure due to relationship with other node', 'Try again');
 
     })
   }
@@ -128,7 +128,7 @@ export class ProfessionDialog {
       professionData['oldName']=this.oldName;
       this.customnodeService.editProfession(professionData).subscribe((res) => {
         if (res.json().success) {
-          this.data.openSnackBar('Updatedd Successfully', 'OK');
+          this.data.openSnackBar('Updated Successfully', 'OK');
         }
         else {
           this.data.openSnackBar('Update Failure', 'Try again');
