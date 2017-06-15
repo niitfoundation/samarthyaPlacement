@@ -3,7 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanAc
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Data } from './data.service';
 import { AuthenticationService } from './authentication.service' // http request using observable
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/toPromise'
 // auhentication gaurd if without login user will try to access differnt menu links navigate it to login page
 
 @Injectable()
@@ -22,10 +22,10 @@ export class AuthGuard implements CanActivateChild {
                     }
                 }).catch(response => {
                     this.router.navigate(['/login']);
+                    localStorage.removeItem('currentUser');
                     this.data.openSnackBar('Please Login!!', 'OK');
                     return false;
                 });
-
 }
     }
 }

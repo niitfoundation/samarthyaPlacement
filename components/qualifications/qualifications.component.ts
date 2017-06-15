@@ -38,7 +38,7 @@ export class QualificationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       setTimeout(() => {
         this.getAllQualifications();
-      }, 1000);
+      }, 1500);
     })
   }
 
@@ -49,13 +49,13 @@ export class QualificationsComponent implements OnInit {
     this.customnodeService.deleteQualification(qualificationData).subscribe((res) => {
       if (res.json().success) {
         this.getAllQualifications();
-        this.dataSnack.openSnackBar('Updated Successfully', 'OK');
+        this.dataSnack.openSnackBar('Deleted Successfully', 'OK');
       }
       else {
-        this.dataSnack.openSnackBar('Update Failure', 'Try again');
+        this.dataSnack.openSnackBar('Delete Failure', 'Try again');
       }
     }, (err) => {
-      this.dataSnack.openSnackBar('Update Failure due to relationship with other node', 'Try again');
+      this.dataSnack.openSnackBar('Delete Failure due to relationship with other node', 'Try again');
 
     })
   }

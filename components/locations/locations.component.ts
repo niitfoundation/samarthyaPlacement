@@ -15,7 +15,6 @@ import { Data } from './../../services/data.service';
   providers: [CustomnodeService]
 })
 export class LocationsComponent implements OnInit {
-
   data: any;
   search: string = null;
 
@@ -25,6 +24,7 @@ export class LocationsComponent implements OnInit {
         this.data = data.json();
       });
   }
+
   constructor(public dialog: MdDialog, private router: Router, private dataSnack: Data, private customnodeService: CustomnodeService, private http: Http) {
     this.getAllLocations();
   }
@@ -38,7 +38,7 @@ export class LocationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       setTimeout(() => {
           this.getAllLocations();
-      },1000);
+      },1500);
     })
   }
 
@@ -49,13 +49,13 @@ export class LocationsComponent implements OnInit {
     this.customnodeService.deleteLocations(locationData).subscribe((res) => {
       if (res.json().success) {
         this.getAllLocations();
-        this.dataSnack.openSnackBar('Updated Successfully', 'OK');
+        this.dataSnack.openSnackBar('Deleted Successfully', 'OK');
       }
       else {
-        this.dataSnack.openSnackBar('Update Failure', 'Try again');
+        this.dataSnack.openSnackBar('Delete Failure', 'Try again');
       }
     }, (err) => {
-      this.dataSnack.openSnackBar('Update Failure due to relationship with other node', 'Try again');
+      this.dataSnack.openSnackBar('Delete Failure due to relationship with other node', 'Try again');
 
     })
   }
@@ -115,7 +115,7 @@ export class LocationDialog {
       locationData['oldName']=this.oldName;
       this.customnodeService.editLocation(locationData).subscribe((res) => {
         if (res.json().success) {
-          this.data.openSnackBar('Updatedd Successfully', 'OK');
+          this.data.openSnackBar('Updated Successfully', 'OK');
         }
         else {
           this.data.openSnackBar('Update Failure', 'Try again');
