@@ -1,23 +1,11 @@
 import { CustomnodeService } from './../../services/customnode.service';
-import { Component, Inject, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Http } from '@angular/http';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Data } from './../../services/data.service';
 
-
-@Pipe({ name: 'dataPipe' })
-export class DataTablePipe implements PipeTransform {
-  transform(array: any[], query: string): any {
-    if (query) {
-      query = query.toLowerCase();
-      return array.filter((value: any, index: number, arr: any) =>
-        value.name.toLowerCase().indexOf(query) > -1);
-    }
-    return array;
-  }
-}
 
 @Component({
   selector: 'jobRoles',

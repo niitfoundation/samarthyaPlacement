@@ -1,61 +1,62 @@
-md-card{
-    width:500px;
+md-card {
+    width: 500px;
 }
-input{
+
+input {
     width: 500px;
     font-size: 30px;
 }
-.item{
+
+.item {
     font-size: 20px;
 }
 
-
-
+.center {
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
 
 table {
-  display: table;
-  border: 1px solid rgba(black, 0.12);
-  border-spacing: 0;
-  border-collapse: collapse;
-  font-size: 14px;
-  box-sizing: border-box;
-  width: 100%;
-
-  tr {
-    position: relative;
-    height: 36px;
-    vertical-align: middle;
-
-    &:hover {
-      background-color: #eee;
-    }
-  }
-
-  th,
-  td {
-    padding: 0 16px;
-    text-align: left;
-  }
-
-  td {
-    position: relative;
-    vertical-align: middle;
-    height: 36px;
-    border-top: 1px solid rgba(black, 0.12);
-    border-bottom: 1px solid rgba(black, 0.12);
+    display: table;
+    border: 1px solid rgba(black, 0.12);
+    border-spacing: 0;
+    border-collapse: collapse;
+    font-size: 14px;
     box-sizing: border-box;
-    color: rgba(black, 0.87);
-  }
+    width: 100%;
+    tr {
+        position: relative;
+        height: 36px;
+        vertical-align: middle;
+        &:hover {
+            background-color: #eee;
+        }
+    }
+    th,
+    td {
+        padding: 0 16px;
+        text-align: left;
+    }
+    td {
+        position: relative;
+        vertical-align: middle;
+        height: 36px;
+        border-top: 1px solid rgba(black, 0.12);
+        border-bottom: 1px solid rgba(black, 0.12);
+        box-sizing: border-box;
+        color: rgba(black, 0.87);
+    }
 }
 
 .card {
-  .content {
-    overflow-x: auto;
-  }
+    .content {
+        overflow-x: auto;
+    }
 }
 
-.header{
-  display: block;
+.header {
+    display: block;
 }
 
 .errorStyle {
@@ -64,4 +65,3 @@ table {
     transition: all .7s;
     color: #F44336;
 }
-

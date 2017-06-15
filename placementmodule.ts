@@ -32,7 +32,7 @@ import { AdminRegistrationComponent } from './components/admin-registration/admi
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ProfessionsComponent, ProfessionDialog } from './components/professions/professions.component';
 import { SkillsComponent, SkillDialog } from './components/skills/skills.component';
-import { LanguagesComponent, LanguageDialog, DataTablePipe } from './components/languages/languages.component';
+import { LanguagesComponent, LanguageDialog } from './components/languages/languages.component';
 import { LocationsComponent, LocationDialog } from './components/locations/locations.component';
 import { QualificationsComponent, QualificationDialog } from './components/qualifications/qualifications.component';
 import { CentresComponent, CentreDialog } from './components/centres/centres.component';
@@ -47,6 +47,7 @@ import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sa
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
+import{FilterTable} from './filter-table.pipe';
 
 
 
@@ -88,7 +89,7 @@ import { CardDialog } from './components/cardDialog/cardDialog.component';
     QualificationsComponent,
     CentresComponent,
     JobRolesComponent,
-    DataTablePipe,
+    FilterTable,
     CardDialog,
     LanguageDialog,
     ProfessionDialog,
