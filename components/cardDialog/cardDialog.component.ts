@@ -44,6 +44,7 @@ export class CardDialog implements OnInit {
       { 'name': 'experiences', 'title': 'Experiences', 'align': 'column' },
       { 'name': 'skills', 'title': 'Skills', 'align': 'row' },
       { 'name': 'projects', 'title': 'Projects', 'align': 'column' },
+      { 'name': 'placementHistory', 'title': 'Placement History', 'align': 'column'}      
     ];
   }
 
