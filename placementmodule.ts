@@ -47,9 +47,23 @@ import { SamProfileSectionComponent } from 'samarthyaWebcomponent/sam-profile/sa
 import { SamProfileCardComponent } from 'samarthyaWebcomponent/sam-profile/sam-profile-card/sam-profile-card.component';
 import { SamProfileThumbnail } from 'samarthyaWebcomponent/sam-profile/sam-profile-thumbnail/sam-profile-thumbnail.component';
 import { CardDialog } from './components/cardDialog/cardDialog.component';
-import{FilterTable} from './filter-table.pipe';
-
-
+import { FilterTable } from './filter-table.pipe';
+import { ProfileDetailComponent } from './components/profileDetail/profileDetail.component';
+// import { SkillsForm } from 'samarthyaCandidate/components/profileSectionForm/skillsDialogForm/skillsForm.component';
+// import { WorkExperienceForm } from 'samarthyaCandidate/components/profileSectionForm/workExperienceForm/workExperienceForm.component';
+// import { QualificationForm } from 'samarthyaCandidate/components/profileSectionForm/qualificationForm/qualificationForm.component';
+// import { SummaryForm } from 'samarthyaCandidate/components/profileSectionForm/summaryForm/summaryForm.component';
+// import { UserService } from 'samarthyaCandidate/services/user.service';
+// import { PersonalInfoForm } from 'samarthyaCandidate/components/profileSectionForm/personalInfoForm/personalInfoForm.component';
+// import { JobPreferenceForm } from 'samarthyaCandidate/components/profileSectionForm/jobPreferenceForm/jobPreferenceForm.component';
+import { PlacementHistoryForm } from './components/placementHistoryForm/placementHistoryForm.component';
+// import { WorkExperienceFormRender } from 'samarthyaCandidate/components/profileSectionForm/workExperienceForm/workExperienceFormRender/workExperienceFormRender.component';
+// import { SkillsFormRender } from 'samarthyaCandidate/components/profileSectionForm/skillsDialogForm/skillFormRender/skillsFormRender.component';
+// import { JobPreferenceFormRender } from 'samarthyaCandidate/components/profileSectionForm/jobPreferenceForm/jobPreferenceFormRender/jobPreferenceFormRender.component';
+import { PlacementHistoryFormRender } from './components/placementHistoryForm/placementHistoryFormRender/placementHistoryFormRender.component';
+// import { ProjectsFormRender } from 'samarthyaCandidate/components/profileSectionForm/projectsForm/projectsFormRender/projectsFormRender.component';
+// import { QualificationFormRender } from 'samarthyaCandidate/components/profileSectionForm/qualificationForm/qualificationFormRender/qualificationFormRender.component';
+// import { ProjectsForm } from 'samarthyaCandidate/components/profileSectionForm/projectsForm/projectsForm.component';
 
 @NgModule({
   imports: [
@@ -62,10 +76,11 @@ import{FilterTable} from './filter-table.pipe';
     FlexLayoutModule,
     AppRoutingModule,
     RouterModule,
-    SamarthyaWebComponentsModule,
+    SamarthyaWebComponentsModule
   ],
   declarations: [
     AboutUsComponent,
+    ProfileDetailComponent,
     AdminRegistrationComponent,
     CandidateSearchComponent,
     DashboardComponent,
@@ -97,15 +112,18 @@ import{FilterTable} from './filter-table.pipe';
     LocationDialog,
     JobRoleDialog,
     SkillDialog,
-    QualificationDialog
+    QualificationDialog,
+    PlacementHistoryForm,
+    PlacementHistoryFormRender
     // routingComponents check working or not
   ],
-  bootstrap: [placementComponent, CardDialog, LanguageDialog, ProfessionDialog, CentreDialog, LocationDialog, JobRoleDialog, SkillDialog, QualificationDialog],
+  bootstrap: [placementComponent, CardDialog, LanguageDialog, ProfessionDialog, CentreDialog, LocationDialog, JobRoleDialog, SkillDialog, QualificationDialog, PlacementHistoryForm],
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,
     CandidateSearchComponent,
     DashboardComponent,
+    ProfileDetailComponent,
     EmployersComponent,
     EventPostComponent,
     ForgotPasswordComponent,
@@ -130,7 +148,22 @@ import{FilterTable} from './filter-table.pipe';
     SamProfileCardComponent,
     SamProfileSectionComponent,
     SamProfileSectionFormComponent,
-    CardDialog
+    CardDialog,
+    // SkillsForm,
+    // WorkExperienceForm,
+    // QualificationForm,
+    // SummaryForm,
+    // PersonalInfoForm,
+    // ProjectsForm,
+    // JobPreferenceForm,
+    PlacementHistoryForm,
+    // WorkExperienceFormRender,
+    // SkillsFormRender,
+    // JobPreferenceFormRender,
+    PlacementHistoryFormRender
+    // ProjectsFormRender,
+    // QualificationFormRender
+
   ]
 })
 export class placementmodule {
@@ -148,6 +181,8 @@ export class placementmodule {
         SamProfileCardService,
         SamProfileSectionConfigService,
         ProfileService
+        // UserService
+
       ]
     }
   }
