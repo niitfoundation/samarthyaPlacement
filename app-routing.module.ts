@@ -21,6 +21,7 @@ import { LocationsComponent } from './components/locations/locations.component';
 import { QualificationsComponent } from './components/qualifications/qualifications.component';
 import { CentresComponent } from './components/centres/centres.component';
 import { JobRolesComponent } from './components/job-roles/job-roles.component';
+import { ProfileDetailComponent } from './components/profileDetail/profileDetail.component';
 
 // routes
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
   {
     path: 'home', component: AfterLoginHeaderComponent, canActivateChild: [AuthGuard],
     children: [
+      { path: 'profileDetail/:username', component: ProfileDetailComponent },
       { path: 'import', component: ImportComponent },
       { path: 'aboutUs', component: AboutUsComponent },
       { path: 'candidateSearch', component: CandidateSearchComponent },
