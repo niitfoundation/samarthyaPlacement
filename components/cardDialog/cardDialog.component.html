@@ -7,9 +7,8 @@
     </div>
 
 </div>
-
-
 <div class="profile" *ngIf="showFullProfile">
+   
     <div *ngIf="profileConfig && profileData && profileCardData">
 
         <div fxFlex class="profileSection">
@@ -17,12 +16,16 @@
                 <div *ngFor="let section of profileSections" fxFlex>
                     <sam-profile-section [sectionFieldConfig]="getSectionConfig(section.name)" [sectionData]="getSectiondata(section.name)" [sectionTitle]="section.title"
                         [alignElement]="section.align">
-                        </sam-profile-section>
+                    </sam-profile-section>
                 </div>
             </div>
         </div>
+
     </div>
     <div fxLayoutAlign="center">
         <button md-raised-button class="showProfileCardBtn"  color="accent"  (click)="showCard()">Show Profile Card</button>
+        <button md-raised-button class="editProfileCardBtn"  color="accent"  (click)="editCard()">Detailed Profile View</button>
     </div>
 </div>
+
+
