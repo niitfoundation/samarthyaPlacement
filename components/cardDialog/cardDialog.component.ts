@@ -27,6 +27,7 @@ export class CardDialog implements OnInit {
 
 
   constructor(
+    private router: Router,
     public dialogRef: MdDialogRef<CardDialog>,
     private SamProfileCardService: SamProfileCardService,
     // service for getting data for profile sections
@@ -44,7 +45,7 @@ export class CardDialog implements OnInit {
       { 'name': 'experiences', 'title': 'Experiences', 'align': 'column' },
       { 'name': 'skills', 'title': 'Skills', 'align': 'row' },
       { 'name': 'projects', 'title': 'Projects', 'align': 'column' },
-      { 'name': 'placementHistory', 'title': 'Placement History', 'align': 'column'}      
+      { 'name': 'placementHistory', 'title': 'Placement History', 'align': 'column' }
     ];
   }
 
@@ -67,7 +68,6 @@ export class CardDialog implements OnInit {
         this.profileData = resEmployeeData
       });
   }
-
   showProfile() {
     this.showFullProfile = true;
     // window.open('/login');
@@ -76,7 +76,10 @@ export class CardDialog implements OnInit {
     this.showFullProfile = false;
     // window.open('/login');
   }
-
+  editCard(){
+    // this.router.navigate(['/home/profileDetail', this.profileData['username']]);
+    window.open('/#/home/profileDetail/'+this.profileData['username']);
+  }
   // this will provide section config for perticular sections for VIEW profile config section
   getSectionConfig(sectionName: string) {
     return this.profileConfig[sectionName];
