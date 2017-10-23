@@ -1,0 +1,31 @@
+<div *ngIf="profileConfig && profileData && profileCardData">
+  <div fxLayout ="column" fxLayout.gt-sm="row" class="profilePage"> 
+  
+    <!--profile Card section-->
+    <div fxFlex.gt-xs="14%"></div>
+    <div class="profileCard">
+      <sam-profile-card [profileCardData]="profileCardData"></sam-profile-card>
+    </div>
+
+    <!--spacing between components-->
+    <div fxFlex="10px"></div>
+    <!--view profile sections dynamic-->
+    <div fxFlex class="profileSection">
+      <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutWrap >
+        <div *ngFor="let section of profileSections" fxFlex>
+          <sam-profile-section [sectionFieldConfig]="getSectionConfig(section.name)" [sectionData]="getSectiondata(section.name)" [sectionTitle]="section.title"
+            [alignElement]="section.align">
+            <div *ngIf="section.name=='placementHistory'" editBtn>
+              <button md-raised-button (click)="onEdit(section.name)">EDIT</button>
+            </div>
+            </sam-profile-section>
+        </div>
+      </div>
+    </div>
+    <div fxFlex.gt-xs="14%"></div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <app-login-footer></app-login-footer>
+</div>
