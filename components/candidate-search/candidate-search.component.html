@@ -11,7 +11,7 @@
     <form [formGroup]="searchForm" class={{cls}}>
       <div fxLayout="row">
         <md-input-container class="full-width">
-          <input formControlName="searchControl" mdInput placeholder="Search Candidate" (keyup.enter)="getSearchResult() " />
+          <input color = "accent" formControlName="searchControl" mdInput placeholder="Search Candidate" (keyup.enter)="getSearchResult() " />
           <md-hint>
             <p class="error-style">
               {{message}}

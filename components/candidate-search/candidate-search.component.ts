@@ -79,7 +79,7 @@ export class CandidateSearchComponent implements OnInit {
     for (let i = this.min; i < this.max; i++) {
       this.displayData.push(this.result[i]);
     }
-    // console.log(this.displayData);
+    console.log(this.displayData);
   }
   public prevBtn = true;
   public nextBtn = true;

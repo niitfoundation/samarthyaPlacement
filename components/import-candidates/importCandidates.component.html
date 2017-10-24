@@ -6,7 +6,7 @@
     <input class="file-style" type="file" (change)="openFile($event)" #file placeholder="Choose file..." hidden="true" />
     <div fxLayout="row" fxLayoutAlign="start end">
       <div fxFlex.xs="10" fxFlex.gt-xs="7">
-        <button md-raised-button color="primary" (click)="file.click()" type="button">Browse</button>
+        <button md-raised-button color="accent" (click)="file.click()" type="button">Browse</button>
       </div>
       <div fxFlex>
         <md-input-container class="full-width">
@@ -34,7 +34,7 @@
   </div>
 </div>
 <div fxLayoutAlign="center">
-  <button md-raised-button color="primary" type="button" (click)="getHistory()">{{history}} Import History</button>
+  <button md-raised-button color="accent" type="button" (click)="getHistory()">{{history}} Import History</button>
 </div>
 
 <div *ngIf="hiddenHistory" fxLayout fxLayoutAlign="center">
@@ -64,7 +64,7 @@
             <td data-title="Failure">{{history.importResult.failed}}</td>
             <td data-title="Created On">{{history.requestedOn}}</td>
             <td data-title="Remarks">{{history.remarks}}</td>
-            <td data-title="Failure Status"><button md-raised-button color="primary" [disabled]="disableHis(history.importResult.failed)" type="button" (click)="getDetailHistory(history._id)">View</button></td>
+            <td data-title="Failure Status"><button md-raised-button color="accent" [disabled]="disableHis(history.importResult.failed)" type="button" (click)="getDetailHistory(history._id)">View</button></td>
           </tr>
         </tbody>
       </table>
