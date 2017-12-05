@@ -23,6 +23,10 @@ export class PlacementHistoryFormRender implements OnInit {
   @Input()
   public username: any;
 
+  public jobRoles: any[] = this.getJobRoles();
+
+  public locations: any[] = this.getLocations();
+  
   public placementTypeData = [
     { name: 'Yes', value: 'niit coordinator' },
     { name: 'No', value: 'self' }
@@ -175,4 +179,26 @@ export class PlacementHistoryFormRender implements OnInit {
         })  
        return coordinators;
       }
+
+   getLocations(){
+    let locations : any = [];
+    this.http.get('/locations').subscribe((response: Response) => {
+      let data = response.json();
+      data.forEach(function(location: String){
+        locations.push(location['name']);
+      })
+    })
+    return locations;
+  }
+
+  getJobRoles(){
+    let jobRoles : any = [];
+    this.http.get('/roles').subscribe((response: Response) => {
+      let data = response.json();
+      data.forEach(function(roles: String){
+        jobRoles.push(roles['name']);
+      })
+    })
+    return jobRoles;
+  }
 }
