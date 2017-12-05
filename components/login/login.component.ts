@@ -16,7 +16,7 @@ import { Common } from '../../model/common';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
+  public imgUrl = '../../../../src/assets/img/nf.jpg';
   public userForm: FormGroup;
   public showProgress = false;
   constructor( @Inject(FormBuilder) fb: FormBuilder, private emailservice: EmailService, private JsonDataService: JsonDataService,

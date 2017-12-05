@@ -1,6 +1,9 @@
 <!--login Header-->
 <app-login-header></app-login-header>
 
+<!--background image-->
+<div [ngStyle]="{'background-image':'url('+ imgUrl +')'}"></div>
+
 <!--login card-->
 <div *ngIf="showProgress" class="progressBar">
   <md-progress-bar mode="indeterminate"></md-progress-bar>
@@ -8,7 +11,7 @@
 <md-grid-list cols="1" rowHeight="600px">
   <md-grid-tile>
     <md-card class="loginCard">
-      <md-card-title>LOGIN</md-card-title>
+      <md-card-title> COORDINATOR LOGIN</md-card-title>
       <md-card-content>
 
         <form [formGroup]="userForm" (ngSubmit)="login()">
@@ -70,16 +73,13 @@
         </div>
 
         <!--Sign Up button-->
-        <div fxLayout="row">
-          <div fxFlex>
-                        <button md-button color="primary" (click)="verifyEmail()" class="full-width largeBtn googleBtn"> Sign Up</button>        
-          </div>
+        <div fxLayout="column" fxLayoutAlign="space-around stretch">
+            <button md-button color="primary" (click)="verifyEmail()"> Sign Up</button> 
         </div>
       </md-card-content>
     </md-card>
     <!--card-ends-->
   </md-grid-tile>
 </md-grid-list>
-
 <!--footer-->
 <app-login-footer></app-login-footer>
