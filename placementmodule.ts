@@ -1,5 +1,6 @@
 import { PlacementRegisterService } from './services/placement-register.service';
 import { JsonDataService } from './services/json-data.service';
+import { GraphDataService } from './services/graphData.service';
 import { EmailService } from './services/email.service';
 import { Data } from './services/data.service';
 import { AuthenticationService } from './services/authentication.service';
@@ -12,6 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { Md2Module } from 'md2';
 import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
+import { NgStyle } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { VerifyEmailComponent } from './components/verify-email/verifyEmail.component';
@@ -51,6 +53,7 @@ import { FilterTable } from './filter-table.pipe';
 import { ProfileDetailComponent } from './components/profileDetail/profileDetail.component';
 import { PlacementHistoryForm } from './components/placementHistoryForm/placementHistoryForm.component';
 import { PlacementHistoryFormRender } from './components/placementHistoryForm/placementHistoryFormRender/placementHistoryFormRender.component';
+import { StackBarGraph } from './components/stackBarGraph/stackBarGraph.component';
 
 @NgModule({
   imports: [
@@ -63,7 +66,7 @@ import { PlacementHistoryFormRender } from './components/placementHistoryForm/pl
     FlexLayoutModule,
     AppRoutingModule,
     RouterModule,
-    SamarthyaWebComponentsModule
+    SamarthyaWebComponentsModule,
   ],
   declarations: [
     AboutUsComponent,
@@ -101,10 +104,11 @@ import { PlacementHistoryFormRender } from './components/placementHistoryForm/pl
     SkillDialog,
     QualificationDialog,
     PlacementHistoryForm,
-    PlacementHistoryFormRender
+    PlacementHistoryFormRender,
+    StackBarGraph
     // routingComponents check working or not
   ],
-  bootstrap: [placementComponent, CardDialog, LanguageDialog, ProfessionDialog, CentreDialog, LocationDialog, JobRoleDialog, SkillDialog, QualificationDialog, PlacementHistoryForm],
+  bootstrap: [placementComponent, CardDialog, LanguageDialog, ProfessionDialog, CentreDialog, LocationDialog, JobRoleDialog, SkillDialog, QualificationDialog, PlacementHistoryForm, StackBarGraph],
   exports: [
     AboutUsComponent,
     AdminRegistrationComponent,
@@ -137,7 +141,8 @@ import { PlacementHistoryFormRender } from './components/placementHistoryForm/pl
     SamProfileSectionFormComponent,
     CardDialog,
     PlacementHistoryForm,
-    PlacementHistoryFormRender
+    PlacementHistoryFormRender,
+    StackBarGraph
 
   ]
 })
@@ -152,6 +157,7 @@ export class placementmodule {
         Data,
         EmailService,
         JsonDataService,
+        GraphDataService,
         PlacementRegisterService,
         SamProfileCardService,
         SamProfileSectionConfigService,
