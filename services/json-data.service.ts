@@ -93,7 +93,10 @@ export class JsonDataService {
     return this.http.get(this.urlPlacementCenter).map((response: Response) => response.json());
   };
 
+  getJsonForStackBarGraph(){
+    this.url = '/samarthReports';
+    return this.http.get(this.url).map((response: Response) => response.json());
+  };
 
 
 }
-
