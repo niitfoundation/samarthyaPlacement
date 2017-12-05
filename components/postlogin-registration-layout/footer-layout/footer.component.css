@@ -1,14 +1,9 @@
 .copyright {
-   
-  position: absolute;
-  
-  bottom: 0;
+  position: sticky;
+  bottom: 0px;
   text-align: center;
 }
    
-  
-
-
 .copyright p {
     font-size: 15px;
     padding: 0px;
