@@ -132,7 +132,7 @@ export class AdminRegistrationComponent implements OnInit {
     private router: Router, ) {
     // building the form using FormBuilder and FormGroup
     this.userForm = fb.group({
-      nameControl: ['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,30}')]],
+      nameControl: ['', [Validators.required, Validators.pattern(/^\d*[a-zA-Z].{2,}\d*/)]],
       firstNameControl: ['', [Validators.required, Validators.pattern('[A-Za-z ]{2,30}')]],
       lastNameControl: ['', [Validators.pattern('[A-Za-z ]{1,30}')]],
       genderControl: ['', Validators.required],

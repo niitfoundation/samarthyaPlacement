@@ -101,9 +101,13 @@
               <md-input-container class="full-width">
                 <input mdInput formControlName="nameControl" id="name" type="text" class="validate" placeholder="Choose a name to display in profile*" />
                 <md-hint align="start" class="full-width">
-                  <div *ngIf="userForm.get('nameControl').hasError('required') && userForm.get('nameControl').touched" class="errorStyle">
+                  <div class="errorStyle" *ngIf="userForm.get('nameControl').hasError('required') && userForm.get('nameControl').touched">
                     Display Name is required less than 30 characters
                   </div>
+                  <!-- Display Name pattern validation-->
+                  <div class="errorStyle" *ngIf="userForm.get('nameControl').hasError('pattern')"> 
+                    Name should be more than 2 alphabets and less than 30 alphabets and should not contain only numbers
+                  </div>                  
                 </md-hint>
               </md-input-container>
             </div>
