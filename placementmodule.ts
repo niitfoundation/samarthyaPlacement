@@ -28,6 +28,7 @@ import { ForgotPasswordComponent } from './components/forget-password/forgetPass
 import { EventPostComponent } from './components/event-post/event-post.component';
 import { EmployersComponent } from './components/employers/employers.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { StatCardsComponent } from './components/dashboard/stat-cards/stat-cards.component';
 import { placementComponent } from './placementComponent';
 import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
 import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
@@ -74,6 +75,7 @@ import { StackBarGraph } from './components/stackBarGraph/stackBarGraph.componen
     AdminRegistrationComponent,
     CandidateSearchComponent,
     DashboardComponent,
+    StatCardsComponent,
     EmployersComponent,
     EventPostComponent,
     ForgotPasswordComponent,
@@ -114,6 +116,7 @@ import { StackBarGraph } from './components/stackBarGraph/stackBarGraph.componen
     AdminRegistrationComponent,
     CandidateSearchComponent,
     DashboardComponent,
+    StatCardsComponent,
     ProfileDetailComponent,
     EmployersComponent,
     EventPostComponent,
