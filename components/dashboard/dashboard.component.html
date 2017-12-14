@@ -1,14 +1,15 @@
-<!-- <p>
-    {{title}} Dashboard
-</p>
-<p>
-    Coming soon..
-</p> -->
+<h1 class="header">Reporting Dashboard</h1>
 
+<div fxLayout="row" fxLayoutAlign="space-around start" >
+<!-- Total Candidates And Follow Up cards -->
+<stat-cards></stat-cards>
+
+<!-- Graphs Card -->
 <md-card class ="card">
-<md-card-title>Reporting Dashboard</md-card-title>
+<md-card-title>Candidates By Professions Graph</md-card-title>
 <md-card-content>
 	<stack-bar-graph></stack-bar-graph>
 </md-card-content>
 </md-card>
+</div>
 <app-footer></app-footer> 

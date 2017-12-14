@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
-  title: any;
   constructor(private route: ActivatedRoute, private router: Router) {
 
   }
