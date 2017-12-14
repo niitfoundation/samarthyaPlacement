@@ -25,7 +25,7 @@ export class VerifyEmailComponent implements OnInit {
     private snackBar: MdSnackBar, private viewContainerRef: ViewContainerRef, private router: Router) {
     // getting login form data
     this.userForm = fb.group({
-      email: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       role: ['', [Validators.required]]
     });
   }
