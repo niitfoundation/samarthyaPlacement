@@ -180,7 +180,7 @@ export class AdminRegistrationComponent implements OnInit {
     this.userForm.value.locationControl = '';
     this.areaList = [];
     this.pincodeLocation.forEach((element: any) => {
-      this.areaList.push(element['officename'] + ', ' + element['Districtname'] + ', ' + element['statename']);
+      this.areaList.push(element['officename'] + ', ' + element['districtname'] + ', ' + element['statename']);
     });
     if (this.areaList.length === 0) {
       this.data.openSnackBar('No Location Found', 'Please Try again');
